@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include "Lista.h"
+#include "LISTA.h"
 #include "TAB.h"
 #define LINHAS 8
 #define COLUNAS 8
