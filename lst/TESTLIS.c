@@ -76,13 +76,13 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 *           - anula o vetor de listas. Provoca vazamento de memória
 *     =criarlista                   inxLista  string  CondRetEsp
 *     =destruirlista                inxLista  CondRetEsp
-*     =inselemantes                 inxLista  string  CondRetEsp
-*     =inselemapos                  inxLista  string  CondRetEsp
-*     =obtervalorelem               inxLista  string  CondretPonteiro
-*     =excluirelem                  inxLista  CondRetEsp
-*     =irinicio                     inxLista
-*     =irfinal                      inxLista
-*     =avancarelem                  inxLista  numElem CondRetEsp
+*     =obteridlista                 inxLista  string 
+*     =insno						inxLista  string  
+*     =obterno						inxLista  string  CondretEsp
+*     =excluirnocorr                inxLista  
+*     =irant						inxLista  CondretEsp
+*     =irprox                       inxLista  CondretEsp
+*     =alterarnocorr                inxLista  CondRetEsp
 *
 ***********************************************************************/
 
