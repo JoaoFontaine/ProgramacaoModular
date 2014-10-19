@@ -54,24 +54,23 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
 
 /***********************************************************************
 *
-*  $FC Função: TLIS &Testar lista
+*  $FC Função: TTAB &Testar tabuleiro
 *
 *  $ED Descrição da função
-*     Podem ser criadas até 10 listas, identificadas pelos índices 0 a 10
+*     Podem ser criadas até 10 tabuleiros, identificados pelos índices 0 a 10
 *
 *     Comandos disponíveis:
 *
 *     =resetteste
-*           - anula o vetor de listas. Provoca vazamento de memória
-*     =criarlista                   inxLista  string  CondRetEsp
-*     =destruirlista                inxLista  CondRetEsp
-*     =obteridlista                 inxLista  string 
-*     =insno						inxLista  string  
-*     =obterno						inxLista  string  CondretEsp
-*     =excluirnocorr                inxLista  
-*     =irant						inxLista  CondretEsp
-*     =irprox                       inxLista  CondretEsp
-*     =alterarnocorr                inxLista  CondRetEsp
+*           - anula o vetor de tabuleiros. Provoca vazamento de memória
+*     =criartab                   inxLista  
+*     =destruirtab                inxLista  CondRetEsp
+*     =obterpeca                 inxLista  string 
+*     =inspeca						inxLista  string  
+*     =moverpeca						inxLista  string  CondretEsp
+*     =excluirpeca                inxLista  
+*     =obterlistaameacantes						inxLista  CondretEsp
+*     =obterlistaameacados         inxLista  CondretEsp
 *
 ***********************************************************************/
 
@@ -158,8 +157,8 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
          else if ( strcmp( ComandoTeste , MOVER_PECA_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "iicici" , &inxTab, ValDado1, CharDado1,
-				                         ValDado2, CharDado2,  &CondRetEsp ) ;
+            numLidos = LER_LerParametros( "iicici" , &inxTab, &ValDado1, &CharDado1,
+				                         &ValDado2, &CharDado2,  &CondRetEsp ) ;
 
             if ( ( numLidos != 6 )
               || ( ! ValidarInxTab( inxTab, NAO_VAZIO )))
@@ -201,7 +200,7 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
          {
 
             numLidos = LER_LerParametros( "iiccci" ,
-                       &inxTab , ValDado1 ,CharDado1, CharDado2, CharDado3,  &CondRetEsp ) ;
+                       &inxTab , &ValDado1 ,&CharDado1, &CharDado2, &CharDado3,  &CondRetEsp ) ;
 
             if ( ( numLidos != 6 )
               || ( ! ValidarInxTab( inxTab , NAO_VAZIO )) )
@@ -223,7 +222,7 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
          {
 
             numLidos = LER_LerParametros( "iii" ,
-                  &inxTab, ValDado1, CharDado1 ) ;
+                  &inxTab, &ValDado1, &CharDado1 ) ;
 
             if ( ( numLidos != 3 )
               || ( ! ValidarInxTab( inxTab , NAO_VAZIO )) )
@@ -244,7 +243,7 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
          {
 
            numLidos = LER_LerParametros( "iii" ,
-                  &inxTab, ValDado1, CharDado1 ) ;
+                  &inxTab, &ValDado1, &CharDado1 ) ;
 
             if ( ( numLidos != 3 )
               || ( ! ValidarInxTab( inxTab , NAO_VAZIO )) )
@@ -263,7 +262,7 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
          {
 
            numLidos = LER_LerParametros( "iii" ,
-                  &inxTab, ValDado1, CharDado1 ) ;
+                  &inxTab, &ValDado1, &CharDado1 ) ;
 
             if ( ( numLidos != 3 )
               || ( ! ValidarInxTab( inxTab , NAO_VAZIO )) )
