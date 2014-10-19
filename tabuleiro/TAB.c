@@ -71,7 +71,7 @@ TAB_tpCondRet MoverRei ( int linhaOrig , char colunaOrig, int linhaDest , char c
 
 
 
-TAB_tppTab CriarTab ( void ){
+TAB_tppTab TAB_CriarTab ( void ){
 
 	int i,j;
 
@@ -115,7 +115,7 @@ TAB_tppTab CriarTab ( void ){
 
 }
 
-TAB_tppPeca ObterPeca ( int linha , char coluna, TAB_tppTab pTab ){
+TAB_tppPeca TAB_ObterPeca ( int linha , char coluna, TAB_tppTab pTab ){
 
 	int i;
 	tpCasa * pCasa;
@@ -138,7 +138,7 @@ TAB_tppPeca ObterPeca ( int linha , char coluna, TAB_tppTab pTab ){
 	return pCasa->Peca;
 }
 
-TAB_tpCondRet RetirarPeca ( int linha , char coluna, TAB_tppTab pTab ){
+TAB_tpCondRet TAB_RetirarPeca ( int linha , char coluna, TAB_tppTab pTab ){
 
 	TAB_tppPeca peca;
 
@@ -146,7 +146,7 @@ TAB_tpCondRet RetirarPeca ( int linha , char coluna, TAB_tppTab pTab ){
 		return TAB_CondRetNaoExiste;
 	}
 	/*if*/
-	peca= ObterPeca ( linha , coluna, pTab );
+	peca= TAB_ObterPeca ( linha , coluna, pTab );
 
 	if(peca == NULL){
 		return TAB_CondRetCasaVazia;
@@ -158,7 +158,7 @@ TAB_tpCondRet RetirarPeca ( int linha , char coluna, TAB_tppTab pTab ){
 	return TAB_CondRetOK;
 }
 
-TAB_tpCondRet MoverPeca ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
+TAB_tpCondRet TAB_MoverPeca ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
 
 	TAB_tppPeca peca;
 	tpCasa * pCasaOrig;
@@ -176,7 +176,7 @@ TAB_tpCondRet MoverPeca ( int linhaOrig , char colunaOrig, int linhaDest , char 
 		return TAB_CondRetCasaInvalida;
 	}
 	/*if*/
-	peca= ObterPeca ( linhaOrig , colunaOrig, pTab );
+	peca= TAB_ObterPeca ( linhaOrig , colunaOrig, pTab );
 
 	if(peca == NULL){
 		return TAB_CondRetCasaVazia;
@@ -186,30 +186,31 @@ TAB_tpCondRet MoverPeca ( int linhaOrig , char colunaOrig, int linhaDest , char 
 	switch (peca->nome)
 	{
 	case 'P':
-		TAB_tpCondRet MoverPeao ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab );
+		return MoverPeao ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
 		break;
 	case 'T':
-		TAB_tpCondRet MoverTorre ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab );
+		return MoverTorre ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
 		break;
 	case 'B':
-		TAB_tpCondRet MoverBispo ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab );
+		return MoverBispo ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
 		break;
 	case 'C':
-		TAB_tpCondRet MoverCavalo ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab );
+		return MoverCavalo ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
 		break;
 	case 'D':
-		TAB_tpCondRet MoverDama ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab );
+		return MoverDama ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
 		break;
 	case 'R':
-		TAB_tpCondRet MoverRei ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab );
+		return MoverRei ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
 		break;
 	default:
+		return TAB_CondRetPecaInvalida;
 		break;
 	}
 
 }
 
-TAB_tpCondRet InserirPeca ( int linha , char coluna, TAB_tppPeca pPeca, TAB_tppTab pTab ){
+TAB_tpCondRet TAB_InserirPeca ( int linha , char coluna, char cor, char tipo, TAB_tppTab pTab ){
 
 	tpCasa* casa;
 
@@ -225,18 +226,18 @@ TAB_tpCondRet InserirPeca ( int linha , char coluna, TAB_tppPeca pPeca, TAB_tppT
 
 	casa= ObterCasa(linha, coluna, pTab);
 
-	if(casa->Peca->nome != NULL){
+	if(casa->Peca->nome != 'V'){
 		return TAB_CondRetCasaCheia;
 	}
 
-	casa->Peca->nome= pPeca->nome;
-	casa->Peca->cor= pPeca->cor;
+	casa->Peca->nome= tipo;
+	casa->Peca->cor= cor;
 
 	return TAB_CondRetOK;
 
 }
 
-LIS_tppLista ObterListaAmeacantes( int linha , char coluna, TAB_tppTab pTab ){
+LIS_tppLista TAB_ObterListaAmeacantes( int linha , char coluna, TAB_tppTab pTab ){
 
 	int i;
 	tpCasa * pCasa;
@@ -257,7 +258,7 @@ LIS_tppLista ObterListaAmeacantes( int linha , char coluna, TAB_tppTab pTab ){
 
 }
 
-LIS_tppLista ObterListaAmeacadas( int linha , char coluna, TAB_tppTab pTab ){
+LIS_tppLista TAB_ObterListaAmeacados( int linha , char coluna, TAB_tppTab pTab ){
 
 	int i;
 	tpCasa * pCasa;
@@ -278,7 +279,7 @@ LIS_tppLista ObterListaAmeacadas( int linha , char coluna, TAB_tppTab pTab ){
 
 }
 
-TAB_tpCondRet DestruirTab ( TAB_tppTab pTab ){
+TAB_tpCondRet TAB_DestruirTab ( TAB_tppTab pTab ){
 
 	int i;
 
@@ -300,7 +301,7 @@ TAB_tpCondRet DestruirTab ( TAB_tppTab pTab ){
 
 TAB_tpCondRet ConfereCasaValida(int linha , char coluna, TAB_tppTab pTab){
 
-	int numColuna= int(coluna-'A');
+	int numColuna= (int)(coluna-'A');
 
 	if( 0 <= linha && linha < LINHAS ){
 		return TAB_CondRetCasaInvalida;
@@ -389,7 +390,7 @@ TAB_tpCondRet ConferePercursoVazio(int linhaOrig , char colunaOrig, int linhaDes
 			primeiraColuna= (int) colunaDest - 'A';
 		}
 		for (i = 1; i < (primeiraColuna+distanciaColunas); i++){
-			if (ObterPeca(primeiraLinha,(char)(primeiraColuna+i + 'A'),pTab) != NULL){
+			if (TAB_ObterPeca(primeiraLinha,(char)(primeiraColuna+i + 'A'),pTab) != NULL){
 				return TAB_CondRetPecaBloqueando;
 			}
 		}
@@ -400,7 +401,7 @@ TAB_tpCondRet ConferePercursoVazio(int linhaOrig , char colunaOrig, int linhaDes
 			primeiraLinha= linhaDest;
 		}
 		for (i = 1; i < (primeiraLinha+distanciaLinhas); i++){
-			if (ObterPeca(primeiraLinha+i,(char)(primeiraColuna + 'A'),pTab) != NULL){
+			if (TAB_ObterPeca(primeiraLinha+i,(char)(primeiraColuna + 'A'),pTab) != NULL){
 				return TAB_CondRetPecaBloqueando;
 			}
 		}
@@ -414,7 +415,7 @@ TAB_tpCondRet ConferePercursoVazio(int linhaOrig , char colunaOrig, int linhaDes
 			primeiraColuna= colunaDest;
 		}
 		for (i = 1; i < (primeiraColuna+distanciaColunas); i++){
-			if (ObterPeca(primeiraLinha+i,(char)(primeiraColuna+i + 'A'),pTab) != NULL){
+			if (TAB_ObterPeca(primeiraLinha+i,(char)(primeiraColuna+i + 'A'),pTab) != NULL){
 				return TAB_CondRetPecaBloqueando;
 			}
 		}
@@ -425,8 +426,8 @@ TAB_tpCondRet ConferePercursoVazio(int linhaOrig , char colunaOrig, int linhaDes
 
 TAB_tpCondRet ConfereCaptura(int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab){
 
-	TAB_tppPeca pecaOrig= ObterPeca(linhaDest,colunaDest,pTab);
-	TAB_tppPeca pecaDest= ObterPeca(linhaDest,colunaDest,pTab);
+	TAB_tppPeca pecaOrig= TAB_ObterPeca(linhaDest,colunaDest,pTab);
+	TAB_tppPeca pecaDest= TAB_ObterPeca(linhaDest,colunaDest,pTab);
 
 	if ( pecaDest != NULL){
 		if(pecaOrig->cor == pecaDest->cor){

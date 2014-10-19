@@ -1,0 +1,31 @@
+// Script: TesteTab script de teste
+// Propósito: Testar superficialmente o módulo tabuleiro
+//
+
+== Inicializar valores
+=declararparm   tab0  int 0
+=declararparm   tab1  int 1
+=declararparm   tab2  int 2
+
+=declararparm   branco	char  "B"
+=declararparm   preto	char  "P"    
+=declararparm   dama    char  "D"
+=declararparm   rei     char  "R"
+=declararparm   cavalo  char  "C"
+=declararparm   torre   char  "T"
+=declararparm   bispo   char  "B"
+=declararparm   peao    char  "P"
+=declararparm   vazio   char  "V"
+
+=declararparm   OK             		int  0
+=declararparm   CasaVazia      		int  2
+=declararparm   CondRetCaptPeca         int  4
+=declararparm   NaoExiste      		int  1
+=declararparm   CondRetMovInv  		int  3
+=declararparm   CondRetCasaCheia    	int  5
+=declararparm   CondRetCasaInvalida     int  6
+=declararparm   CondRetPecaBloqueando   int  7
+
+
+
+// fim

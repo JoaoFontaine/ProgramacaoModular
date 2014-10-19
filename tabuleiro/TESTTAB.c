@@ -87,9 +87,9 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
       char   CharDado1;
 	  char   CharDado2;
 	  char   CharDado3;
-      char * pDado ;
+
 	  TAB_tppPeca pPeca;
-      int ValEsp = -1 ;
+  
 	  int ValDado1 = -1;
 	  int ValDado2 = -1;
 
@@ -119,7 +119,7 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
                        &inxTab , &ValDado1, &CharDado1  ) ;
 
             if ( ( numLidos != 3 )
-              || ( ! ValidarInxLista( inxTab , NAO_VAZIO )) )
+              || ( ! ValidarInxTab( inxTab , NAO_VAZIO )) )
             {
                return TST_CondRetParm ;
             } /* if */
@@ -304,7 +304,7 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
 *
 ***********************************************************************/
 
-   int ValidarInxLista( int inxTab , int Modo )
+   int ValidarInxTab( int inxTab , int Modo )
    {
 
       if ( ( inxTab <  0 )

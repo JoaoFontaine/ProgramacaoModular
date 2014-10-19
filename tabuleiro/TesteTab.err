@@ -1,0 +1,58 @@
+TestTab.c
+.\TestTab.c(152) : warning C4152: nonstandard extension, function/data pointer conversion in expression
+c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\testtab.c(162) : warning C4700: uninitialized local variable 'CharDado2' used
+c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\testtab.c(162) : warning C4700: uninitialized local variable 'CharDado1' used
+c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\testtab.c(204) : warning C4700: uninitialized local variable 'CharDado3' used
+Tab.c
+.\Tab.c(164) : warning C4101: 'pCasaOrig' : unreferenced local variable
+.\Tab.c(165) : warning C4101: 'pCasaDest' : unreferenced local variable
+.\Tab.c(240) : warning C4100: 'linha' : unreferenced formal parameter
+.\Tab.c(261) : warning C4100: 'linha' : unreferenced formal parameter
+.\Tab.c(302) : warning C4100: 'pTab' : unreferenced formal parameter
+.\Tab.c(427) : warning C4100: 'colunaOrig' : unreferenced formal parameter
+.\Tab.c(427) : warning C4100: 'linhaOrig' : unreferenced formal parameter
+.\Tab.c(441) : warning C4100: 'pTab' : unreferenced formal parameter
+.\Tab.c(441) : warning C4100: 'colunaDest' : unreferenced formal parameter
+.\Tab.c(441) : warning C4100: 'linhaDest' : unreferenced formal parameter
+.\Tab.c(441) : warning C4100: 'colunaOrig' : unreferenced formal parameter
+.\Tab.c(441) : warning C4100: 'linhaOrig' : unreferenced formal parameter
+.\Tab.c(445) : warning C4100: 'pTab' : unreferenced formal parameter
+.\Tab.c(445) : warning C4100: 'colunaDest' : unreferenced formal parameter
+.\Tab.c(445) : warning C4100: 'linhaDest' : unreferenced formal parameter
+.\Tab.c(445) : warning C4100: 'colunaOrig' : unreferenced formal parameter
+.\Tab.c(445) : warning C4100: 'linhaOrig' : unreferenced formal parameter
+.\Tab.c(449) : warning C4100: 'pTab' : unreferenced formal parameter
+.\Tab.c(449) : warning C4100: 'colunaDest' : unreferenced formal parameter
+.\Tab.c(449) : warning C4100: 'linhaDest' : unreferenced formal parameter
+.\Tab.c(449) : warning C4100: 'colunaOrig' : unreferenced formal parameter
+.\Tab.c(449) : warning C4100: 'linhaOrig' : unreferenced formal parameter
+.\Tab.c(453) : warning C4100: 'pTab' : unreferenced formal parameter
+.\Tab.c(453) : warning C4100: 'colunaDest' : unreferenced formal parameter
+.\Tab.c(453) : warning C4100: 'linhaDest' : unreferenced formal parameter
+.\Tab.c(453) : warning C4100: 'colunaOrig' : unreferenced formal parameter
+.\Tab.c(453) : warning C4100: 'linhaOrig' : unreferenced formal parameter
+.\Tab.c(457) : warning C4100: 'pTab' : unreferenced formal parameter
+.\Tab.c(457) : warning C4100: 'colunaDest' : unreferenced formal parameter
+.\Tab.c(457) : warning C4100: 'linhaDest' : unreferenced formal parameter
+.\Tab.c(457) : warning C4100: 'colunaOrig' : unreferenced formal parameter
+.\Tab.c(457) : warning C4100: 'linhaOrig' : unreferenced formal parameter
+.\Tab.c(461) : warning C4100: 'pTab' : unreferenced formal parameter
+.\Tab.c(461) : warning C4100: 'colunaDest' : unreferenced formal parameter
+.\Tab.c(461) : warning C4100: 'linhaDest' : unreferenced formal parameter
+.\Tab.c(461) : warning C4100: 'colunaOrig' : unreferenced formal parameter
+.\Tab.c(461) : warning C4100: 'linhaOrig' : unreferenced formal parameter
+c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\tab.c(296) : warning C4715: 'TAB_DestruirTab' : not all control paths return a value
+Microsoft (R) Incremental Linker Version 10.00.30319.01
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/OUT:TesteTab.exe 
+/INCREMENTAL:NO 
+/MACHINE:IX86 
+TestTab.obj Tab.obj 
+ArcaboucoTeste.lib 
+Tab.obj : error LNK2019: unresolved external symbol _LIS_InserirNo referenced in function _TAB_CriarTab
+Tab.obj : error LNK2019: unresolved external symbol _LIS_CriarLista referenced in function _TAB_CriarTab
+Tab.obj : error LNK2019: unresolved external symbol _LIS_ObterNo referenced in function _TAB_ObterPeca
+Tab.obj : error LNK2019: unresolved external symbol _LIS_IrProx referenced in function _TAB_ObterPeca
+Tab.obj : error LNK2019: unresolved external symbol _LIS_DestruirLista referenced in function _TAB_DestruirTab
+TesteTab.exe : fatal error LNK1120: 5 unresolved externals

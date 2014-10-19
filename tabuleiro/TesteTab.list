@@ -1,0 +1,133 @@
+GERADOR DE SCRIPT DE DIRETIVAS PARA MAKE
+   LES / Informática / PUC-Rio    Versão 6.00 (c) 2005
+
+Composição do construto: TesteTab.comp
+
+   Nome do Construto:           TesteTab
+   Diretório base:              C:\Users\guilherme\Desktop\PUC-RIO\Programacao modular\Arcabouço\tab
+
+   Arquivo composição:          TesteTab.comp
+   Arquivo plataforma:          gmake.parm
+
+   Arquivo diretivas MAKE:      TesteTab.make
+   Arquivo diretivas LINK:      TesteTab.build
+   Arquivo listagem:            TesteTab.list
+
+Módulos do construto: TesteTab.comp
+
+   TestTab.c
+   Tab.c
+
+Estatísticas do construto
+
+   Estatísticas do arquivo: GENERICO.h
+      Total linhas:             709
+      Linhas de código:          59
+      Linhas de comentário:     568
+      Linhas em branco:          82
+   Arquivos de inclusão de que necessita
+      TST_Espc.h
+   Arquivos em que é incluído
+      TestTab.c
+
+   Estatísticas do arquivo: LERPARM.h
+      Total linhas:             291
+      Linhas de código:          36
+      Linhas de comentário:     188
+      Linhas em branco:          67
+   Arquivos em que é incluído
+      TestTab.c
+
+   Estatísticas do arquivo: LISTA.h
+      Total linhas:             272
+      Linhas de código:          18
+      Linhas de comentário:     220
+      Linhas em branco:          34
+   Arquivos em que é incluído
+      Tab.c
+      TestTab.c
+
+   Estatísticas do arquivo: TAB.h
+      Total linhas:              49
+      Linhas de código:          20
+      Linhas de comentário:       8
+      Linhas em branco:          21
+   Arquivos em que é incluído
+      Tab.c
+
+   Estatísticas do arquivo: TST_ESPC.h
+      Total linhas:             228
+      Linhas de código:          23
+      Linhas de comentário:     185
+      Linhas em branco:          20
+   Arquivos em que é incluído
+      TestTab.c
+
+   Estatísticas do arquivo: TST_Espc.h
+      Total linhas:             228
+      Linhas de código:          23
+      Linhas de comentário:     185
+      Linhas em branco:          20
+   Arquivos em que é incluído
+      GENERICO.h
+      TestTab.c
+
+   Estatísticas do arquivo: Tab.c
+      Total linhas:             462
+      Linhas de código:         308
+      Linhas de comentário:      10
+      Linhas em branco:         116
+   Arquivos de inclusão de que necessita
+      LISTA.h
+      TAB.h
+
+   Estatísticas do arquivo: TestTab.c
+      Total linhas:             334
+      Linhas de código:         180
+      Linhas de comentário:      68
+      Linhas em branco:          98
+   Arquivos de inclusão de que necessita
+      GENERICO.h
+      LERPARM.h
+      LISTA.h
+      TST_ESPC.h
+      TST_Espc.h
+
+Totais por tipo de arquivo
+
+  Tipo: obj      Path: .
+         Total linhas do tipo:         0
+         Linhas de código:             0
+         Linhas de comentário:         0
+         Linhas em branco:             0
+         Arquivos deste tipo:          0
+
+  Tipo: err      Path: .
+         Total linhas do tipo:         0
+         Linhas de código:             0
+         Linhas de comentário:         0
+         Linhas em branco:             0
+         Arquivos deste tipo:          0
+
+  Tipo: DEFAULT  Path: .
+         Total linhas do tipo:      1777
+         Linhas de código:           179
+         Linhas de comentário:      1354
+         Linhas em branco:           244
+         Arquivos deste tipo:          6
+
+  Tipo: c        Path: .
+         Total linhas do tipo:       796
+         Linhas de código:           488
+         Linhas de comentário:        78
+         Linhas em branco:           214
+         Arquivos deste tipo:          2
+
+Totais para todo o construto TesteTab
+
+   Total linhas:              2573
+   Linhas de código:           667
+   Linhas de comentário:      1432
+   Linhas em branco:           458
+   Arquivos processados:         8
+
