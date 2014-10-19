@@ -5,6 +5,8 @@
 #include "TAB.h"
 #define LINHAS 8
 #define COLUNAS 8
+#define LINHAPEOESBRANCOS 2
+#define LINHAPEOESPRETOS 7
 
 typedef struct TAB_tagPeca {
 
@@ -124,12 +126,8 @@ TAB_tppPeca TAB_ObterPeca ( int linha , char coluna, TAB_tppTab pTab ){
 		printf("Tabuleiro nao existe");
 		return NULL;
 	}
-	/*if*/
-	for( i=0; i<=(coluna - 'A'); i++){
-		LIS_IrProx (pTab->pLinhas->pLinha[linha-1]);
-	}
-	/*for*/
-	pCasa = (tpCasa *) LIS_ObterNo( pTab->pLinhas->pLinha[linha-1] );
+	
+	pCasa= ObterCasa(linha, coluna, pTab);
 	if(pCasa->Peca->nome == 'V'){
 		printf("\n Casa Vazia");
 		return NULL;
@@ -163,6 +161,7 @@ TAB_tpCondRet TAB_MoverPeca ( int linhaOrig , char colunaOrig, int linhaDest , c
 	TAB_tppPeca peca;
 	tpCasa * pCasaOrig;
 	tpCasa * pCasaDest;
+	TAB_tpCondRet condRet;
 
 	if( pTab == NULL){
 		return TAB_CondRetNaoExiste;
@@ -186,28 +185,35 @@ TAB_tpCondRet TAB_MoverPeca ( int linhaOrig , char colunaOrig, int linhaDest , c
 	switch (peca->nome)
 	{
 	case 'P':
-		return MoverPeao ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
+		condRet= MoverPeao ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
 		break;
 	case 'T':
-		return MoverTorre ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
+		condRet= MoverTorre ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
 		break;
 	case 'B':
-		return MoverBispo ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
+		condRet= MoverBispo ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
 		break;
 	case 'C':
-		return MoverCavalo ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
+		condRet= MoverCavalo ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
 		break;
 	case 'D':
-		return MoverDama ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
+		condRet= MoverDama ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
 		break;
 	case 'R':
-		return MoverRei ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
+		condRet= MoverRei ( linhaOrig , colunaOrig,  linhaDest ,  colunaDest,  pTab );
 		break;
 	default:
 		return TAB_CondRetPecaInvalida;
 		break;
 	}
 
+	if( condRet == TAB_CondRetOK || condRet == TAB_CondRetCaptPeca){
+		TAB_RetirarPeca(linhaOrig, colunaOrig, pTab);
+		TAB_RetirarPeca(linhaDest, colunaDest, pTab);
+		TAB_InserirPeca(linhaDest, colunaDest, peca->cor, peca->nome, pTab);
+	}
+
+	return condRet;
 }
 
 TAB_tpCondRet TAB_InserirPeca ( int linha , char coluna, char cor, char tipo, TAB_tppTab pTab ){
@@ -247,12 +253,7 @@ LIS_tppLista TAB_ObterListaAmeacantes( int linha , char coluna, TAB_tppTab pTab 
 		return NULL;
 	}
 	/*if*/
-	for( i=0; i<=(coluna - 'A'); i++){
-		LIS_IrProx (pTab->pLinhas->pLinha[i]);
-	}
-	/*for*/
-
-	pCasa = (tpCasa *) LIS_ObterNo( pTab->pLinhas->pLinha[i] );
+	pCasa= ObterCasa(linha, coluna, pTab);
 
 	return pCasa->pAmeacantes;
 
@@ -268,12 +269,7 @@ LIS_tppLista TAB_ObterListaAmeacados( int linha , char coluna, TAB_tppTab pTab )
 		return NULL;
 	}
 	/*if*/
-	for( i=0; i<=(coluna - 'A'); i++){
-		LIS_IrProx (pTab->pLinhas->pLinha[i]);
-	}
-	/*for*/
-
-	pCasa = (tpCasa *) LIS_ObterNo( pTab->pLinhas->pLinha[i] );
+	pCasa= ObterCasa(linha, coluna, pTab);
 
 	return pCasa->pAmeacadas;
 
@@ -329,28 +325,62 @@ tpCasa * ObterCasa(int linha , char coluna, TAB_tppTab pTab){
 	return pCasa;
 }
 
+/***************************************************************************************************
+*
+*	Função:	ConfereMovimentoRetoValido
+*		Parâmetros: linhaOrig (int contendo o numero da linha onde a peça a ser movida)  
+*					colunaOrig (char contendo o caractere da coluna onde a peça a ser movida)  
+*					linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
+*					colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
+*			
+*		Função que confere se o movimento a ser executado é vertical ou horizontal. Para isso apenas
+*		uma das coordenadas pode ser alterada. Ou seja, se a o movimento for na vertical a colunaOrig
+*		será a mesma que a colunaDest. Se o movimento for na horizontal a linhaOrig será a mesma que
+*		a linhaDest.
+*		A Função também verifica se o destino é diferente da origem e retorna TAB_CondRetMovInv caso
+*		essa condição não seja satisfeita.
+*
+****************************************************************************************************/
 TAB_tpCondRet ConfereMovimentoRetoValido(int linhaOrig , char colunaOrig, int linhaDest , char colunaDest){
 
 	int distanciaColunas= (int) colunaDest-colunaOrig;
 	int distanciaLinhas= linhaDest-linhaOrig;
 
+	//Confere se o movimento é diagonal ou se não há movimento
 	if(distanciaColunas == distanciaLinhas){
 		return TAB_CondRetMovInv;
 	}
 	/*if*/
+	//Confere se a linha ou a coluna não serão alteradas.
 	if(distanciaColunas != 0 && distanciaLinhas != 0){
 		return TAB_CondRetMovInv;
 	}
 	/*if*/
 	return TAB_CondRetOK;
-}
+}/* Fim função: ConfereMovimentoRetoValido */
 
+
+/***************************************************************************************************
+*
+*	Função:	ConfereMovimentoDiagonalValido
+*		Parâmetros: linhaOrig (int contendo o numero da linha onde a peça a ser movida)  
+*					colunaOrig (char contendo o caractere da coluna onde a peça a ser movida)  
+*					linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
+*					colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
+*			
+*		Função que confere se o movimento a ser executado é diagonal. Para isso ambas as coordenadas 
+*		devem ser alteradas uma mesma quantidade de casas. Ou seja, o módulo da distância entre 
+*		linhaOrig e linhaDest deve ser igual ao módulo da distância entre colunaOrig e colunaDest.
+*		A Função também verifica se o destino é diferente da origem e retorna TAB_CondRetMovInv caso
+*		essa condição não seja satisfeita.
+*
+****************************************************************************************************/
 TAB_tpCondRet ConfereMovimentoDiagonalValido(int linhaOrig , char colunaOrig, int linhaDest , char colunaDest){
 
 	int distanciaColunas= (int) colunaDest-colunaOrig;
 	int distanciaLinhas= linhaDest-linhaOrig;
 
-	if(distanciaColunas != distanciaLinhas){
+	if( abs(distanciaColunas) != abs(distanciaLinhas) ){
 		return TAB_CondRetMovInv;
 	}
 	/*if*/
@@ -359,8 +389,25 @@ TAB_tpCondRet ConfereMovimentoDiagonalValido(int linhaOrig , char colunaOrig, in
 	}
 	/*if*/
 	return TAB_CondRetOK;
-}
+}/* Fim função: ConfereMovimentoDiagonalValido */
 
+
+/***************************************************************************************************
+*
+*	Função:	ConfereMovimentoCavaloValido
+*		Parâmetros: linhaOrig (int contendo o numero da linha onde a peça a ser movida)  
+*					colunaOrig (char contendo o caractere da coluna onde a peça a ser movida)  
+*					linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
+*					colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
+*			
+*		Função que confere se o movimento a ser executado é próprio da peça "Cavalo", ou seja é
+*		verificado se o movimento é em formato de "L". Para garantir esse movimento, a soma dos
+*		módulos das distâncias entre linhaOrig e linhaDest e entre colunaOrig e colunaDest deve ser
+*		igual a 3 e nenhuma das coordenadas pode permanecer a mesma.
+*		A Função também verifica se o destino é diferente da origem e retorna TAB_CondRetMovInv caso
+*		essa condição não seja satisfeita.
+*
+****************************************************************************************************/
 TAB_tpCondRet ConfereMovimentoCavaloValido(int linhaOrig , char colunaOrig, int linhaDest , char colunaDest){
 
 	int distanciaColunas= (int) colunaDest-colunaOrig;
@@ -375,7 +422,8 @@ TAB_tpCondRet ConfereMovimentoCavaloValido(int linhaOrig , char colunaOrig, int 
 	}
 	/*if*/
 	return TAB_CondRetOK;
-}
+}/* Fim função: ConfereMovimentoCavaloValido */
+
 
 TAB_tpCondRet ConferePercursoVazio(int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab){
 
@@ -439,25 +487,109 @@ TAB_tpCondRet ConfereCaptura(int linhaOrig , char colunaOrig, int linhaDest , ch
 	return TAB_CondRetOK;
 }
 TAB_tpCondRet MoverPeao ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
-	return TAB_CondRetOK;
+
+	char corPeao= TAB_ObterPeca(linhaOrig,colunaOrig,pTab)->cor;
+	int distanciaColunas= (int) colunaDest-colunaOrig;
+	int distanciaLinhas= linhaDest-linhaOrig;
+	int nCasasNormal, nCasasEspecial;
+
+	if(corPeao == 'P'){
+		//Movimentação para os peões pretos
+		nCasasNormal= -1;
+		nCasasEspecial= -2;
+	}
+	else{
+		//Movimentação para os peões brancos
+		nCasasNormal= 1;
+		nCasasEspecial= 2;
+	}
+
+	//Confere se a movimentação é para frente
+	if(ConfereMovimentoRetoValido(linhaOrig, colunaOrig, linhaDest, colunaDest) == TAB_CondRetOK){
+		//Movimento de uma casa
+		if(distanciaLinhas == nCasasNormal){
+			//Peão não pode capturar peça ao andar para frente
+			if(ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab) == TAB_CondRetOK){
+				return TAB_CondRetOK;
+			}
+			return TAB_CondRetPecaBloqueando;
+		}
+		//Movimento pode ser de duas casas se for a partir da linha inicial dos peões
+		if(linhaOrig == LINHAPEOESPRETOS && distanciaLinhas == nCasasEspecial ){
+			//Peão não pode capturar peça ao andar para frente
+			if(ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab) == TAB_CondRetOK){
+				return TAB_CondRetOK;
+			}
+			return TAB_CondRetPecaBloqueando;
+		}
+	}
+	//Confere se a movimentação é para a diagonal
+	else if(ConfereMovimentoDiagonalValido(linhaOrig, colunaOrig, linhaDest, colunaDest) == TAB_CondRetOK){
+		//Movimento de uma casa na diagonal
+		if(distanciaLinhas == nCasasNormal){
+			//Peão não pode andar na diagonal sem capturar uma peça
+			if(ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab) == TAB_CondRetCaptPeca){
+				return TAB_CondRetCaptPeca;
+			}
+			return TAB_CondRetMovInv;
+		}
+	}
+
+	return TAB_CondRetMovInv;
 }
 
 TAB_tpCondRet MoverTorre ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
-	return TAB_CondRetOK;
+	
+	//Confere se a movimentação é horizontal ou vertical
+	if(ConfereMovimentoRetoValido(linhaOrig, colunaOrig, linhaDest, colunaDest) == TAB_CondRetOK){
+		//Confere se o caminho está livre, bloqueado ou se haverá captura de peça
+		return ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+	}
+	return TAB_CondRetMovInv;
 }
 
 TAB_tpCondRet MoverBispo ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
-	return TAB_CondRetOK;
+	
+	//Confere se a movimentação é diagonal
+	if(ConfereMovimentoDiagonalValido(linhaOrig, colunaOrig, linhaDest, colunaDest) == TAB_CondRetOK){
+		//Confere se o caminho está livre, bloqueado ou se haverá captura de peça
+		return ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+	}
+	return TAB_CondRetMovInv;
 }
 
 TAB_tpCondRet MoverCavalo ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
-	return TAB_CondRetOK;
+	
+	//Confere se a movimentação é em "L"
+	if(ConfereMovimentoCavaloValido(linhaOrig, colunaOrig, linhaDest, colunaDest) == TAB_CondRetOK){
+		//Confere se haverá captura de peça
+		return ConfereCaptura(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+	}
+	return TAB_CondRetMovInv;
 }
 
 TAB_tpCondRet MoverDama ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
-	return TAB_CondRetOK;
+
+	//Confere se a movimentação é diagonal, vertical ou horizontal
+	if( ConfereMovimentoDiagonalValido(linhaOrig, colunaOrig, linhaDest, colunaDest) == TAB_CondRetOK ||
+		ConfereMovimentoRetoValido(linhaOrig, colunaOrig, linhaDest, colunaDest) == TAB_CondRetOK ){
+		//Confere se o caminho está livre, bloqueado ou se haverá captura de peça
+		return ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+	}
+	return TAB_CondRetMovInv;
 }
 
 TAB_tpCondRet MoverRei ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
-	return TAB_CondRetOK;
+
+	LIS_tppLista ameacantes;
+	char corRei= TAB_ObterPeca(linhaOrig,colunaOrig,pTab)->cor;
+	int distanciaColunas= (int) colunaDest-colunaOrig;
+	int distanciaLinhas= linhaDest-linhaOrig;
+
+	if( abs(distanciaColunas) > 1 || abs(distanciaLinhas) > 1 ){
+		return TAB_CondRetMovInv;
+	}
+	
+	return ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+
 }
