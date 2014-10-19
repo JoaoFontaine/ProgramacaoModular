@@ -52,7 +52,7 @@ typedef struct TAB_tagTab {
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
-TAB_tpCondRet ConfereCasaValida(int linha , char coluna, TAB_tppTab pTab);
+TAB_tpCondRet ConfereCasaValida(int linha , char coluna);
 tpCasa * ObterCasa(int linha , char coluna, TAB_tppTab pTab);
 
 TAB_tpCondRet ConfereMovimentoRetoValido(int linhaOrig , char colunaOrig, int linhaDest , char colunaDest);
@@ -144,6 +144,10 @@ TAB_tpCondRet TAB_RetirarPeca ( int linha , char coluna, TAB_tppTab pTab ){
 		return TAB_CondRetNaoExiste;
 	}
 	/*if*/
+	if( ConfereCasaValida(linha, coluna) != TAB_CondRetOK ){
+		return TAB_CondRetCasaInvalida;
+	}
+	/*if*/
 	peca= TAB_ObterPeca ( linha , coluna, pTab );
 
 	if(peca == NULL){
@@ -167,11 +171,11 @@ TAB_tpCondRet TAB_MoverPeca ( int linhaOrig , char colunaOrig, int linhaDest , c
 		return TAB_CondRetNaoExiste;
 	}
 	/*if*/
-	if( ConfereCasaValida(linhaOrig, colunaOrig, pTab) != TAB_CondRetOK ){
+	if( ConfereCasaValida(linhaOrig, colunaOrig) != TAB_CondRetOK ){
 		return TAB_CondRetCasaInvalida;
 	}
 	/*if*/
-	if( ConfereCasaValida(linhaDest, colunaDest, pTab) != TAB_CondRetOK ){
+	if( ConfereCasaValida(linhaDest, colunaDest) != TAB_CondRetOK ){
 		return TAB_CondRetCasaInvalida;
 	}
 	/*if*/
@@ -225,7 +229,7 @@ TAB_tpCondRet TAB_InserirPeca ( int linha , char coluna, char cor, char tipo, TA
 	}
 	/*if*/
 
-	if( ConfereCasaValida(linha, coluna, pTab) != TAB_CondRetOK ){
+	if( ConfereCasaValida(linha, coluna) != TAB_CondRetOK ){
 		return TAB_CondRetCasaInvalida;
 	}
 	/*if*/
@@ -289,13 +293,28 @@ TAB_tpCondRet TAB_DestruirTab ( TAB_tppTab pTab ){
 	}
 	/*for*/
 	free(pTab);
+
+	return TAB_CondRetOK;
 }
 
 
 /* Funções Encapsuladas no módulo */
 
 
-TAB_tpCondRet ConfereCasaValida(int linha , char coluna, TAB_tppTab pTab){
+/***************************************************************************************************
+*
+*	Função:	ConfereCasaValida
+*		Parâmetros
+*			linha (int contendo o numero da linha da casa de interesse)  
+*			coluna (char contendo o caractere da coluna da casa de interesse)  
+*
+*		Retorno: TAB_tpCondRet (condição de retorno)
+*
+*		Função auxiliar que confere se a casa especificada pelas coordenadas de linha e coluna é 
+*		válida.
+*
+****************************************************************************************************/
+TAB_tpCondRet ConfereCasaValida(int linha , char coluna){
 
 	int numColuna= (int)(coluna-'A');
 
@@ -310,7 +329,20 @@ TAB_tpCondRet ConfereCasaValida(int linha , char coluna, TAB_tppTab pTab){
 	return TAB_CondRetOK ;
 }
 
-
+/***************************************************************************************************
+*
+*	Função:	ObterCasa
+*		Parâmetros
+*			linha (int contendo o numero da linha da casa de interesse)  
+*			coluna (char contendo o caractere da coluna da casa de interesse) 
+*			pTab (ponteiro para o tabuleiro em questão)
+*
+*		Retorno: tpCasa * (ponteiro para a casa solicitada)
+*			
+*		Função auxiliar que retorna o ponteiro para a casa especificada pelas coordenadas de linha
+*		e coluna do tabuleiro passado como parâmetro.
+*
+****************************************************************************************************/
 tpCasa * ObterCasa(int linha , char coluna, TAB_tppTab pTab){
 
 	int i;
@@ -328,10 +360,11 @@ tpCasa * ObterCasa(int linha , char coluna, TAB_tppTab pTab){
 /***************************************************************************************************
 *
 *	Função:	ConfereMovimentoRetoValido
-*		Parâmetros: linhaOrig (int contendo o numero da linha onde a peça a ser movida)  
-*					colunaOrig (char contendo o caractere da coluna onde a peça a ser movida)  
-*					linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
-*					colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
+*		Parâmetros
+*			linhaOrig (int contendo o numero da linha onde está a peça a ser movida)  
+*			colunaOrig (char contendo o caractere da coluna onde está a peça a ser movida)  
+*			linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
+*			colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
 *			
 *		Função que confere se o movimento a ser executado é vertical ou horizontal. Para isso apenas
 *		uma das coordenadas pode ser alterada. Ou seja, se a o movimento for na vertical a colunaOrig
@@ -363,10 +396,11 @@ TAB_tpCondRet ConfereMovimentoRetoValido(int linhaOrig , char colunaOrig, int li
 /***************************************************************************************************
 *
 *	Função:	ConfereMovimentoDiagonalValido
-*		Parâmetros: linhaOrig (int contendo o numero da linha onde a peça a ser movida)  
-*					colunaOrig (char contendo o caractere da coluna onde a peça a ser movida)  
-*					linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
-*					colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
+*		Parâmetros
+*			linhaOrig (int contendo o numero da linha onde está a peça a ser movida)  
+*			colunaOrig (char contendo o caractere da coluna onde está a peça a ser movida)  
+*			linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
+*			colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
 *			
 *		Função que confere se o movimento a ser executado é diagonal. Para isso ambas as coordenadas 
 *		devem ser alteradas uma mesma quantidade de casas. Ou seja, o módulo da distância entre 
@@ -394,18 +428,23 @@ TAB_tpCondRet ConfereMovimentoDiagonalValido(int linhaOrig , char colunaOrig, in
 
 /***************************************************************************************************
 *
-*	Função:	ConfereMovimentoCavaloValido
-*		Parâmetros: linhaOrig (int contendo o numero da linha onde a peça a ser movida)  
-*					colunaOrig (char contendo o caractere da coluna onde a peça a ser movida)  
-*					linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
-*					colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
-*			
+*	$FC Função:	ConfereMovimentoCavaloValido
+*
+*	$ED Descrição da função
 *		Função que confere se o movimento a ser executado é próprio da peça "Cavalo", ou seja é
 *		verificado se o movimento é em formato de "L". Para garantir esse movimento, a soma dos
 *		módulos das distâncias entre linhaOrig e linhaDest e entre colunaOrig e colunaDest deve ser
 *		igual a 3 e nenhuma das coordenadas pode permanecer a mesma.
 *		A Função também verifica se o destino é diferente da origem e retorna TAB_CondRetMovInv caso
 *		essa condição não seja satisfeita.
+*
+*	$EP Parâmetros
+*		linhaOrig (int contendo o numero da linha onde está a peça a ser movida)  
+*		colunaOrig (char contendo o caractere da coluna onde está a peça a ser movida)  
+*		linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
+*		colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
+*			
+*		
 *
 ****************************************************************************************************/
 TAB_tpCondRet ConfereMovimentoCavaloValido(int linhaOrig , char colunaOrig, int linhaDest , char colunaDest){

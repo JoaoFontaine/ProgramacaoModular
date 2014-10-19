@@ -1,9 +1,34 @@
 
+/**************************************************************************************
+*
+*	$MCD Módulo de definição: TAB  Tabuleiro de xadrez
+*
+*	Arquivo gerado:              TAB.h
+*	Letras identificadoras:      TAB
+*
+*	Projeto: INF 1301 Jogo de Xadrez
+*	Autores: Guilherme Araujo e João Pedro Fontaine
+*
+*
+*	$ED Descrição do módulo
+*		Implementa um tabuleiro de xadrez com suas funcionalidades.
+*		Podem existir n tabuleiros em operação simultaneamente.
+*		
+*		O tabuleiro tem 64 casas dispostas em 8 colunas e 8 linhas. Cada casa possui 
+*			um ponteiro para uma peça, que assume o valor NULL quando a mesma está
+*			vazia, um ponteiro para a cabeça de uma lista de peças que ameaçam esta 
+*			casa e outro ponteiro para a cabeça de uma lista de casas que são
+*			ameaçadas pela peça que está nesta casa.
+*
+**************************************************************************************/
 
+/* Tipo exportado que referencia a estrutura tabuleiro */
 typedef struct TAB_tagTab * TAB_tppTab ;
 
+/* Tipo exportado que referencia a estrutura peca */
 typedef struct TAB_tagPeca * TAB_tppPeca;
 
+/* Condicoes de retorno do modulo tabuleiro */
 typedef enum {
 
 	TAB_CondRetOK = 0,
@@ -35,18 +60,186 @@ typedef enum {
 
 } TAB_tpCondRet ;
 
+
+
+/**************************************************************************************
+*
+*	$FC Função: TAB  &Criar Tab
+*
+*	$ED Descrição da função
+*		Cria um tabuleiro de xadrez.
+*
+*	$FV Valor retornado
+*		Se executou corretamente retorna o ponteiro para o tabuleiro.
+*		Este ponteiro será utilizado pelas funções que manipulam o tabuleiro.
+*
+*		Se ocorreu algum erro, por exemplo falta de memória ou dados errados, a função
+*		retornará NULL.
+*		Não será dada mais informação quanto ao problema ocorrido.
+*
+**************************************************************************************/
+
 TAB_tppTab TAB_CriarTab ( void );
+
+
+
+/**************************************************************************************
+*
+*	$FC Função: TAB  &Obter peca
+*
+*	$ED Descrição da função
+*		Reorna a peca que está na casa especificada.
+*
+*  $EP Parâmetros
+*		linha (int contendo o numero da linha da casa de interesse)  
+*		coluna (char contendo o caractere da coluna da casa de interesse) 
+*		pTab (ponteiro para o tabuleiro em questão)
+*
+*	$FV Valor retornado
+*		TAB_tppPeca (ponteiro para uma peca, NULL caso a casa esteja vazia)
+*
+**************************************************************************************/
 
 TAB_tppPeca TAB_ObterPeca ( int linha , char coluna, TAB_tppTab pTab );
 
+
+
+/**************************************************************************************
+*
+*	$FC Função: TAB  &Retirar peca
+*
+*	$ED Descrição da função
+*		Retira a peca da casa especificada.
+*
+*  $EP Parâmetros
+*		linha (int contendo o numero da linha da casa de interesse)  
+*		coluna (char contendo o caractere da coluna da casa de interesse) 
+*		pTab (ponteiro para o tabuleiro em questão)
+*
+*	$FV Valor retornado
+*		CondRetOK
+*		CondRetNaoExiste
+*		CondRetCasaInvalida
+*		CondRetCondRetCasaVazia
+*
+**************************************************************************************/
+
 TAB_tpCondRet TAB_RetirarPeca ( int linha , char coluna, TAB_tppTab pTab );
+
+
+
+/**************************************************************************************
+*
+*	$FC Função: TAB  &Mover peca
+*
+*	$ED Descrição da função
+*		Move a peca da casa origem para a casa destino.
+*		Segue as regras de movimentação proprias de cada peça.
+*		Em alguns casos essa movimentação implica na remoção de outra peca
+*
+*  $EP Parâmetros
+*		linhaOrig (int contendo o numero da linha onde está a peça a ser movida)  
+*		colunaOrig (char contendo o caractere da coluna onde está a peça a ser movida)  
+*		linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
+*		colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
+*
+*	$FV Valor retornado
+*		CondRetOK
+*		CondRetNaoExiste
+*		CondRetCasaInvalida
+*		CondRetCondRetCasaVazia
+*
+**************************************************************************************/
 
 TAB_tpCondRet TAB_MoverPeca ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab );
 
+
+
+/**************************************************************************************
+*
+*	$FC Função: TAB  &Inserir peca
+*
+*	$ED Descrição da função
+*		Insere nova peca na casa especificada.
+*
+*  $EP Parâmetros
+*		linha (int contendo o numero da linha da casa de interesse)  
+*		coluna (char contendo o caractere da coluna da casa de interesse) 
+*		pTab (ponteiro para o tabuleiro em questão)
+*
+*	$FV Valor retornado
+*		CondRetOK
+*		CondRetNaoExiste
+*		CondRetCasaInvalida
+*		CondRetCondRetCasaCheia
+*
+**************************************************************************************/
+
 TAB_tpCondRet TAB_InserirPeca ( int linha , char coluna, char cor, char tipo, TAB_tppTab pTab );
+
+
+
+/**************************************************************************************
+*
+*	$FC Função: TAB  &Obter Lista Ameacantes
+*
+*	$ED Descrição da função
+*		Retorna uma lista de pecas que ameacam a casa especificada
+*
+*  $EP Parâmetros
+*		linha (int contendo o numero da linha da casa de interesse)  
+*		coluna (char contendo o caractere da coluna da casa de interesse) 
+*		pTab (ponteiro para o tabuleiro em questão)
+*
+*	$FV Valor retornado
+*		LIS_tppLista (ponteiro para a cabeça da lista de ameacantes)
+*		
+*		Em caso de algum problema é retornado NULL sem maiores esclarecimentos
+*
+**************************************************************************************/
 
 LIS_tppLista TAB_ObterListaAmeacantes( int linha , char coluna, TAB_tppTab pTab );
 
+
+
+/**************************************************************************************
+*
+*	$FC Função: TAB  &Obter Lista Ameacados
+*
+*	$ED Descrição da função
+*		Retorna uma lista de casas que estão ameacadas pela peca localizada na casa 
+*		especificada
+*
+*  $EP Parâmetros
+*		linha (int contendo o numero da linha da casa de interesse)  
+*		coluna (char contendo o caractere da coluna da casa de interesse) 
+*		pTab (ponteiro para o tabuleiro em questão)
+*
+*	$FV Valor retornado
+*		LIS_tppLista (ponteiro para a cabeça da lista de ameacados)
+*		
+*		Em caso de algum problema é retornado NULL sem maiores esclarecimentos
+*
+**************************************************************************************/
+
 LIS_tppLista TAB_ObterListaAmeacados( int linha , char coluna, TAB_tppTab pTab );
+
+
+
+/**************************************************************************************
+*
+*	$FC Função: TAB  &Destruir Tab
+*
+*	$ED Descrição da função
+*		Destroi um tabuleiro de xadrez passado como parametro.
+*
+*  $EP Parâmetros
+*		pTab (ponteiro para o tabuleiro em questão)
+*
+*	$FV Valor retornado
+*		TAB_CondRetNaoExiste
+*		TAB_CondRetOK
+*
+**************************************************************************************/
 
 TAB_tpCondRet TAB_DestruirTab ( TAB_tppTab pTab );
