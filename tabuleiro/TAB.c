@@ -92,11 +92,16 @@ TAB_tppTab TAB_CriarTab ( void ){
 		for( j=0; j<COLUNAS; j++){
 
 			tpCasa * pCasa = ( tpCasa * ) malloc( sizeof( tpCasa )) ;
-			if ( pTab == NULL ) {  
-				printf("\n Faltou memória para criar peca");
+			if ( pCasa == NULL ) {  
+				printf("\n Faltou memória para criar casa");
 				return NULL;
 			}
 			/*if*/
+			pCasa->Peca = ( tpPeca * ) malloc( sizeof( tpPeca * )) ;
+			if ( pCasa->Peca == NULL ) {  
+				printf("\n Faltou memória para criar peca");
+				return NULL;
+			}
 			pCasa->Peca->nome = 'V';
 			pCasa->Peca->cor = 'V';
 			pCasa->pAmeacadas = LIS_CriarLista( NULL );
@@ -119,7 +124,6 @@ TAB_tppTab TAB_CriarTab ( void ){
 
 TAB_tppPeca TAB_ObterPeca ( int linha , char coluna, TAB_tppTab pTab ){
 
-	int i;
 	tpCasa * pCasa;
 
 	if( pTab == NULL){
@@ -163,8 +167,6 @@ TAB_tpCondRet TAB_RetirarPeca ( int linha , char coluna, TAB_tppTab pTab ){
 TAB_tpCondRet TAB_MoverPeca ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
 
 	TAB_tppPeca peca;
-	tpCasa * pCasaOrig;
-	tpCasa * pCasaDest;
 	TAB_tpCondRet condRet;
 
 	if( pTab == NULL){
@@ -249,7 +251,6 @@ TAB_tpCondRet TAB_InserirPeca ( int linha , char coluna, char cor, char tipo, TA
 
 LIS_tppLista TAB_ObterListaAmeacantes( int linha , char coluna, TAB_tppTab pTab ){
 
-	int i;
 	tpCasa * pCasa;
 
 	if( pTab == NULL){
@@ -265,7 +266,6 @@ LIS_tppLista TAB_ObterListaAmeacantes( int linha , char coluna, TAB_tppTab pTab 
 
 LIS_tppLista TAB_ObterListaAmeacados( int linha , char coluna, TAB_tppTab pTab ){
 
-	int i;
 	tpCasa * pCasa;
 
 	if( pTab == NULL){
@@ -620,7 +620,6 @@ TAB_tpCondRet MoverDama ( int linhaOrig , char colunaOrig, int linhaDest , char 
 
 TAB_tpCondRet MoverRei ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
 
-	LIS_tppLista ameacantes;
 	char corRei= TAB_ObterPeca(linhaOrig,colunaOrig,pTab)->cor;
 	int distanciaColunas= (int) colunaDest-colunaOrig;
 	int distanciaLinhas= linhaDest-linhaOrig;
