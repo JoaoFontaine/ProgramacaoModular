@@ -1,7 +1,7 @@
 ##################################################
 ###
 ### Diretivas de MAKE para o construto: TesteTab
-### Gerado a partir de: TesteTab.comp
+### Gerado a partir de: testetab.comp
 ###
 ### ----- Arquivo gerado, NÃO EDITE!!! -----
 ###
@@ -62,7 +62,7 @@ $(Fobj)\TestTab.obj :  {$(Pc)}\TestTab.c \
    cl $(O) $(OPT) /Fo$(Fobj)\ $(Fc)\$(@B).c >> $(Ferr)\$(NOME).err
 
 $(Fobj)\Tab.obj :  {$(Pc)}\Tab.c \
-    {$(PDEFAULT)}LISTA.h              {$(PDEFAULT)}TAB.h               
+    {$(Pc)}LISTA.c              {$(PDEFAULT)}LISTA.h              {$(PDEFAULT)}TAB.h               
    cl $(O) $(OPT) /Fo$(Fobj)\ $(Fc)\$(@B).c >> $(Ferr)\$(NOME).err
 
 

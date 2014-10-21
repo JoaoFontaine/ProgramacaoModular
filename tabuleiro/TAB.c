@@ -1,12 +1,14 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include "LISTA.c"
 #include "LISTA.h"
 #include "TAB.h"
 #define LINHAS 8
 #define COLUNAS 8
 #define LINHAPEOESBRANCOS 2
 #define LINHAPEOESPRETOS 7
+
 
 typedef struct TAB_tagPeca {
 
