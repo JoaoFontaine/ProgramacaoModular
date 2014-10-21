@@ -221,7 +221,7 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
          else if ( strcmp( ComandoTeste , RETIRAR_PECA_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "iii" ,
+            numLidos = LER_LerParametros( "iic" ,
                   &inxTab, &ValDado1, &CharDado1 ) ;
 
             if ( ( numLidos != 3 )
