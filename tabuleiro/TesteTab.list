@@ -17,6 +17,7 @@ Módulos do construto: testetab.comp
 
    TestTab.c
    Tab.c
+   Lista.c
 
 Estatísticas do construto
 
@@ -38,25 +39,23 @@ Estatísticas do construto
    Arquivos em que é incluído
       TestTab.c
 
-   Estatísticas do arquivo: LISTA.c
-      Total linhas:             371
-      Linhas de código:         143
-      Linhas de comentário:     101
-      Linhas em branco:         134
-   Arquivos de inclusão de que necessita
-      LISTA.h
-   Arquivos em que é incluído
-      Tab.c
-
    Estatísticas do arquivo: LISTA.h
       Total linhas:             272
       Linhas de código:          18
       Linhas de comentário:     220
       Linhas em branco:          34
    Arquivos em que é incluído
-      LISTA.c
+      Lista.c
       Tab.c
       TestTab.c
+
+   Estatísticas do arquivo: Lista.c
+      Total linhas:             371
+      Linhas de código:         143
+      Linhas de comentário:     101
+      Linhas em branco:         134
+   Arquivos de inclusão de que necessita
+      LISTA.h
 
    Estatísticas do arquivo: TAB.h
       Total linhas:             245
@@ -84,12 +83,11 @@ Estatísticas do construto
       TestTab.c
 
    Estatísticas do arquivo: Tab.c
-      Total linhas:             637
-      Linhas de código:         369
-      Linhas de comentário:     114
-      Linhas em branco:         132
+      Total linhas:             888
+      Linhas de código:         526
+      Linhas de comentário:     144
+      Linhas em branco:         166
    Arquivos de inclusão de que necessita
-      LISTA.c
       LISTA.h
       TAB.h
 
@@ -129,17 +127,17 @@ Totais por tipo de arquivo
          Arquivos deste tipo:          6
 
   Tipo: c        Path: .
-         Total linhas do tipo:      1341
-         Linhas de código:           690
-         Linhas de comentário:       282
-         Linhas em branco:           366
+         Total linhas do tipo:      1592
+         Linhas de código:           847
+         Linhas de comentário:       312
+         Linhas em branco:           400
          Arquivos deste tipo:          3
 
 Totais para todo o construto TesteTab
 
-   Total linhas:              3314
-   Linhas de código:           870
-   Linhas de comentário:      1806
-   Linhas em branco:           635
+   Total linhas:              3565
+   Linhas de código:          1027
+   Linhas de comentário:      1836
+   Linhas em branco:           669
    Arquivos processados:         9
 

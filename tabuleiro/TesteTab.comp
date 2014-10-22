@@ -10,6 +10,7 @@ err         =  .
 [Modulos]
 TestTab
 Tab
+Lista
 
 [BuildInicio]
 /OUT:TesteTab.exe

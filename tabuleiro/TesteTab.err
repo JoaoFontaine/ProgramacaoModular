@@ -1,21 +1,27 @@
-TestTab.c
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(68) : error C2061: syntax error : identifier 'LIS_tpCondRet'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(68) : error C2059: syntax error : ';'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(68) : error C2449: found '{' at file scope (missing function header?)
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(91) : error C2059: syntax error : '}'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(153) : error C2061: syntax error : identifier 'LIS_InserirNo'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(153) : error C2059: syntax error : ';'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(153) : error C2059: syntax error : 'type'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(212) : error C2061: syntax error : identifier 'LIS_IrProx'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(212) : error C2059: syntax error : ';'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(212) : error C2059: syntax error : 'type'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(232) : error C2061: syntax error : identifier 'LIS_IrAnt'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(232) : error C2059: syntax error : ';'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(232) : error C2059: syntax error : 'type'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(252) : error C2061: syntax error : identifier 'LIS_AlterarNoCorr'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(252) : error C2059: syntax error : ';'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(252) : error C2059: syntax error : 'type'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(272) : error C2061: syntax error : identifier 'LIS_DestruirLista'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(272) : error C2059: syntax error : ';'
-c:\users\guilherme\desktop\puc-rio\programacao modular\arcabou‡o\tab\LISTA.h(272) : error C2059: syntax error : 'type'
-.\TestTab.c(151) : warning C4152: nonstandard extension, function/data pointer conversion in expression
+Tab.c
+.\Tab.c(520) : warning C4100: 'colunaOrig' : unreferenced formal parameter
+.\Tab.c(520) : warning C4100: 'linhaOrig' : unreferenced formal parameter
+.\Tab.c(537) : warning C4189: 'distanciaColunas' : local variable is initialized but not referenced
+.\Tab.c(630) : warning C4189: 'corRei' : local variable is initialized but not referenced
+.\Tab.c(629) : warning C4101: 'i' : unreferenced local variable
+.\Tab.c(736) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(749) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(754) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(759) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(764) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(822) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(827) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(832) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(837) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(851) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(856) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(861) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(871) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+Microsoft (R) Incremental Linker Version 10.00.30319.01
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/OUT:TesteTab.exe 
+/INCREMENTAL:NO 
+/MACHINE:IX86 
+TestTab.obj Tab.obj Lista.obj 
+ArcaboucoTeste.lib 

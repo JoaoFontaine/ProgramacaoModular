@@ -45,7 +45,7 @@ INCLUDE = $(INCLUDE);$(PDEFAULT)
 ### Regras de geração
 
 all : limpa \
-   $(Fobj)\TestTab.obj   $(Fobj)\Tab.obj \
+   $(Fobj)\TestTab.obj   $(Fobj)\Tab.obj   $(Fobj)\Lista.obj \
    Construto
 
 ### Limpar arquivos
@@ -62,14 +62,18 @@ $(Fobj)\TestTab.obj :  {$(Pc)}\TestTab.c \
    cl $(O) $(OPT) /Fo$(Fobj)\ $(Fc)\$(@B).c >> $(Ferr)\$(NOME).err
 
 $(Fobj)\Tab.obj :  {$(Pc)}\Tab.c \
-    {$(Pc)}LISTA.c              {$(PDEFAULT)}LISTA.h              {$(PDEFAULT)}TAB.h               
+    {$(PDEFAULT)}LISTA.h              {$(PDEFAULT)}TAB.h               
+   cl $(O) $(OPT) /Fo$(Fobj)\ $(Fc)\$(@B).c >> $(Ferr)\$(NOME).err
+
+$(Fobj)\Lista.obj :  {$(Pc)}\Lista.c \
+    {$(PDEFAULT)}LISTA.h             
    cl $(O) $(OPT) /Fo$(Fobj)\ $(Fc)\$(@B).c >> $(Ferr)\$(NOME).err
 
 
 ### Terminação
 
 Construto : \
-   $(Fobj)\TestTab.obj   $(Fobj)\Tab.obj
+   $(Fobj)\TestTab.obj   $(Fobj)\Tab.obj   $(Fobj)\Lista.obj
     cd $(Fobj)
     LINK $(L) @$(NOME).build >> $(Ferr)\$(NOME).err
 

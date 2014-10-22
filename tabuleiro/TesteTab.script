@@ -7,15 +7,33 @@
 =declararparm   tab1  int 1
 =declararparm   tab2  int 2
 
-=declararparm   branco	char  "B"
-=declararparm   preto	char  "P"    
-=declararparm   dama    char  "D"
-=declararparm   rei     char  "R"
-=declararparm   cavalo  char  "C"
-=declararparm   torre   char  "T"
-=declararparm   bispo   char  "B"
-=declararparm   peao    char  "P"
-=declararparm   vazio   char  "V"
+=declararparm   L1  int 1
+=declararparm   L2  int 2
+=declararparm   L3  int 3
+=declararparm   L4  int 4
+=declararparm   L5  int 5
+=declararparm   L6  int 6
+=declararparm   L7  int 7
+=declararparm   L8  int 8
+
+=declararparm   A  char  'A'
+=declararparm   B  char  'B'
+=declararparm   C  char  'C'
+=declararparm   D  char  'D'
+=declararparm   E  char  'E'
+=declararparm   F  char  'F'
+=declararparm   G  char  'G'
+=declararparm   H  char  'H'
+
+=declararparm   branco	char  'B'
+=declararparm   preto	char  'P'    
+=declararparm   dama    char  'D'
+=declararparm   rei     char  'R'
+=declararparm   cavalo  char  'C'
+=declararparm   torre   char  'T'
+=declararparm   bispo   char  'B'
+=declararparm   peao    char  'P'
+=declararparm   vazio   char  'V'
 
 =declararparm   OK             		int  0
 =declararparm   CasaVazia      		int  2
@@ -34,53 +52,53 @@
 =criartab  tab0
 
 ==Inserir pecas brancas do jogo de xadrez
-=inspeca  tab0  2  "A"  branco  peao  OK
-=inspeca  tab0  2  "B"  branco  peao  OK
-=inspeca  tab0  2  "C"  branco  peao  OK
-=inspeca  tab0  2  "D"  branco  peao  OK
-=inspeca  tab0  2  "E"  branco  peao  OK
-=inspeca  tab0  2  "F"  branco  peao  OK
-=inspeca  tab0  2  "G"  branco  peao  OK
-=inspeca  tab0  2  "H"  branco  peao  OK
-=inspeca  tab0  1  "A"  branco  torre  OK
-=inspeca  tab0  1  "B"  branco  cavalo  OK
-=inspeca  tab0  1  "C"  branco  bispo  OK
-=inspeca  tab0  1  "D"  branco  rei  OK
-=inspeca  tab0  1  "E"  branco  dama  OK
-=inspeca  tab0  1  "F"  branco  bispo  OK
-=inspeca  tab0  1  "G"  branco  cavalo  OK
-=inspeca  tab0  1  "H"  branco  torre  OK
+=inspeca  tab0  2  'A'  branco  peao  OK
+=inspeca  tab0  2  'B'  branco  peao  OK
+=inspeca  tab0  2  'C'  branco  peao  OK
+=inspeca  tab0  2  'D'  branco  peao  OK
+=inspeca  tab0  2  'E'  branco  peao  OK
+=inspeca  tab0  2  'F'  branco  peao  OK
+=inspeca  tab0  2  'G'  branco  peao  OK
+=inspeca  tab0  2  'H'  branco  peao  OK
+=inspeca  tab0  1  'A'  branco  torre  OK
+=inspeca  tab0  1  'B'  branco  cavalo  OK
+=inspeca  tab0  1  'C'  branco  bispo  OK
+=inspeca  tab0  1  'D'  branco  rei  OK
+=inspeca  tab0  1  'E'  branco  dama  OK
+=inspeca  tab0  1  'F'  branco  bispo  OK
+=inspeca  tab0  1  'G'  branco  cavalo  OK
+=inspeca  tab0  1  'H'  branco  torre  OK
 
 ==Inserir peca em cima de outra
-=inspeca  tab0  2  "A"  preto  rei  CasaCheia
+=inspeca  tab0  2   'A'  preto  rei  CasaCheia
 
 ==Obter peca rei branco
-=obterpeca  tab0  1  "D" OK
+=obterpeca  tab0  1  'D' OK
 
 ==Mover peao para frente
-=moverpeca  tab0  2  "A"  3  "A"  OK
-=moverpeca  tab0  3  "A"  4  "A"  OK
-=moverpeca  tab0  4  "A"  5  "A"  OK
-=moverpeca  tab0  5  "A"  6  "A"  OK
+=moverpeca  tab0  2  'A'  3  'A'  OK
+=moverpeca  tab0  3  'A'  4  'A'  OK
+=moverpeca  tab0  4  'A'  5  'A'  OK
+=moverpeca  tab0  5  'A'  6  'A'  OK
 
 ==Movimentos invalidos
-=moverpeca  tab0  2  "A"  3  "A"  CasaVazia		//Peao que nao esta na casa
-=moverpeca  tab0  1  "A"  5  "A"  PecaBloqueando	//Torre
-=moverpeca  tab0  1  "F"  5  "F"  MovInv 		//Bispo
-=moverpeca  tab0  1  "B"  5  "H"  MovInv 		//Cavalo
+=moverpeca  tab0  2  'A'  3  'A'  CasaVazia		//Peao que nao esta na casa
+=moverpeca  tab0  1  'A'  5  'A'  PecaBloqueando	//Torre
+=moverpeca  tab0  1  'F'  5  'F'  MovInv 		//Bispo
+=moverpeca  tab0  1  'B'  5  'H'  MovInv 		//Cavalo
 
 ==Mover cavalo
-==moverpeca  tab0  1  "B"  3  "A"  OK
+==moverpeca  tab0  1  'B'  3  'A'  OK
 
 ==Retirar peao que andou
-=retirarpeca  tab0  6  "A"  OK
+=retirarpeca  tab0  6  'A'  OK
 
 ==Retirar de casa vazia
-=retirarpeca  tab0  6  "A"  OK
+=retirarpeca  tab0  6  'A'  OK
 
 ==Obter lista de ameacados e ameacantes do rei branco
-=obterlistaameacantes tab0  1  "D"  OK
-=obterlistaameaados tab0  1  "D"  OK
+=obterlistaameacantes tab0  1  'D'  OK
+=obterlistaameaados tab0  1  'D'  OK
 
 ==Destruir tabuleiro 0  
 =destruirtab  tab0  

@@ -1,6 +1,6 @@
 /OUT:TesteTab.exe
 /INCREMENTAL:NO
 /MACHINE:IX86
-TestTab.obj  Tab.obj  
+TestTab.obj  Tab.obj  Lista.obj  
 ArcaboucoTeste.lib
 

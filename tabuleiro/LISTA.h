@@ -222,7 +222,7 @@ LIS_tpCondRet LIS_IrProx( LIS_tppLista pLista ) ;
 *     pLista  - ponteiro para a lista a ser manipulada
 *
 *  $FV Valor retornado
-*     CondRetOK         - se numElem elementos tiverem sido andados
+*     CondRetOK         - se andou pra frente
 *     CondRetNoCorrPrim - se o no corrente é o primeiro da lista,
 *							nao realiza modificacoes
 *     CondRetListaVazia - se a lista está vazia
@@ -243,7 +243,7 @@ LIS_tpCondRet LIS_IrAnt( LIS_tppLista pLista ) ;
 *     pValor - ponteiro para o novo valor do no corrente
 *
 *  $FV Valor retornado
-*     CondRetOK         - se numElem elementos tiverem sido andados
+*     CondRetOK         - se andou para tras
 *     CondRetNaoExiste  - se a lista nao existe
 *     CondRetListaVazia - se a lista está vazia
 *

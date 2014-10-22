@@ -199,7 +199,7 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
          else if ( strcmp( ComandoTeste , INS_PECA_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "iiccci" ,
+            numLidos = LER_LerParametros( "iiiiii" ,
                        &inxTab , &ValDado1 ,&CharDado1, &CharDado2, &CharDado3,  &CondRetEsp ) ;
 
             if ( ( numLidos != 6 )
