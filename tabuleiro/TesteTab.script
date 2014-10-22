@@ -1,6 +1,6 @@
 // Script: TesteTab script de teste
 // Propósito: Testar superficialmente o módulo tabuleiro
-//
+// Autores: Guilherme Araujo e Joao Pedro Fontaine
 
 == Inicializar valores
 =declararparm   tab0  int 0
