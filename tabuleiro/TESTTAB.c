@@ -83,9 +83,9 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
 
       TST_tpCondRet CondRet ;
 
-      char   CharDado1;
-	  char   CharDado2;
-	  char   CharDado3;
+      char   CharDado1 = '?';
+	  char   CharDado2 = '!';
+	  char   CharDado3 = '\0';
 
 	  TAB_tppPeca pPeca;
   
@@ -148,7 +148,15 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
                return TST_CondRetParm ;
             } /* if */
 
-			return TST_CompararPonteiroNulo( 1 , TAB_CriarTab , "Dado tipo um deveria existir." ) ;
+			vtTab[inxTab] = TAB_CriarTab;
+
+			if( vtTab[ inxTab ] == NULL)
+			{
+				return TST_CompararInt( CondRetEsp , TST_CondRetNaoExecutou,
+                     "Condicao de retorno errada ao inserir." ) ; 
+			}
+
+			return TST_CompararPonteiroNulo( 1 , vtTab[inxTab]  , "Dado tipo um deveria existir." ) ;
 
          } /* fim ativa: Testar CriarTab */
 
@@ -199,7 +207,7 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
          else if ( strcmp( ComandoTeste , INS_PECA_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "iiiiii" ,
+            numLidos = LER_LerParametros( "iiccci" ,
                        &inxTab , &ValDado1 ,&CharDado1, &CharDado2, &CharDado3,  &CondRetEsp ) ;
 
             if ( ( numLidos != 6 )

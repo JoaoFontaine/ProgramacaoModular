@@ -1,22 +1,5 @@
-Tab.c
-.\Tab.c(520) : warning C4100: 'colunaOrig' : unreferenced formal parameter
-.\Tab.c(520) : warning C4100: 'linhaOrig' : unreferenced formal parameter
-.\Tab.c(537) : warning C4189: 'distanciaColunas' : local variable is initialized but not referenced
-.\Tab.c(630) : warning C4189: 'corRei' : local variable is initialized but not referenced
-.\Tab.c(629) : warning C4101: 'i' : unreferenced local variable
-.\Tab.c(736) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(749) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(754) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(759) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(764) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(822) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(827) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(832) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(837) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(851) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(856) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(861) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(871) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+TestTab.c
+.\TestTab.c(151) : warning C4047: '=' : 'TAB_tppTab' differs in levels of indirection from 'TAB_tppTab (__cdecl *)(void)'
 Microsoft (R) Incremental Linker Version 10.00.30319.01
 Copyright (C) Microsoft Corporation.  All rights reserved.
 

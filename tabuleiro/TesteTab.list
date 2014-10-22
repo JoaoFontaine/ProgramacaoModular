@@ -83,19 +83,19 @@ Estatísticas do construto
       TestTab.c
 
    Estatísticas do arquivo: Tab.c
-      Total linhas:             888
-      Linhas de código:         526
+      Total linhas:             886
+      Linhas de código:         525
       Linhas de comentário:     144
-      Linhas em branco:         166
+      Linhas em branco:         165
    Arquivos de inclusão de que necessita
       LISTA.h
       TAB.h
 
    Estatísticas do arquivo: TestTab.c
-      Total linhas:             333
-      Linhas de código:         178
+      Total linhas:             335
+      Linhas de código:         179
       Linhas de comentário:      67
-      Linhas em branco:         100
+      Linhas em branco:         101
    Arquivos de inclusão de que necessita
       GENERICO.h
       LERPARM.h

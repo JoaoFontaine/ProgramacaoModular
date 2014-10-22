@@ -7,24 +7,6 @@
 =declararparm   tab1  int 1
 =declararparm   tab2  int 2
 
-=declararparm   L1  int 1
-=declararparm   L2  int 2
-=declararparm   L3  int 3
-=declararparm   L4  int 4
-=declararparm   L5  int 5
-=declararparm   L6  int 6
-=declararparm   L7  int 7
-=declararparm   L8  int 8
-
-=declararparm   A  char  'A'
-=declararparm   B  char  'B'
-=declararparm   C  char  'C'
-=declararparm   D  char  'D'
-=declararparm   E  char  'E'
-=declararparm   F  char  'F'
-=declararparm   G  char  'G'
-=declararparm   H  char  'H'
-
 =declararparm   branco	char  'B'
 =declararparm   preto	char  'P'    
 =declararparm   dama    char  'D'
@@ -88,7 +70,7 @@
 =moverpeca  tab0  1  'B'  5  'H'  MovInv 		//Cavalo
 
 ==Mover cavalo
-==moverpeca  tab0  1  'B'  3  'A'  OK
+=moverpeca  tab0  1  'B'  3  'A'  OK
 
 ==Retirar peao que andou
 =retirarpeca  tab0  6  'A'  OK

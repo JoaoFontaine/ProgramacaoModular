@@ -322,13 +322,11 @@ TAB_tpCondRet TAB_DestruirTab ( TAB_tppTab pTab ){
 ****************************************************************************************************/
 TAB_tpCondRet ConfereCasaValida(int linha , char coluna){
 
-	int numColuna= (int)(coluna-'A');
-
-	if( 0 <= linha && linha < LINHAS ){
+	if( linha < 0 || linha > LINHAS  ){
 		return TAB_CondRetCasaInvalida;
 	}
 
-	if( (0 <= numColuna) && (numColuna < COLUNAS) ){
+	if( coluna < 'A' || coluna > 'H' ){
 		return TAB_CondRetCasaInvalida;
 	}
 
