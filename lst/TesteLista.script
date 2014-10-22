@@ -85,6 +85,12 @@
 =obterno  lista2   str3   pNaoNULL
 =irprox     lista2  FimLista
 
+== Verificar ir para o primeiro elemento
+=irinicio lista2
+
+== Verificar ir para o ultimo elemento
+=irfinal lista2
+
 == Destruir a lista
 =destruirlista   lista2   OK
 

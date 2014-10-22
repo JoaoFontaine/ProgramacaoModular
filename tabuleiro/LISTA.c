@@ -21,6 +21,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<assert.h>
 #include "LISTA.h"
 
 /***********************************************************************
@@ -306,6 +307,37 @@
 		return LIS_CondRetOK;
 
 	}/* Fim função: LIS &Alterar valor do nó corrente */
+
+
+
+/***************************************************************************
+*
+*  Função: LIS  &Ir para o elemento inicial
+*  ****/
+
+   void IrInicioLista( LIS_tppLista pLista )
+   {
+      assert( pLista != NULL ) ;
+
+	  pLista->pNoCorr = pLista->pOrigemLista ;
+
+   } /* Fim função: LIS  &Ir para o elemento inicial */
+
+/***************************************************************************
+*
+*  Função: LIS  &Ir para o elemento final
+*  ****/
+
+   void IrFinalLista( LIS_tppLista pLista )
+   {
+
+         assert( pLista != NULL ) ;
+ 
+
+		 pLista->pNoCorr = pLista->pFimLista ;
+
+   } /* Fim função: LIS  &Ir para o elemento final */
+
 
 
 

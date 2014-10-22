@@ -222,7 +222,7 @@ LIS_tpCondRet LIS_IrProx( LIS_tppLista pLista ) ;
 *     pLista  - ponteiro para a lista a ser manipulada
 *
 *  $FV Valor retornado
-*     CondRetOK         - se andou pra frente
+*     CondRetOK         - se numElem elementos tiverem sido andados
 *     CondRetNoCorrPrim - se o no corrente é o primeiro da lista,
 *							nao realiza modificacoes
 *     CondRetListaVazia - se a lista está vazia
@@ -243,13 +243,44 @@ LIS_tpCondRet LIS_IrAnt( LIS_tppLista pLista ) ;
 *     pValor - ponteiro para o novo valor do no corrente
 *
 *  $FV Valor retornado
-*     CondRetOK         - se andou para tras
+*     CondRetOK         - se numElem elementos tiverem sido andados
 *     CondRetNaoExiste  - se a lista nao existe
 *     CondRetListaVazia - se a lista está vazia
 *
 ***********************************************************************/
 
 LIS_tpCondRet LIS_AlterarNoCorr( LIS_tppLista pLista , void * pValor ) ;
+
+/***********************************************************************
+*
+*  $FC Função: LIS  &Ir para o elemento inicial
+*
+*  $ED Descrição da função
+*     Torna corrente o primeiro elemento da lista.
+*     Faz nada se a lista está vazia.
+*
+*  $EP Parâmetros
+*     pLista - ponteiro para a lista a manipular
+*
+***********************************************************************/
+
+   void IrInicioLista( LIS_tppLista pLista ) ;
+
+
+/***********************************************************************
+*
+*  $FC Função: LIS  &Ir para o elemento final
+*
+*  $ED Descrição da função
+*     Torna corrente o elemento final da lista.
+*     Faz nada se a lista está vazia.
+*
+*  $EP Parâmetros
+*     pLista - ponteiro para a lista a manipular
+*
+***********************************************************************/
+
+   void IrFinalLista( LIS_tppLista pLista ) ;
 
 /***********************************************************************
 *

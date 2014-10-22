@@ -253,6 +253,37 @@ LIS_tpCondRet LIS_AlterarNoCorr( LIS_tppLista pLista , void * pValor ) ;
 
 /***********************************************************************
 *
+*  $FC Função: LIS  &Ir para o elemento inicial
+*
+*  $ED Descrição da função
+*     Torna corrente o primeiro elemento da lista.
+*     Faz nada se a lista está vazia.
+*
+*  $EP Parâmetros
+*     pLista - ponteiro para a lista a manipular
+*
+***********************************************************************/
+
+   void IrInicioLista( LIS_tppLista pLista ) ;
+
+
+/***********************************************************************
+*
+*  $FC Função: LIS  &Ir para o elemento final
+*
+*  $ED Descrição da função
+*     Torna corrente o elemento final da lista.
+*     Faz nada se a lista está vazia.
+*
+*  $EP Parâmetros
+*     pLista - ponteiro para a lista a manipular
+*
+***********************************************************************/
+
+   void IrFinalLista( LIS_tppLista pLista ) ;
+
+/***********************************************************************
+*
 *  $FC Função: LIS  &Destruir lista
 *
 *  $ED Descrição da função

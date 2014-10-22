@@ -42,6 +42,8 @@ static const char EXC_NO_CMD              [ ] = "=excluirnocorr"    ;
 static const char IR_PROX_CMD             [ ] = "=irprox"    ;
 static const char ALTERAR_NO_CMD          [ ] = "=alterarnocorr"    ;
 static const char IR_ANT_CMD              [ ] = "=irant"    ;
+static const char IR_FIM_CMD            [ ] = "=irfinal"    ;
+static const char IR_INICIO_CMD           [ ] = "=irinicio"    ;
 
 #define TRUE  1
 #define FALSE 0
@@ -338,6 +340,44 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
                       "Condicao de retorno errada ao retroceder" ) ;
 
          } /* fim ativa: LIS  &Ir para o elemento anterior */
+
+		 /* Testar ir para o elemento inicial */
+
+         else if ( strcmp( ComandoTeste , IR_INICIO_CMD ) == 0 )
+         {
+
+            numLidos = LER_LerParametros( "i" , &inxLista ) ;
+
+            if ( ( numLidos != 1 )
+              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+            IrInicioLista( vtListas[ inxLista ] ) ;
+
+            return TST_CondRetOK ;
+
+         } /* fim ativa: Testar ir para o elemento inicial */
+
+      /* LIS  &Ir para o elemento final */
+
+         else if ( strcmp( ComandoTeste , IR_FIM_CMD ) == 0 )
+         {
+
+            numLidos = LER_LerParametros( "i" , &inxLista ) ;
+
+            if ( ( numLidos != 1 )
+              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+            IrFinalLista( vtListas[ inxLista ] ) ;
+
+            return TST_CondRetOK ;
+
+         } /* fim ativa: LIS  &Ir para o elemento final */
 
       /* LIS  &Avançar elemento */
 
