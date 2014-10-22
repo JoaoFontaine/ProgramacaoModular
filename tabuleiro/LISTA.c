@@ -76,7 +76,7 @@
 
 
 	tpNoLista * CriarNo( void * pValor);  
-
+	void LimparCabeca( LIS_tppLista pLista );
 
 	/*****  Código das funções exportadas pelo módulo  *****/
 
@@ -96,10 +96,11 @@
 		  return NULL;
 	  }
 	  /*if*/
-	  if ( strlen(idLista) > 4) printf("\n Só serão utilizados os 4 primeiros caracteres para identificar a lista");
+	  /*if ( strlen(idLista) > 4) printf("\n Só serão utilizados os 4 primeiros caracteres para identificar a lista");
 
-	  strncpy(pLista->idLista , idLista, 4);
-	  
+	  strncpy(pLista->idLista , idLista, 4);*/
+	  LimparCabeca( pLista ) ;
+
 	  return pLista;
 
 	} /* Fim função: LIS  &Criar lista */
@@ -401,3 +402,19 @@
    }/* Fim função: LIS  -Criar o nó */
 
 
+	/***********************************************************************
+*
+*  $FC Função: LIS  -Limpar a cabeça da lista
+*
+***********************************************************************/
+
+   void LimparCabeca( LIS_tppLista pLista )
+   {
+
+      pLista->pOrigemLista = NULL ;
+      pLista->pFimLista = NULL ;
+      pLista->pNoCorr = NULL ;
+
+   } /* Fim função: LIS  -Limpar a cabeça da lista */
+
+/********** Fim do módulo de implementação: LIS  Lista duplamente encadeada **********/

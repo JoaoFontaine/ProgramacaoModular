@@ -21,7 +21,7 @@
 *			ameaçadas pela peça que está nesta casa.
 *
 **************************************************************************************/
-
+#include "LISTA.h"
 /* Tipo exportado que referencia a estrutura tabuleiro */
 typedef struct TAB_tagTab * TAB_tppTab ;
 

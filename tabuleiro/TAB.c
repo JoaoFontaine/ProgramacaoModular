@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include "LISTA.h"
 #include "TAB.h"
 #define LINHAS 8
 #define COLUNAS 8
@@ -36,7 +35,7 @@ typedef struct TAB_tagCasa {
 
 typedef struct TAB_tagLinhas {
 
-	LIS_tppLista  pLinha[LINHAS];
+	LIS_tppLista pLinha[LINHAS];
 	/* Vetor de ponteiros para a cabeca da lista de linhas */
 
 }tpLinhas;
@@ -80,8 +79,10 @@ TAB_tpCondRet AtualizarListaAmeacados (int linha , char coluna, TAB_tppTab pTab)
 TAB_tppTab TAB_CriarTab ( void ){
 
 	int i,j;
+	TAB_tpTab * pTab;
 
-	TAB_tpTab * pTab =( TAB_tpTab * ) malloc( sizeof( TAB_tpTab )) ;
+	pTab =( TAB_tpTab * ) malloc(sizeof( TAB_tpTab )) ;
+	pTab->pLinhas= (tpLinhas*)malloc(sizeof(tpLinhas));
 
 	if ( pTab == NULL ) {  
 		printf("\n Faltou memória para criar tabuleiro");
@@ -624,8 +625,6 @@ TAB_tpCondRet MoverDama ( int linhaOrig , char colunaOrig, int linhaDest , char 
 
 TAB_tpCondRet MoverRei ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
 
-	int i;
-	char corRei= TAB_ObterPeca(linhaOrig,colunaOrig,pTab)->cor;
 	int distanciaColunas= (int) colunaDest-colunaOrig;
 	int distanciaLinhas= linhaDest-linhaOrig;
 
