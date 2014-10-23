@@ -3,7 +3,7 @@
 // Autores: Guilherme Araujo e Joao Pedro Fontaine
 
 == Inicializar valores
-=declararparm   tab0  int 0
+=declararparm   tab0  int 3
 =declararparm   tab1  int 1
 =declararparm   tab2  int 2
 
@@ -51,6 +51,24 @@
 =inspeca  tab0  1  'G'  branco  cavalo  OK
 =inspeca  tab0  1  'H'  branco  torre  OK
 
+==Inserir pecas pretas do jogo de xadrez
+=inspeca  tab0  7  'A'  preto  peao  OK
+=inspeca  tab0  7  'B'  preto  peao  OK
+=inspeca  tab0  7  'C'  preto  peao  OK
+=inspeca  tab0  7  'D'  preto  peao  OK
+=inspeca  tab0  7  'E'  preto  peao  OK
+=inspeca  tab0  7  'F'  preto  peao  OK
+=inspeca  tab0  7  'G'  preto  peao  OK
+=inspeca  tab0  7  'H'  preto  peao  OK
+=inspeca  tab0  8  'A'  preto  torre  OK
+=inspeca  tab0  8  'B'  preto  cavalo  OK
+=inspeca  tab0  8  'C'  preto  bispo  OK
+=inspeca  tab0  8  'D'  preto  rei  OK
+=inspeca  tab0  8  'E'  preto  dama  OK
+=inspeca  tab0  8  'F'  preto  bispo  OK
+=inspeca  tab0  8  'G'  preto  cavalo  OK
+=inspeca  tab0  8  'H'  preto  torre  OK
+
 ==Inserir peca em cima de outra
 =inspeca  tab0  2   'A'  preto  rei  CasaCheia
 
@@ -63,9 +81,17 @@
 =moverpeca  tab0  4  'A'  5  'A'  OK
 =moverpeca  tab0  5  'A'  6  'A'  OK
 
+
+==Mover cavalo preto para rei branco
+=moverpeca  tab0  8  'B'  6  'C'  OK
+=moverpeca  tab0  6  'C'  5  'E'  OK
+=moverpeca  tab0  5  'E'  4  'C'  OK
+=moverpeca  tab0  4  'C'  3  'E'  OK
+
+
 ==Movimentos invalidos
 =moverpeca  tab0  2  'A'  3  'A'  CasaVazia		//Peao que nao esta na casa
-=moverpeca  tab0  1  'A'  5  'A'  PecaBloqueando	//Torre
+=moverpeca  tab0  1  'A'  6  'A'  PecaBloqueando	//Torre
 =moverpeca  tab0  1  'F'  5  'F'  MovInv 		//Bispo
 =moverpeca  tab0  1  'B'  5  'H'  MovInv 		//Cavalo
 
@@ -76,14 +102,14 @@
 =retirarpeca  tab0  6  'A'  OK
 
 ==Retirar de casa vazia
-=retirarpeca  tab0  6  'A'  OK
+=retirarpeca  tab0  6  'A'  CasaVazia
 
 ==Obter lista de ameacados e ameacantes do rei branco
 =obterlistaameacantes tab0  1  'D'  OK
-=obterlistaameaados tab0  1  'D'  OK
+=obterlistaameacados tab0  1  'D'  OK
 
 ==Destruir tabuleiro 0  
-=destruirtab  tab0  
+=destruirtab  tab0  OK
 
 
 // fim

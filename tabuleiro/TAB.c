@@ -59,8 +59,8 @@ TAB_tpCondRet MoverCavalo ( int linhaOrig , char colunaOrig, int linhaDest , cha
 TAB_tpCondRet MoverDama ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab );
 TAB_tpCondRet MoverRei ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab );
 
-//TAB_tpCondRet AtualizarListaAmeacantes (int linha , char coluna, TAB_tppTab pTab);
-//TAB_tpCondRet AtualizarListaAmeacados (int linha , char coluna, TAB_tppTab pTab);
+TAB_tpCondRet AtualizarListaAmeacantes (int linha , char coluna, TAB_tppTab pTab);
+TAB_tpCondRet AtualizarListaAmeacados (int linha , char coluna, TAB_tppTab pTab);
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -125,7 +125,7 @@ TAB_tppPeca TAB_ObterPeca ( int linha , char coluna, TAB_tppTab pTab ){
 		printf("Tabuleiro nao existe");
 		return NULL;
 	}
-	
+
 	pCasa= ObterCasa(linha, coluna, pTab);
 	if(pCasa->Peca->nome == 'V'){
 		//printf("\n Casa Vazia");
@@ -465,46 +465,48 @@ TAB_tpCondRet ConferePercursoVazio(int linhaOrig , char colunaOrig, int linhaDes
 	int i;
 	int distanciaColunas= (int) colunaDest-colunaOrig;
 	int distanciaLinhas= linhaDest-linhaOrig;
-	int primeiraLinha= linhaOrig;
-	int primeiraColuna= (int) colunaOrig - 'A';
+	int sinalLinha= 1;
+	int sinalColuna= 1;
+
+	if(distanciaLinhas < 0){
+		sinalLinha = -1;
+	}
+
+	if(distanciaColunas < 0){
+		sinalColuna = -1;
+	}
 
 	if(distanciaLinhas == 0){
-		if (distanciaColunas < 0){
-			primeiraColuna= (int) colunaDest - 'A';
-		}
-		for (i = 1; i <= distanciaColunas; i++){
-			if (TAB_ObterPeca(primeiraLinha,(char)(primeiraColuna+i + 'A'),pTab) != NULL){
-				return TAB_CondRetPecaBloqueando;
-			}
-		}
-
-	}
-	else if(distanciaColunas == 0){
-		if (distanciaLinhas < 0){
-			primeiraLinha= linhaDest;
-		}
-		for (i = 1; i <= distanciaLinhas; i++){
-			if (TAB_ObterPeca(primeiraLinha+i,(char)(primeiraColuna + 'A'),pTab) != NULL){
+		for (i = 1; i <= abs(distanciaColunas); i++){
+			if ( TAB_ObterPeca( linhaOrig,(char)(colunaOrig + (i*sinalColuna) ),pTab ) != NULL ){
 				return TAB_CondRetPecaBloqueando;
 			}
 		}
 
 	}
 	else{
-		if (distanciaLinhas < 0){
-			primeiraColuna= (int) colunaDest - 'A';
+		if(distanciaColunas == 0){
+			for (i = 1; i <= abs(distanciaLinhas); i++){
+				if ( TAB_ObterPeca( linhaOrig + (i*sinalLinha), colunaOrig, pTab ) != NULL ){
+					return TAB_CondRetPecaBloqueando;
+				}
+			}
+
 		}
-		if (distanciaColunas < 0){
-			primeiraColuna= colunaDest;
-		}
-		for (i = 1; i <= distanciaColunas; i++){
-			if (TAB_ObterPeca(primeiraLinha+i,(char)(primeiraColuna+i + 'A'),pTab) != NULL){
-				return TAB_CondRetPecaBloqueando;
+		else{
+			for (i = 1; i <= abs(distanciaColunas); i++){
+				if (TAB_ObterPeca( linhaOrig + (i*sinalLinha), (char)( colunaOrig + (i*sinalColuna) ), pTab ) != NULL ){
+					return TAB_CondRetPecaBloqueando;
+				}
 			}
 		}
 	}
 
-	return ConfereCaptura(linhaOrig, colunaOrig, linhaDest , colunaDest, pTab);
+	if(TAB_ObterPeca(linhaDest,colunaDest,pTab) != NULL){
+		return TAB_CondRetCasaCheia;
+	}
+	return TAB_CondRetOK;
+	//return ConfereCaptura(linhaOrig, colunaOrig, linhaDest , colunaDest, pTab);
 }
 
 TAB_tpCondRet ConfereCaptura(int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab){
@@ -513,10 +515,10 @@ TAB_tpCondRet ConfereCaptura(int linhaOrig , char colunaOrig, int linhaDest , ch
 	TAB_tppPeca pecaDest= TAB_ObterPeca(linhaDest,colunaDest,pTab);
 
 	if ( pecaDest != NULL){
-		if(pecaOrig->cor == pecaDest->cor){
-			return TAB_CondRetPecaBloqueando;
+		if(pecaOrig->cor != pecaDest->cor){
+			return TAB_CondRetCaptPeca;
 		}
-		return TAB_CondRetCaptPeca;
+		return TAB_CondRetCasaCheia;
 	}
 
 	return TAB_CondRetOK;
@@ -544,18 +546,16 @@ TAB_tpCondRet MoverPeao ( int linhaOrig , char colunaOrig, int linhaDest , char 
 		//Movimento de uma casa
 		if(distanciaLinhas == nCasasNormal){
 			//Peão não pode capturar peça ao andar para frente
-			if(ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab) == TAB_CondRetOK){
-				return TAB_CondRetOK;
-			}
-			return TAB_CondRetPecaBloqueando;
+			return ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
 		}
 		//Movimento pode ser de duas casas se for a partir da linha inicial dos peões
-		if(linhaOrig == LINHAPEOESPRETOS && distanciaLinhas == nCasasEspecial ){
+		if(linhaOrig == LINHAPEOESPRETOS && distanciaLinhas == nCasasEspecial && corPeao == 'P'){
 			//Peão não pode capturar peça ao andar para frente
-			if(ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab) == TAB_CondRetOK){
-				return TAB_CondRetOK;
-			}
-			return TAB_CondRetPecaBloqueando;
+			return ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+		}
+		if(linhaOrig == LINHAPEOESBRANCOS && distanciaLinhas == nCasasEspecial && corPeao == 'B'){
+			//Peão não pode capturar peça ao andar para frente
+			return ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
 		}
 	}
 	//Confere se a movimentação é para a diagonal
@@ -563,7 +563,7 @@ TAB_tpCondRet MoverPeao ( int linhaOrig , char colunaOrig, int linhaDest , char 
 		//Movimento de uma casa na diagonal
 		if(distanciaLinhas == nCasasNormal){
 			//Peão não pode andar na diagonal sem capturar uma peça
-			if(ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab) == TAB_CondRetCaptPeca){
+			if(ConfereCaptura(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab) == TAB_CondRetCaptPeca){
 				return TAB_CondRetCaptPeca;
 			}
 			return TAB_CondRetMovInv;
@@ -574,27 +574,37 @@ TAB_tpCondRet MoverPeao ( int linhaOrig , char colunaOrig, int linhaDest , char 
 }
 
 TAB_tpCondRet MoverTorre ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
-	
+
+	TAB_tpCondRet condRet;
 	//Confere se a movimentação é horizontal ou vertical
 	if(ConfereMovimentoRetoValido(linhaOrig, colunaOrig, linhaDest, colunaDest) == TAB_CondRetOK){
 		//Confere se o caminho está livre, bloqueado ou se haverá captura de peça
-		return ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+		condRet= ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+		if( condRet == TAB_CondRetCasaCheia ){
+			return ConfereCaptura(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+		}
+		return condRet;
 	}
 	return TAB_CondRetMovInv;
 }
 
 TAB_tpCondRet MoverBispo ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
-	
+
+	TAB_tpCondRet condRet;
 	//Confere se a movimentação é diagonal
 	if(ConfereMovimentoDiagonalValido(linhaOrig, colunaOrig, linhaDest, colunaDest) == TAB_CondRetOK){
 		//Confere se o caminho está livre, bloqueado ou se haverá captura de peça
-		return ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+		condRet= ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+		if( condRet == TAB_CondRetCasaCheia ){
+			return ConfereCaptura(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+		}
+		return condRet;
 	}
 	return TAB_CondRetMovInv;
 }
 
 TAB_tpCondRet MoverCavalo ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
-	
+
 	//Confere se a movimentação é em "L"
 	if(ConfereMovimentoCavaloValido(linhaOrig, colunaOrig, linhaDest, colunaDest) == TAB_CondRetOK){
 		//Confere se haverá captura de peça
@@ -605,11 +615,16 @@ TAB_tpCondRet MoverCavalo ( int linhaOrig , char colunaOrig, int linhaDest , cha
 
 TAB_tpCondRet MoverDama ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
 
+	TAB_tpCondRet condRet;
 	//Confere se a movimentação é diagonal, vertical ou horizontal
 	if( ConfereMovimentoDiagonalValido(linhaOrig, colunaOrig, linhaDest, colunaDest) == TAB_CondRetOK ||
 		ConfereMovimentoRetoValido(linhaOrig, colunaOrig, linhaDest, colunaDest) == TAB_CondRetOK ){
-		//Confere se o caminho está livre, bloqueado ou se haverá captura de peça
-		return ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+			//Confere se o caminho está livre, bloqueado ou se haverá captura de peça
+			condRet= ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+			if( condRet == TAB_CondRetCasaCheia ){
+				return ConfereCaptura(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+			}
+			return condRet;
 	}
 	return TAB_CondRetMovInv;
 }
@@ -618,259 +633,264 @@ TAB_tpCondRet MoverRei ( int linhaOrig , char colunaOrig, int linhaDest , char c
 
 	int distanciaColunas= (int) colunaDest-colunaOrig;
 	int distanciaLinhas= linhaDest-linhaOrig;
+	TAB_tpCondRet condRet;
 
 	if( abs(distanciaColunas) > 1 || abs(distanciaLinhas) > 1 ){
 		return TAB_CondRetMovInv;
 	}
-		
-	return ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+
+	condRet= ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+	if( condRet == TAB_CondRetCasaCheia ){
+		return ConfereCaptura(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+	}
+	return condRet;
 
 }
 
-///***************************************************************************************************
-//*
-//*	$FC Função:	AtualizarListaAmeacantes
-//*
-//*	$ED Descrição da função
-//*		Funcao que atualiza a lista de amecantes a casa especificada
-//*
-//*
-//*	$EP Parâmetros
-//*		linha (int contendo o numero da linha da casa)  
-//*		coluna (char contendo o caractere da coluna da casa)  
-//*			
-//*		
-//*
-//****************************************************************************************************/
-//
-//TAB_tpCondRet AtualizarListaAmeacantes ( int linha , char coluna , TAB_tppTab pTab) {
-//
-//	tpCasa * pCasa;
-//	tpPeca * pPeca;
-//
-//	pPeca = TAB_ObterPeca(linha,coluna,pTab);
-//	pCasa = ObterCasa ( linha  , coluna , pTab);
-//
-//	while ( pCasa->pAmeacadas != NULL){
-//		pPeca = (tpPeca *)LIS_ObterNo ( pCasa->pAmeacadas);
-//		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor) { 
-//			LIS_InserirNo( pCasa->pAmeacantes, pPeca);
-//		}
-//		LIS_IrProx(pCasa->pAmeacadas);
-//	}
-//	/*while*/
-//
-//	while ( pCasa->pAmeacadas != NULL){
-//		pPeca = (tpPeca *)LIS_ObterNo ( pCasa->pAmeacadas);
-//		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor) { 
-//			LIS_InserirNo( pCasa->pAmeacantes, pPeca);
-//		}
-//		LIS_IrAnt(pCasa->pAmeacadas);
-//	}
-//
-//	return TAB_CondRetOK;
-//}
-//
-///***************************************************************************************************
-//*
-//*	$FC Função:	AtualizarListaAmeacados
-//*
-//*	$ED Descrição da função
-//*		Funcao que atualiza a lista de amecados a casa especificada
-//*
-//*
-//*	$EP Parâmetros
-//*		linha (int contendo o numero da linha da casa)  
-//*		coluna (char contendo o caractere da coluna da casa)  
-//*			
-//*		
-//*
-//****************************************************************************************************/
-//
-//TAB_tpCondRet AtualizarListaAmeacados ( int linha , char coluna , TAB_tppTab pTab) {
-//	
-//	tpCasa * pCasa;
-//	tpPeca * pPeca;
-//	int i;
-//
-//	pPeca = TAB_ObterPeca(linha,coluna,pTab);
-//	pCasa = ObterCasa ( linha  , coluna , pTab);
-//
-//	switch (pPeca->nome)
-//	{
-//	case 'P':
-//
-//		pCasa = ObterCasa ( linha + 1 , coluna - 1 , pTab);
-//		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//		}
-//		/*if*/
-//		pCasa = ObterCasa ( linha + 1 , coluna + 1 , pTab);
-//		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//		}
-//		/*if*/
-//		break;
-//
-//	case 'T':
-//
-//		for ( i=0; i<8 ; i++) {
-//
-//			pCasa = ObterCasa ( i , coluna , pTab);
-//			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//			}
-//			/*if*/
-//			pCasa = ObterCasa ( linha , 'A' + i , pTab);
-//			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//			}
-//			/*if*/
-//		}
-//		/*for*/
-//
-//		break;
-//	case 'B':
-//
-//		for ( i=0; i<8 ; i++) {
-//
-//			pCasa = ObterCasa (linha + i , coluna + i , pTab);
-//			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//			}
-//			/*if*/
-//			pCasa = ObterCasa (linha + i , coluna - i , pTab);
-//			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//			}
-//			/*if*/
-//			pCasa = ObterCasa (linha - i , coluna + i , pTab);
-//			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//			}
-//			/*if*/
-//			pCasa = ObterCasa (linha - i , coluna - i , pTab);
-//			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//			}
-//			/*if*/
-//		}
-//		/*for*/
-//
-//		break;
-//
-//	case 'C':
-//
-//		pCasa = ObterCasa ( linha + 2 , coluna + 1 , pTab);
-//		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//		}
-//		/*if*/
-//		pCasa = ObterCasa ( linha + 2 , coluna - 1 , pTab);
-//		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//		}
-//		/*if*/
-//		pCasa = ObterCasa ( linha - 2 , coluna + 1 , pTab);
-//		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//		}
-//		/*if*/
-//		pCasa = ObterCasa ( linha - 2 , coluna - 1 , pTab);
-//		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//		}
-//		/*if*/
-//		pCasa = ObterCasa ( linha + 1 , coluna + 2 , pTab);
-//		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//		}
-//		/*if*/
-//		pCasa = ObterCasa ( linha + 1 , coluna - 2 , pTab);
-//		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//		}
-//		/*if*/
-//		pCasa = ObterCasa ( linha - 1 , coluna + 2 , pTab);
-//		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//		}
-//		/*if*/
-//		pCasa = ObterCasa ( linha - 1 , coluna - 2 , pTab);
-//		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//		}
-//		/*if*/
-//
-//		break;
-//
-//	case 'D':
-//		for ( i=0; i<8 ; i++) {
-//
-//			pCasa = ObterCasa ( linha + i , coluna + i , pTab);
-//			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//			}
-//			/*if*/
-//			pCasa = ObterCasa ( linha - i , coluna + i , pTab);
-//			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//			}
-//			/*if*/
-//			pCasa = ObterCasa ( linha - i , coluna + i , pTab);
-//			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//			}
-//			/*if*/
-//			pCasa = ObterCasa ( linha - i , coluna - i , pTab);
-//			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//			}
-//			/*if*/
-//
-//		}
-//		/*for*/
-//		break;
-//
-//	case 'R':
-//
-//		for ( i=-1; i<2 ; i++) {
-//
-//			pCasa = ObterCasa ( linha , coluna + i , pTab);
-//			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//			}
-//			/*if*/
-//			pCasa = ObterCasa ( linha + 1 , coluna + i , pTab);
-//			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//			}
-//			/*if*/
-//			pCasa = ObterCasa ( linha + 2 , coluna + i , pTab);
-//			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//			}
-//			/*if*/
-//			pCasa = ObterCasa ( i , coluna , pTab);
-//			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//			}
-//			/*if*/
-//			pCasa = ObterCasa ( linha , 'A' + i , pTab);
-//			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
-//				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
-//			}
-//			/*if*/
-//		}
-//		/*for*/
-//
-//		break;
-//
-//	default:
-//		return TAB_CondRetPecaInvalida;
-//		break;
-//
-//	}
-//
-//	return TAB_CondRetOK;
-//}
+/***************************************************************************************************
+*
+*	$FC Função:	AtualizarListaAmeacantes
+*
+*	$ED Descrição da função
+*		Funcao que atualiza a lista de amecantes a casa especificada
+*
+*
+*	$EP Parâmetros
+*		linha (int contendo o numero da linha da casa)  
+*		coluna (char contendo o caractere da coluna da casa)  
+*			
+*		
+*
+****************************************************************************************************/
+
+TAB_tpCondRet AtualizarListaAmeacantes ( int linha , char coluna , TAB_tppTab pTab) {
+
+	tpCasa * pCasa;
+	tpPeca * pPeca;
+
+	pPeca = TAB_ObterPeca(linha,coluna,pTab);
+	pCasa = ObterCasa ( linha  , coluna , pTab);
+
+	while ( pCasa->pAmeacadas != NULL){
+		pPeca = (tpPeca *)LIS_ObterNo ( pCasa->pAmeacadas);
+		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor) { 
+			LIS_InserirNo( pCasa->pAmeacantes, pPeca);
+		}
+		LIS_IrProx(pCasa->pAmeacadas);
+	}
+	/*while*/
+
+	while ( pCasa->pAmeacadas != NULL){
+		pPeca = (tpPeca *)LIS_ObterNo ( pCasa->pAmeacadas);
+		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor) { 
+			LIS_InserirNo( pCasa->pAmeacantes, pPeca);
+		}
+		LIS_IrAnt(pCasa->pAmeacadas);
+	}
+
+	return TAB_CondRetOK;
+}
+
+/***************************************************************************************************
+*
+*	$FC Função:	AtualizarListaAmeacados
+*
+*	$ED Descrição da função
+*		Funcao que atualiza a lista de amecados a casa especificada
+*
+*
+*	$EP Parâmetros
+*		linha (int contendo o numero da linha da casa)  
+*		coluna (char contendo o caractere da coluna da casa)  
+*			
+*		
+*
+****************************************************************************************************/
+
+TAB_tpCondRet AtualizarListaAmeacados ( int linha , char coluna , TAB_tppTab pTab) {
+
+	tpCasa * pCasa;
+	tpPeca * pPeca;
+	int i;
+
+	pPeca = TAB_ObterPeca(linha,coluna,pTab);
+	pCasa = ObterCasa ( linha  , coluna , pTab);
+
+	switch (pPeca->nome)
+	{
+	case 'P':
+
+		pCasa = ObterCasa ( linha + 1 , coluna - 1 , pTab);
+		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+		}
+		/*if*/
+		pCasa = ObterCasa ( linha + 1 , coluna + 1 , pTab);
+		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+		}
+		/*if*/
+		break;
+
+	case 'T':
+
+		for ( i=0; i<8 ; i++) {
+
+			pCasa = ObterCasa ( i , coluna , pTab);
+			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+			}
+			/*if*/
+			pCasa = ObterCasa ( linha , 'A' + i , pTab);
+			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+			}
+			/*if*/
+		}
+		/*for*/
+
+		break;
+	case 'B':
+
+		for ( i=0; i<8 ; i++) {
+
+			pCasa = ObterCasa (linha + i , coluna + i , pTab);
+			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+			}
+			/*if*/
+			pCasa = ObterCasa (linha + i , coluna - i , pTab);
+			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+			}
+			/*if*/
+			pCasa = ObterCasa (linha - i , coluna + i , pTab);
+			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+			}
+			/*if*/
+			pCasa = ObterCasa (linha - i , coluna - i , pTab);
+			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+			}
+			/*if*/
+		}
+		/*for*/
+
+		break;
+
+	case 'C':
+
+		pCasa = ObterCasa ( linha + 2 , coluna + 1 , pTab);
+		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+		}
+		/*if*/
+		pCasa = ObterCasa ( linha + 2 , coluna - 1 , pTab);
+		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+		}
+		/*if*/
+		pCasa = ObterCasa ( linha - 2 , coluna + 1 , pTab);
+		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+		}
+		/*if*/
+		pCasa = ObterCasa ( linha - 2 , coluna - 1 , pTab);
+		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+		}
+		/*if*/
+		pCasa = ObterCasa ( linha + 1 , coluna + 2 , pTab);
+		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+		}
+		/*if*/
+		pCasa = ObterCasa ( linha + 1 , coluna - 2 , pTab);
+		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+		}
+		/*if*/
+		pCasa = ObterCasa ( linha - 1 , coluna + 2 , pTab);
+		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+		}
+		/*if*/
+		pCasa = ObterCasa ( linha - 1 , coluna - 2 , pTab);
+		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+		}
+		/*if*/
+
+		break;
+
+	case 'D':
+		for ( i=0; i<8 ; i++) {
+
+			pCasa = ObterCasa ( linha + i , coluna + i , pTab);
+			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+			}
+			/*if*/
+			pCasa = ObterCasa ( linha - i , coluna + i , pTab);
+			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+			}
+			/*if*/
+			pCasa = ObterCasa ( linha - i , coluna + i , pTab);
+			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+			}
+			/*if*/
+			pCasa = ObterCasa ( linha - i , coluna - i , pTab);
+			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+			}
+			/*if*/
+
+		}
+		/*for*/
+		break;
+
+	case 'R':
+
+		for ( i=-1; i<2 ; i++) {
+
+			pCasa = ObterCasa ( linha , coluna + i , pTab);
+			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+			}
+			/*if*/
+			pCasa = ObterCasa ( linha + 1 , coluna + i , pTab);
+			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+			}
+			/*if*/
+			pCasa = ObterCasa ( linha + 2 , coluna + i , pTab);
+			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+			}
+			/*if*/
+			pCasa = ObterCasa ( i , coluna , pTab);
+			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+			}
+			/*if*/
+			pCasa = ObterCasa ( linha , 'A' + i , pTab);
+			if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+				LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+			}
+			/*if*/
+		}
+		/*for*/
+
+		break;
+
+	default:
+		return TAB_CondRetPecaInvalida;
+		break;
+
+	}
+
+	return TAB_CondRetOK;
+}

@@ -1,4 +1,19 @@
-Microsoft (R) Incremental Linker Version 10.00.30319.01
+Tab.c
+.\Tab.c(529) : warning C4189: 'distanciaColunas' : local variable is initialized but not referenced
+.\Tab.c(744) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(757) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(762) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(767) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(772) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(830) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(835) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(840) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(845) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(859) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(864) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(869) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(879) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+Microsoft (R) Incremental Linker Version 10.00.40219.01
 Copyright (C) Microsoft Corporation.  All rights reserved.
 
 /OUT:TesteTab.exe 

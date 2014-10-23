@@ -57,8 +57,8 @@ limpa :
 ### Dependências de módulos objeto a compilar
 
 $(Fobj)\TestTab.obj :  {$(Pc)}\TestTab.c \
-    {$(PDEFAULT)}GENERICO.h           {$(PDEFAULT)}LERPARM.h            {$(PDEFAULT)}LISTA.h              \
-    {$(PDEFAULT)}TST_ESPC.h           {$(PDEFAULT)}TST_Espc.h          
+    {$(PDEFAULT)}GENERICO.h           {$(PDEFAULT)}LERPARM.h            {$(PDEFAULT)}TST_ESPC.h           \
+    {$(PDEFAULT)}TST_Espc.h          
    cl $(O) $(OPT) /Fo$(Fobj)\ $(Fc)\$(@B).c >> $(Ferr)\$(NOME).err
 
 $(Fobj)\Tab.obj :  {$(Pc)}\Tab.c \
