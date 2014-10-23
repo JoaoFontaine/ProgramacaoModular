@@ -1,0 +1,23 @@
+Data,		Horas,	Tipo Tarefa,	Descrição da tarefa;
+
+27/09/2014,	2,	Estudo,		Estudo do arcabouço e seu funcionamento;
+
+28/09/2014,	3,	Estudo,		Estudo do arcabouço e seu funcionamento;
+
+04/10/2014,	2,	Modelagem,	Ajustes na arquitetura do projeto;
+
+05/10/2014,	2,	Codificar,	Começar a desenvolver o módulo lista;
+
+11/10/2014,	3,	Estudo,		Entender o processo de testes;
+
+11/10/2014,	4,	testes,		testes e correção de código;
+
+12/10/2014,	2,	Codificar,	início do módulo tabuleiro;
+
+18/10/2014,	4,	Codificar,	finalização do módulo tabuleiro;
+
+19/10/2014,	8,	Testes,		testes e correções e modificações do módulo tabuleiro;
+
+20/10/2014,	1,	Finalização,	Ultimos ajustes;
+
+22/10/2014,	5,	Correções,	Correção de problemas que passaram despercebidos

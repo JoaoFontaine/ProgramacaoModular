@@ -1,0 +1,96 @@
+// Script:    TesteLista.script
+// Autores:   Guilherme Araujo e Joao Pedro Fontaine
+// Propósito: Testar superficialmente o módulo lista genérica duplamente encadeada
+//
+
+== Inicializar valores
+=declararparm   lista0  int 0
+=declararparm   lista1  int 1
+=declararparm   lista2  int 2
+
+=declararparm   str0    string  "abc"
+=declararparm   str1    string  "xpto"
+=declararparm   str2    string  "xxx"
+=declararparm   str3    string  "xptuu"
+
+=declararparm   OK             int  0
+=declararparm   ListaVazia     int  2
+=declararparm   FimLista       int  4
+=declararparm   NaoExiste      int  3
+=declararparm   FaltouMemoria  int  6
+=declararparm   NoCorrPrim     int  5
+
+=declararparm   pNULL          int  0
+=declararparm   pNaoNULL       int  1
+
+== Criar a lista 0
+=criarlista lista0 str0 OK
+
+== Verificar ObterValor relativo a lista 
+=obteridlista  lista0   str0     
+
+== Inserir elemento em lista vazia
+=insno    lista0   str0   OK
+=obterno  lista0   str0   pNaoNULL
+
+== Alterar elemento corrente
+=alterarnocorr lista0 str1 OK 
+
+== Excluir elemento corrente
+=obterno  lista0   str1   pNaoNULL
+=excluirnocorr  lista0            
+
+== Excluir elemento de lista vazia
+=excluirnocorr lista0                    
+
+== Ver se a lista ficou vazia
+=obterno  lista0   str2   pNULL
+
+== Destruir a lista
+=destruirlista   lista0    OK
+
+== Criar uma lista com dois elementos
+=criarlista      lista1    str1    OK
+=insno     lista1   str0   OK
+=insno     lista1   str1   OK
+
+== Destruir a lista
+=destruirlista   lista1    OK
+
+== Criar uma lista com quatro elementos
+=criarlista      lista2    str2    OK
+=insno     lista2   str0   OK
+=insno     lista2   str1   OK
+=insno     lista2   str2   OK
+=insno     lista2   str3   OK
+
+== Verificar a lista de trás para frente
+=obterno  lista2   str3   pNaoNULL
+=irant    lista2    OK
+=obterno  lista2   str2   pNaoNULL
+=irant    lista2    OK
+=obterno  lista2   str1   pNaoNULL
+=irant     lista2    OK
+=obterno  lista2   str0   pNaoNULL
+=irant     lista2   NoCorrPrim
+
+== Verificar a lista de frente para trás
+=obterno  lista2   str0   pNaoNULL
+=irprox     lista2   OK
+=obterno  lista2   str1   pNaoNULL
+=irprox     lista2   OK
+=obterno  lista2   str2   pNaoNULL
+=irprox    lista2   OK
+=obterno  lista2   str3   pNaoNULL
+=irprox     lista2  FimLista
+
+== Verificar ir para o primeiro elemento
+=irinicio lista2
+
+== Verificar ir para o ultimo elemento
+=irfinal lista2
+
+== Destruir a lista
+=destruirlista   lista2   OK
+
+// fim
