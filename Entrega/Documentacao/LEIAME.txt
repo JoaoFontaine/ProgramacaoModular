@@ -1,0 +1,11 @@
+// Como utilizar os programas: "TesteTab.exe" e "TesteLista.exe"
+//
+
+-> Na janela de comando use os seguintes comandos:
+
+	- cd < diretório onde esta o executavel "TesteLista.exe" >
+	- testelista /stestelista
+	- cd < diretório onde esta o executavel "TesteTab.exe" >
+	- testab /stestetab
+
+//fim
