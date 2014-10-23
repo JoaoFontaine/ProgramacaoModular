@@ -8,16 +8,6 @@
 #define LINHAPEOESPRETOS 7
 
 
-typedef struct TAB_tagPeca {
-
-	char nome;
-	/* Nome da peca */
-	char cor;
-	/* Cor da peca */
-
-} tpPeca ;
-
-
 typedef struct TAB_tagCasa {
 
 	tpPeca *  Peca; 
@@ -138,7 +128,7 @@ TAB_tppPeca TAB_ObterPeca ( int linha , char coluna, TAB_tppTab pTab ){
 	
 	pCasa= ObterCasa(linha, coluna, pTab);
 	if(pCasa->Peca->nome == 'V'){
-		printf("\n Casa Vazia");
+		//printf("\n Casa Vazia");
 		return NULL;
 	}
 	/*if*/

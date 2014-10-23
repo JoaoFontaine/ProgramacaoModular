@@ -23,6 +23,15 @@
 **************************************************************************************/
 #include "LISTA.h"
 /* Tipo exportado que referencia a estrutura tabuleiro */
+typedef struct TAB_tagPeca {
+
+	char nome;
+	/* Nome da peca */
+	char cor;
+	/* Cor da peca */
+
+} tpPeca ;
+
 typedef struct TAB_tagTab * TAB_tppTab ;
 
 /* Tipo exportado que referencia a estrutura peca */

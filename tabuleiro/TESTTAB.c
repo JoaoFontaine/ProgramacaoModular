@@ -19,7 +19,6 @@
 #include    "GENERICO.h"
 #include    "LERPARM.h"
 
-#include    "LISTA.h"
 #include	"TAB.h"
 
 static const char RESET_TAB_CMD				  [ ] = "=resetteste"     ;
@@ -148,7 +147,7 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
                return TST_CondRetParm ;
             } /* if */
 
-			vtTab[inxTab] = TAB_CriarTab;
+			vtTab[inxTab] = TAB_CriarTab();
 
 			if( vtTab[ inxTab ] == NULL)
 			{
