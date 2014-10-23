@@ -179,7 +179,7 @@
 		
 		if( pLista->pNoCorr == NULL )
 		{
-			printf(" \n Lista Vazia");
+			//printf(" \n Lista Vazia");
 			return NULL;
 		}
 
@@ -316,7 +316,7 @@
 *  Função: LIS  &Ir para o elemento inicial
 *  ****/
 
-   void IrInicioLista( LIS_tppLista pLista )
+   void LIS_IrInicioLista( LIS_tppLista pLista )
    {
       assert( pLista != NULL ) ;
 
@@ -329,7 +329,7 @@
 *  Função: LIS  &Ir para o elemento final
 *  ****/
 
-   void IrFinalLista( LIS_tppLista pLista )
+   void LIS_IrFinalLista( LIS_tppLista pLista )
    {
 
          assert( pLista != NULL ) ;

@@ -175,6 +175,7 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
 
 			CondRet = TAB_MoverPeca (ValDado1, CharDado1,
 				                         ValDado2, CharDado2, vtTab[inxTab]);
+			
 
             return TST_CompararInt( CondRetEsp , CondRet ,
                      "Condicao de retorno errada ao mover." ) ; 
@@ -217,7 +218,7 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
 
 
             CondRet = TAB_InserirPeca(ValDado1 ,CharDado1, CharDado2, CharDado3, vtTab[ inxTab ]) ;
-
+			
             return TST_CompararInt( CondRetEsp , CondRet ,
                      "Condicao de retorno errada ao inserir." ) ;
 
@@ -228,10 +229,10 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
          else if ( strcmp( ComandoTeste , RETIRAR_PECA_CMD ) == 0 )
          {
 
-            numLidos = LER_LerParametros( "iic" ,
-                  &inxTab, &ValDado1, &CharDado1 ) ;
+            numLidos = LER_LerParametros( "iici" ,
+                  &inxTab, &ValDado1, &CharDado1, &CondRetEsp ) ;
 
-            if ( ( numLidos != 3 )
+            if ( ( numLidos != 4 )
               || ( ! ValidarInxTab( inxTab , NAO_VAZIO )) )
             {
                return TST_CondRetParm ;
@@ -249,10 +250,10 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
          else if ( strcmp( ComandoTeste , OBTER_LST_AMEACANTES_CMD ) == 0 )
          {
 
-           numLidos = LER_LerParametros( "iii" ,
-                  &inxTab, &ValDado1, &CharDado1 ) ;
+           numLidos = LER_LerParametros( "iici" ,
+                  &inxTab, &ValDado1, &CharDado1, &CondRetEsp ) ;
 
-            if ( ( numLidos != 3 )
+            if ( ( numLidos != 4 )
               || ( ! ValidarInxTab( inxTab , NAO_VAZIO )) )
             {
                return TST_CondRetParm ;
@@ -268,10 +269,10 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
          else if ( strcmp( ComandoTeste , OBTER_LST_AMEACADOS_CMD ) == 0 )
          {
 
-           numLidos = LER_LerParametros( "iii" ,
-                  &inxTab, &ValDado1, &CharDado1 ) ;
+           numLidos = LER_LerParametros( "iici" ,
+                  &inxTab, &ValDado1, &CharDado1, &CondRetEsp ) ;
 
-            if ( ( numLidos != 3 )
+            if ( ( numLidos != 4 )
               || ( ! ValidarInxTab( inxTab , NAO_VAZIO )) )
             {
                return TST_CondRetParm ;
