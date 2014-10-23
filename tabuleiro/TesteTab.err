@@ -1,3 +1,4 @@
+TestTab.c
 Tab.c
 .\Tab.c(529) : warning C4189: 'distanciaColunas' : local variable is initialized but not referenced
 .\Tab.c(744) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
@@ -13,7 +14,9 @@ Tab.c
 .\Tab.c(864) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
 .\Tab.c(869) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
 .\Tab.c(879) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-Microsoft (R) Incremental Linker Version 10.00.40219.01
+Lista.c
+.\Lista.c(90) : warning C4100: 'idLista' : unreferenced formal parameter
+Microsoft (R) Incremental Linker Version 10.00.30319.01
 Copyright (C) Microsoft Corporation.  All rights reserved.
 
 /OUT:TesteTab.exe 

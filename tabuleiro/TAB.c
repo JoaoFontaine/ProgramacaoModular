@@ -460,6 +460,26 @@ TAB_tpCondRet ConfereMovimentoCavaloValido(int linhaOrig , char colunaOrig, int 
 }/* Fim função: ConfereMovimentoCavaloValido */
 
 
+/***************************************************************************************************
+*
+*	$FC Função:	ConferePercursoVazio
+*
+*	$ED Descrição da função
+*		Função que confere se o percurso percorrido por uma peca até chegar em sua casa destino
+*		possui uma casa que nao está vazia. Caso a peca movimentada seja o cavalo inclui-se a opcao
+*		de pular casas
+*
+*	$EP Parâmetros
+*		linhaOrig (int contendo o numero da linha onde está a peça a ser movida)  
+*		colunaOrig (char contendo o caractere da coluna onde está a peça a ser movida)  
+*		linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
+*		colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
+*			
+*		
+*
+****************************************************************************************************/
+
+
 TAB_tpCondRet ConferePercursoVazio(int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab){
 
 	int i;
@@ -508,6 +528,26 @@ TAB_tpCondRet ConferePercursoVazio(int linhaOrig , char colunaOrig, int linhaDes
 	return TAB_CondRetOK;
 	//return ConfereCaptura(linhaOrig, colunaOrig, linhaDest , colunaDest, pTab);
 }
+/* Fim função: ConferePercursoVazio */
+
+
+/***************************************************************************************************
+*
+*	$FC Função:	ConfereCaptura
+*
+*	$ED Descrição da função
+*		Função que confere se a casa a qual a peca sera movimentada esta sendo ocupada por
+*		uma peca inimiga, nesse casa a peca inimiga é capturada e a movimentada ocupar seu lugar
+*
+*	$EP Parâmetros
+*		linhaOrig (int contendo o numero da linha onde está a peça a ser movida)  
+*		colunaOrig (char contendo o caractere da coluna onde está a peça a ser movida)  
+*		linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
+*		colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
+*			
+*		
+*
+****************************************************************************************************/
 
 TAB_tpCondRet ConfereCaptura(int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab){
 
@@ -523,6 +563,27 @@ TAB_tpCondRet ConfereCaptura(int linhaOrig , char colunaOrig, int linhaDest , ch
 
 	return TAB_CondRetOK;
 }
+/* Fim função: ConfereCaptura */
+
+
+/***************************************************************************************************
+*
+*	$FC Função:	MoverPeao
+*
+*	$ED Descrição da função
+*		Função que confere se o movimento requisitado para uma peca do tipo peao atende às regras de 
+*		movimentacao
+*
+*	$EP Parâmetros
+*		linhaOrig (int contendo o numero da linha onde está a peça a ser movida)  
+*		colunaOrig (char contendo o caractere da coluna onde está a peça a ser movida)  
+*		linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
+*		colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
+*			
+*		
+*
+****************************************************************************************************/
+
 TAB_tpCondRet MoverPeao ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
 
 	char corPeao= TAB_ObterPeca(linhaOrig,colunaOrig,pTab)->cor;
@@ -571,7 +632,27 @@ TAB_tpCondRet MoverPeao ( int linhaOrig , char colunaOrig, int linhaDest , char 
 	}
 
 	return TAB_CondRetMovInv;
+
 }
+/* Fim função: MoverPeao */
+
+/***************************************************************************************************
+*
+*	$FC Função:	MoverTorre
+*
+*	$ED Descrição da função
+*		Função que confere se o movimento requisitado para uma peca do tipo torre atende às regras de 
+*		movimentacao
+*
+*	$EP Parâmetros
+*		linhaOrig (int contendo o numero da linha onde está a peça a ser movida)  
+*		colunaOrig (char contendo o caractere da coluna onde está a peça a ser movida)  
+*		linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
+*		colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
+*			
+*		
+*
+****************************************************************************************************/
 
 TAB_tpCondRet MoverTorre ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
 
@@ -587,6 +668,25 @@ TAB_tpCondRet MoverTorre ( int linhaOrig , char colunaOrig, int linhaDest , char
 	}
 	return TAB_CondRetMovInv;
 }
+/* Fim função: MoverTorre */
+
+/***************************************************************************************************
+*
+*	$FC Função:	MoverBispo
+*
+*	$ED Descrição da função
+*		Função que confere se o movimento requisitado para uma peca do tipo bispo atende às regras de 
+*		movimentacao
+*
+*	$EP Parâmetros
+*		linhaOrig (int contendo o numero da linha onde está a peça a ser movida)  
+*		colunaOrig (char contendo o caractere da coluna onde está a peça a ser movida)  
+*		linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
+*		colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
+*			
+*		
+*
+****************************************************************************************************/
 
 TAB_tpCondRet MoverBispo ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
 
@@ -602,6 +702,25 @@ TAB_tpCondRet MoverBispo ( int linhaOrig , char colunaOrig, int linhaDest , char
 	}
 	return TAB_CondRetMovInv;
 }
+/* Fim função: MoverBispo */
+
+/***************************************************************************************************
+*
+*	$FC Função:	MoverCavalo
+*
+*	$ED Descrição da função
+*		Função que confere se o movimento requisitado para uma peca do tipo cavalo atende às regras de 
+*		movimentacao
+*
+*	$EP Parâmetros
+*		linhaOrig (int contendo o numero da linha onde está a peça a ser movida)  
+*		colunaOrig (char contendo o caractere da coluna onde está a peça a ser movida)  
+*		linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
+*		colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
+*			
+*		
+*
+****************************************************************************************************/
 
 TAB_tpCondRet MoverCavalo ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
 
@@ -612,6 +731,26 @@ TAB_tpCondRet MoverCavalo ( int linhaOrig , char colunaOrig, int linhaDest , cha
 	}
 	return TAB_CondRetMovInv;
 }
+
+/* Fim função: MoverCavalo */
+
+/***************************************************************************************************
+*
+*	$FC Função:	MoverDama
+*
+*	$ED Descrição da função
+*		Função que confere se o movimento requisitado para uma peca do tipo dama atende às regras de 
+*		movimentacao
+*
+*	$EP Parâmetros
+*		linhaOrig (int contendo o numero da linha onde está a peça a ser movida)  
+*		colunaOrig (char contendo o caractere da coluna onde está a peça a ser movida)  
+*		linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
+*		colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
+*			
+*		
+*
+****************************************************************************************************/
 
 TAB_tpCondRet MoverDama ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
 
@@ -627,6 +766,28 @@ TAB_tpCondRet MoverDama ( int linhaOrig , char colunaOrig, int linhaDest , char 
 			return condRet;
 	}
 	return TAB_CondRetMovInv;
+
+
+}/* Fim função: MoverDama */
+
+
+	/***************************************************************************************************
+*
+*	$FC Função:	MoverRei
+*
+*	$ED Descrição da função
+*		Função que confere se o movimento requisitado para uma peca do tipo rei atende às regras de 
+*		movimentacao
+*
+*	$EP Parâmetros
+*		linhaOrig (int contendo o numero da linha onde está a peça a ser movida)  
+*		colunaOrig (char contendo o caractere da coluna onde está a peça a ser movida)  
+*		linhaDest (int contendo o numero da linha para onde a peça deve ser movida)  
+*		colunaDest (char contendo o caractere da coluna para onde a peça deve ser movida)
+*			
+*		
+*
+****************************************************************************************************/
 }
 
 TAB_tpCondRet MoverRei ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
@@ -646,6 +807,7 @@ TAB_tpCondRet MoverRei ( int linhaOrig , char colunaOrig, int linhaDest , char c
 	return condRet;
 
 }
+/* Fim função: MoverRei */
 
 /***************************************************************************************************
 *

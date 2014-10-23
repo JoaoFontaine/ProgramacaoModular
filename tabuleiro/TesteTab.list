@@ -4,7 +4,7 @@ GERADOR DE SCRIPT DE DIRETIVAS PARA MAKE
 Composição do construto: testetab.comp
 
    Nome do Construto:           TesteTab
-   Diretório base:              E:\teste
+   Diretório base:              C:\Users\guilherme\Desktop\PUC-RIO\Programacao modular\Arcabouço\tab
 
    Arquivo composição:          testetab.comp
    Arquivo plataforma:          gmake.parm
@@ -86,8 +86,8 @@ Estatísticas do construto
 
    Estatísticas do arquivo: Tab.c
       Total linhas:             896
-      Linhas de código:         536
-      Linhas de comentário:     145
+      Linhas de código:         534
+      Linhas de comentário:     147
       Linhas em branco:         163
    Arquivos de inclusão de que necessita
       LISTA.h
@@ -129,16 +129,16 @@ Totais por tipo de arquivo
 
   Tipo: c        Path: .
          Total linhas do tipo:      1657
-         Linhas de código:           878
-         Linhas de comentário:       334
+         Linhas de código:           876
+         Linhas de comentário:       336
          Linhas em branco:           415
          Arquivos deste tipo:          3
 
 Totais para todo o construto TesteTab
 
    Total linhas:              3670
-   Linhas de código:          1065
-   Linhas de comentário:      1884
+   Linhas de código:          1063
+   Linhas de comentário:      1886
    Linhas em branco:           691
    Arquivos processados:         9
 
