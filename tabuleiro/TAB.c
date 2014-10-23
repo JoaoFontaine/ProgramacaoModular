@@ -128,7 +128,6 @@ TAB_tppPeca TAB_ObterPeca ( int linha , char coluna, TAB_tppTab pTab ){
 
 	pCasa= ObterCasa(linha, coluna, pTab);
 	if(pCasa->Peca->nome == 'V'){
-		//printf("\n Casa Vazia");
 		return NULL;
 	}
 	/*if*/
@@ -213,6 +212,8 @@ TAB_tpCondRet TAB_MoverPeca ( int linhaOrig , char colunaOrig, int linhaDest , c
 		TAB_InserirPeca(linhaDest, colunaDest, peca->cor, peca->nome, pTab);
 		TAB_RetirarPeca(linhaOrig, colunaOrig, pTab);
 	}
+
+	/* Tivemos problemas na implementação dessas funções, serão usadas em uma futura atualização*/
 
 	//AtualizarListaAmeacantes ( linhaDest, colunaDest, pTab);
 	//AtualizarListaAmeacados ( linhaDest, colunaDest, pTab);
@@ -526,7 +527,6 @@ TAB_tpCondRet ConferePercursoVazio(int linhaOrig , char colunaOrig, int linhaDes
 		return TAB_CondRetCasaCheia;
 	}
 	return TAB_CondRetOK;
-	//return ConfereCaptura(linhaOrig, colunaOrig, linhaDest , colunaDest, pTab);
 }
 /* Fim função: ConferePercursoVazio */
 
@@ -815,6 +815,7 @@ TAB_tpCondRet MoverRei ( int linhaOrig , char colunaOrig, int linhaDest , char c
 *
 *	$ED Descrição da função
 *		Funcao que atualiza a lista de amecantes a casa especificada
+*		Atualmente NAO está funcionando, ficará para uma futura implementação
 *
 *
 *	$EP Parâmetros
@@ -859,6 +860,7 @@ TAB_tpCondRet AtualizarListaAmeacantes ( int linha , char coluna , TAB_tppTab pT
 *
 *	$ED Descrição da função
 *		Funcao que atualiza a lista de amecados a casa especificada
+*		Atualmente NAO está funcionando, ficará para uma futura implementação
 *
 *
 *	$EP Parâmetros
