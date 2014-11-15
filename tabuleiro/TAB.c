@@ -788,7 +788,7 @@ TAB_tpCondRet MoverDama ( int linhaOrig , char colunaOrig, int linhaDest , char 
 *		
 *
 ****************************************************************************************************/
-}
+
 
 TAB_tpCondRet MoverRei ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
 
