@@ -1,5 +1,5 @@
-/* Nome_do_Aluno1 Matricula Turma */
-/* Nome_do_Aluno2 Matricula Turma */
+/* Guilherme Araujo 1311835 Turma */
+/* Joao Pedro Fontaine Matricula Turma */
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -9,9 +9,9 @@
 
 typedef int (*funcp) ();
 
-static unsigned char comeco[]={0x55,0x89,0xe5};
+static unsigned char comeco[]={0x55,0x89,0xe5,0x53,0x83,0xec,0x14}; /* salva o ebx e aloca espaco para 5 variaveis locais */
 
-static unsigned char final[]={0x89,0xec,0x5d,0xc3};
+static unsigned char final[]={0x83,0xec,0x14,0x5b,0x89,0xec,0x5d,0xc3};  /* libera o ebx e o espaco das 5 variaveis locais */
 
 
 
@@ -55,12 +55,18 @@ funcp geracod (FILE *f){
     FILE *myfp;
 	int jumpsnum[50];
 	int jumpslinha[50];
-	posicao = uniVet(codigo, comeco, posicao, 3);
+	int enderecosnum[50];
+	int enderecoslinha[50];
+	posicao = uniVet(codigo, comeco, posicao, 7);
 
 	if ((myfp = fopen ("programa", "r")) == NULL){
 		perror ("nao conseguiu abrir arquivo!");
 	}
 	while ((c = fgetc(myfp)) != EOF) {
+
+		enderecosnum[line-1]=(int) &codigo[posicao];  /*armazena os enderecos dos comandos*/
+		enderecoslinha[line-1] = line;				/*armazena as linhas do comando  */
+
 		switch (c) {
 		  case 'r': {  /* retorno */
 			int idx;
@@ -90,7 +96,7 @@ funcp geracod (FILE *f){
 					break;
 					}
 			}
-			posicao = uniVet(codigo,final,posicao,4);
+			posicao = uniVet(codigo,final,posicao,8);
 			break;
 			}
 		
@@ -104,8 +110,8 @@ funcp geracod (FILE *f){
 			if (var1 != '$') checkVar(var1, idx1, line);
 			printf("ifeq %c%d %c%d %d\n", var0, idx0, var1, idx1, num);
 
-			jumpsnum[i]=num;
-			jumpslinha[i]=line;
+			jumpsnum[i]=num;      /*armazena os numeros dos desvios */
+			jumpslinha[i]=line;   /*armazena a linha em que há o comando de desvio */
 			switch (var1) {
 				case '$': {
 					
