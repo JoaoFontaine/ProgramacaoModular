@@ -11,9 +11,9 @@ typedef int (*funcp) ();
 
 static unsigned char comeco[]={0x55,0x89,0xe5,0x53,0x83,0xec,0x14}; /* salva o ebx e aloca espaco para 5 variaveis locais */
 
-static unsigned char final[]={0x83,0xec,0x14,0x5b,0x89,0xec,0x5d,0xc3};  /* libera o ebx e o espaco das 5 variaveis locais */
+static unsigned char final[]={0x83,0xc4,0x14,0x5b,0x89,0xec,0x5d,0xc3};  /* libera o ebx e o espaco das 5 variaveis locais */
 
-
+static unsigned char marcadorDesvio[]={0x39,0xc8,0x74,0x00};
 
 
 static void error (const char *msg, int line) {
@@ -44,6 +44,30 @@ int uniVet (unsigned char vet1[], unsigned char vet2[], int posicao, int tamVet2
 	return posicao;
 }
 
+void calculaDesvio(unsigned char codigo[], int jumpsnum[], int jumpslinha[], int jumpsdesvio[], int enderecosnum[], int enderecoslinha[]){
+	int linhaInicial;
+	int linhaDestino;
+	int diferencaDesvio;
+	int posicao;
+	int i;
+	for(i=0;i<50;i++){
+		if(jumpslinha[i]!=0){
+			linhaDestino = jumpsnum[i];
+			linhaInicial = jumpslinha[i];
+			diferencaDesvio = enderecosnum[linhaDestino]-enderecosnum[linhaInicial];
+			posicao = jumpsdesvio[i];
+			codigo[posicao]=diferencaDesvio;
+		}
+	}
+	/* Essa funcao vai procurar o comando de "je" no vetor de codigo e substituir o '0x00' pela diferenca entre os
+	   enderecos   */
+
+	return;
+}
+
+
+
+
 
 funcp geracod (FILE *f){
 
@@ -51,13 +75,18 @@ funcp geracod (FILE *f){
 	int posicao = 0;
     int line = 1;
     int  c;
-	int i=0;
+	int i;
     FILE *myfp;
 	int jumpsnum[50];
 	int jumpslinha[50];
+	int jumpsdesvio[50];
 	int enderecosnum[50];
 	int enderecoslinha[50];
 	posicao = uniVet(codigo, comeco, posicao, 7);
+	for(i=0;i<50;i++){
+		jumpslinha[i]=0;
+	}
+	i=0;
 
 	if ((myfp = fopen ("programa", "r")) == NULL){
 		perror ("nao conseguiu abrir arquivo!");
@@ -80,7 +109,8 @@ funcp geracod (FILE *f){
 				case '$': {
 					codigo[posicao] = 0xb8;
 					posicao ++;
-				/*	codigo[posicao] = idx;   */
+				    codigo[posicao] = idx; /*DUVIDA*/
+					posicao=posicao+4;
 
 					break;
 					}
@@ -92,7 +122,11 @@ funcp geracod (FILE *f){
 					break;
 					}
 				case 'v': {
-					/**/
+					unsigned char aux[] = {0x8b,0x45};
+					posicao = uniVet(codigo,aux,posicao,2);
+					codigo[posicao]=(256-(idx*4)) ; /* deslocamento do ebp DUVIDA */
+					posicao++;
+					break ; 
 					break;
 					}
 			}
@@ -112,10 +146,59 @@ funcp geracod (FILE *f){
 
 			jumpsnum[i]=num;      /*armazena os numeros dos desvios */
 			jumpslinha[i]=line;   /*armazena a linha em que há o comando de desvio */
-			switch (var1) {
+			switch (var0) {
 				case '$': {
-					
+					codigo[posicao] = 0xb9;
+					posicao++;
+					codigo[posicao] = idx0; /*DUVIDA*/
+					posicao=posicao+4;
+					break;
+					}
+
+				case'p':{
+					unsigned char aux[] = {0x8b,0x4d};
+					posicao = uniVet(codigo,aux,posicao,2);
+					codigo[posicao] = ((idx0 *4) + 8);  
+					posicao ++;
+					break;
+					}
+				
+				case 'v':{
+					unsigned char aux[] = {0x8b,0x4d};
+					posicao = uniVet(codigo,aux,posicao,2);
+					codigo[posicao]=(256-(idx1*4)) ; /* deslocamento do ebp DUVIDA */
+					posicao++;
+					break ; 
+					}
 			}
+			switch (var1){
+				case '$': {
+				    codigo[posicao] = 0xb8;
+					posicao++;
+					codigo[posicao] = idx0; /*DUVIDA*/
+					posicao=posicao+4;
+					break;
+					}
+
+				case'p':{
+					unsigned char aux[] = {0x8b,0x45};
+					posicao = uniVet(codigo,aux,posicao,2);
+					codigo[posicao] = ((idx0 *4)+8); 
+					posicao ++;
+					break;
+					}
+				
+				case 'v':{
+					unsigned char aux[] = {0x8b,0x45};
+					posicao = uniVet(codigo,aux,posicao,2);
+					codigo[posicao]=(256-(idx1*4)) ; /* deslocamento do ebp DUVIDA */
+					posicao++;
+					break ; 
+					}
+			}
+			posicao = uniVet(codigo,marcadorDesvio,posicao,4);
+			jumpsdesvio[i] = posicao;
+			i++;
 			break;
 		  }
 
@@ -131,12 +214,15 @@ funcp geracod (FILE *f){
 			checkVar(var2, idx2, line);
 			printf("%c%d %c %c%d -> %c%d\n",
 			        var0, idx0, op, var1, idx1, var2, idx2);
+
 			break;
 		}	
 		default: error("comando desconhecido", line);
 		}
 		line ++;
 		fscanf(myfp, " ");
-	}	
+		}
+
+	calculaDesvio(codigo,jumpsnum,jumpslinha,jumpsdesvio,enderecosnum,enderecoslinha);	
 	return (funcp)codigo;
 	}
