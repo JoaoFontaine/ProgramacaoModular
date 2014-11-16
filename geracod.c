@@ -44,18 +44,18 @@ int uniVet (unsigned char vet1[], unsigned char vet2[], int posicao, int tamVet2
 	return posicao;
 }
 
-void calculaDesvio(unsigned char codigo[], int jumpsnum[], int jumpslinha[], int jumpsdesvio[], int enderecosnum[], int enderecoslinha[]){
+void calculaDesvio(unsigned char codigo[], int desvionum[], int desviolinha[], int desvioposicao[], int enderecosnum[], int enderecoslinha[]){
 	int linhaInicial;
 	int linhaDestino;
 	int diferencaDesvio;
 	int posicao;
 	int i;
 	for(i=0;i<50;i++){
-		if(jumpslinha[i]!=0){
-			linhaDestino = jumpsnum[i];
-			linhaInicial = jumpslinha[i];
+		if(desviolinha[i]!=0){
+			linhaDestino = desvionum[i];
+			linhaInicial = desviolinha[i];
 			diferencaDesvio = enderecosnum[linhaDestino]-enderecosnum[linhaInicial];
-			posicao = jumpsdesvio[i];
+			posicao = desvioposicao[i];
 			codigo[posicao]=diferencaDesvio;
 		}
 	}
@@ -77,14 +77,15 @@ funcp geracod (FILE *f){
     int  c;
 	int i;
     FILE *myfp;
-	int jumpsnum[50];
-	int jumpslinha[50];
-	int jumpsdesvio[50];
-	int enderecosnum[50];
-	int enderecoslinha[50];
+	int desvionum[50];			/*armazena os numeros para onde serão desviados */
+	int desviolinha[50];		/*armazena a linha em que há o comando de desvio */
+	int desvioposicao[50];		/*armazena a posicao no veto de codigo onde o desvio sera colocado */
+	int enderecosnum[50];		/*armazena os enderecos dos comandos*/
+	int enderecoslinha[50];		/*armazena as linhas do comando  */
+
 	posicao = uniVet(codigo, comeco, posicao, 7);
 	for(i=0;i<50;i++){
-		jumpslinha[i]=0;
+		desviolinha[i]=0;
 	}
 	i=0;
 
@@ -93,8 +94,8 @@ funcp geracod (FILE *f){
 	}
 	while ((c = fgetc(myfp)) != EOF) {
 
-		enderecosnum[line-1]=(int) &codigo[posicao];  /*armazena os enderecos dos comandos*/
-		enderecoslinha[line-1] = line;				/*armazena as linhas do comando  */
+		enderecosnum[line-1]=(int) &codigo[posicao];  
+		enderecoslinha[line-1] = line;				
 
 		switch (c) {
 		  case 'r': {  /* retorno */
@@ -144,8 +145,8 @@ funcp geracod (FILE *f){
 			if (var1 != '$') checkVar(var1, idx1, line);
 			printf("ifeq %c%d %c%d %d\n", var0, idx0, var1, idx1, num);
 
-			jumpsnum[i]=num;      /*armazena os numeros dos desvios */
-			jumpslinha[i]=line;   /*armazena a linha em que há o comando de desvio */
+			desvionum[i]=num;      
+			desviolinha[i]=line;   
 			switch (var0) {
 				case '$': {
 					codigo[posicao] = 0xb9;
@@ -197,7 +198,7 @@ funcp geracod (FILE *f){
 					}
 			}
 			posicao = uniVet(codigo,marcadorDesvio,posicao,4);
-			jumpsdesvio[i] = posicao;
+			desvioposicao[i] = posicao;
 			i++;
 			break;
 		  }
@@ -223,6 +224,6 @@ funcp geracod (FILE *f){
 		fscanf(myfp, " ");
 		}
 
-	calculaDesvio(codigo,jumpsnum,jumpslinha,jumpsdesvio,enderecosnum,enderecoslinha);	
+	calculaDesvio(codigo,desvionum,desviolinha,desvioposicao,enderecosnum,enderecoslinha);	
 	return (funcp)codigo;
 	}
