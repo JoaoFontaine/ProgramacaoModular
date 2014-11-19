@@ -1,0 +1,5 @@
+v0 := p0		// i = a
+v1 := v0 - $-3		// j = i-(-3)
+ifeq v1 $-15 5		// if (j == (-15)) goto 5
+ret v0			// return i
+ret v1			// return j

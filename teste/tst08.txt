@@ -1,0 +1,21 @@
+v0 := p0		// i = a
+v1 := p1		// j = b
+v2 := p2		// k = c
+v3 := p3		// l = d
+v4 := p4		// m = e
+v0 := p0 * v1		// i = a * j
+v0 := v0 * v2		// i = i * k
+v0 := v0 * v3		// i = i * l
+v0 := v0 * v4		// i = i * m
+v1 := p0 + v1		// j = a + j
+v1 := v1 + v2		// j = j + k
+v1 := v1 + v3		// j = j + l
+v1 := v1 + v4		// j = j + m
+v4 := v0 - v1		// m = i - j
+ret v4			// return m
+
+
+
+
+// Esse teste faz a multiplicacao dos 5 parametros e subtrai da soma desses
+   5 parametros, retornando o resultado //

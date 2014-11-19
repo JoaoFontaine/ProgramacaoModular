@@ -1,0 +1,2 @@
+v0 := p1		// i = b
+ret v0			// return i

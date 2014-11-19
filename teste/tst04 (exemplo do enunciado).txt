@@ -1,0 +1,6 @@
+v0 := $0 + $1 	//1: f = 1
+ifeq p0 $0 6	//2: if (n == 0) goto 6
+v0 := v0 * p0 	//3: f = f * n
+p0 := p0 - $1 	//4: n = n - 1
+ifeq $1 $1 2	//5: if (1 == 1) goto 2 -> if (true)
+ret v0		//6: retorna f
