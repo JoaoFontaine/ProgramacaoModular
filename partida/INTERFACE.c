@@ -19,25 +19,6 @@ void VerificaCor(char cor1){
 }
 
 
-/*
-int VerificaCheque(int linha, char coluna, TAB_tppTab pTab);
-
-
-int FimDeJogo(TAB_tppTab pTab){
-
-	TAB_tppPeca pPeca;
-	int i,j;
-
-	for(i=1; i<=LINHAS; i++){
-		for(j=0; j<=COLUNAS; j++){
-			pPeca = (TAB_tppPeca) TAB_ObterPeca(i, ('A'+j), pTab);
-			if( pPeca->nome == 'R'){
-				VerificaCheque(i, j, pTab);
-			}
-			
-*/
-
-
 void ReceberDigitacao (char cor,  TAB_tppTab pTab){
 
 	int linhaOrig;
@@ -93,7 +74,13 @@ void ReceberDigitacao (char cor,  TAB_tppTab pTab){
 
 
 
+int FimDeJogo (TAB_tppTab pTab) {
+	
+	if (TAB_VerificaXeque(pTab)==TAB_CondRetXequeMate) return 1;
 
+	return 0;
+}
+	
 
 
 int main(void){
@@ -140,6 +127,7 @@ int main(void){
 			ReceberDigitacao(cor1, pTab);
 		}
 		/*if*/
+	}
 
 
 		
