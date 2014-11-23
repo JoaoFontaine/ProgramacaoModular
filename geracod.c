@@ -1,5 +1,5 @@
-/* Guilherme Araujo 1311835 Turma */
-/* Joao Pedro Fontaine Matricula Turma */
+/* Guilherme Araujo 1311835 3WB */
+/* Joao Pedro Fontaine 0920931 3WA */
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -19,13 +19,24 @@ static void error (const char *msg, int line) {
 	exit(EXIT_FAILURE);
 }
 
+/***** Protótipos das funções encapuladas no módulo *****/
+
 void checkVar(char var, int idx, int line);
+
 int uniVet (unsigned char vet1[], unsigned char vet2[], int posicao, int tamVet2);
-void calculaDesvio(unsigned char codigo[], int desvionum[], int desviolinha[], int desvioposicao[], int enderecosnum[], int enderecoslinha[]);
+
+void calculaDesvio(unsigned char codigo[], int desvionum[], int desviolinha[], int desvioposicao[], int enderecosnum[]);
+
 int Atribuicao (unsigned char *codigo, int posicao, char var0, int idx0, char var1, int idx1, char op, char var2, int idx2);
+
 int DesvioCondicional(unsigned char *codigo, int posicao, char var0, int idx0, char var1, int idx1);
 
+
+/* Funções Encapsuladas no módulo */
+
+
 funcp geracod (FILE *myfp){
+
 	unsigned char *codigoRet;
 	unsigned char *codigo = (unsigned char*)malloc(NUM_MAX*(sizeof(unsigned char)));
 	int posicao = 0;
@@ -37,7 +48,6 @@ funcp geracod (FILE *myfp){
 	int desviolinha[50];		/*armazena a linha em que há o comando de desvio */
 	int desvioposicao[50];		/*armazena a posicao no veto de codigo onde o desvio sera colocado */
 	int enderecosnum[50];		/*armazena os enderecos dos comandos*/
-	int enderecoslinha[50];		/*armazena as linhas do comando  */
 	int idx0, idx1, idx2, num;
 	char var0, var1, var2, op;
 	unsigned char aux[] = {0x8b, 0x45};
@@ -51,7 +61,6 @@ funcp geracod (FILE *myfp){
 	while ((c = fgetc(myfp)) != EOF) {
 
 		enderecosnum[line-1] = posicao;  		/*armazena os enderecos dos comandos*/
-		enderecoslinha[line-1] = line;			/*armazena as linhas do comando  */
 
 		switch (c) {
 		case 'r':   /* retorno */
@@ -67,8 +76,6 @@ funcp geracod (FILE *myfp){
 				codigo[posicao++] = (unsigned char) ( idx0 >> 8 );
 				codigo[posicao++] = (unsigned char) ( idx0 >> 16 );
 				codigo[posicao++] = (unsigned char) ( idx0 >> 24 );
-				/*	codigo[posicao] = idx;   */
-
 				break;
 
 			case 'v': case 'p':
@@ -118,7 +125,7 @@ funcp geracod (FILE *myfp){
 	}	
 	posicao = uniVet(codigo,final,posicao,7);
 	codigo[posicao++] = 0xFF;
-	calculaDesvio(codigo,desvionum,desviolinha,desvioposicao,enderecosnum,enderecoslinha);
+	calculaDesvio(codigo,desvionum,desviolinha,desvioposicao,enderecosnum);
 	codigoRet = (unsigned char*)malloc(posicao*(sizeof(unsigned char)));
 	uniVet(codigoRet,codigo,0,posicao);
 	free(codigo);
@@ -148,7 +155,8 @@ int uniVet (unsigned char vet1[], unsigned char vet2[], int posicao, int tamVet2
 	return posicao;
 }
 
-void calculaDesvio(unsigned char codigo[], int desvionum[], int desviolinha[], int desvioposicao[], int enderecosnum[], int enderecoslinha[]){
+void calculaDesvio(unsigned char codigo[], int desvionum[], int desviolinha[], int desvioposicao[], int enderecosnum[]){
+
 	int linhaInicial;
 	int linhaDestino;
 	int diferencaDesvio;
