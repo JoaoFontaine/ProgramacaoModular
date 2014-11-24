@@ -1,5 +1,5 @@
 /* Guilherme Araujo 1311835 3WB */
-/* Joao Pedro Fontaine 0920931 3WA */
+/* Joao Pedro Fontaine de Carvalho 0920931 3WA */
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -95,7 +95,6 @@ funcp geracod (FILE *myfp){
 				error("comando invalido i",line);
 			if (var0 != '$') checkVar(var0, idx0, line);
 			if (var1 != '$') checkVar(var1, idx1, line);
-			printf("ifeq %c%d %c%d %d\n", var0, idx0, var1, idx1, num);
 
 			desvionum[i]=num;      /*armazena os numeros dos desvios */
 			desviolinha[i]=line;   /*armazena a linha em que há o comando de desvio */
@@ -156,7 +155,6 @@ int uniVet (unsigned char vet1[], unsigned char vet2[], int posicao, int tamVet2
 }
 
 void calculaDesvio(unsigned char codigo[], int desvionum[], int desviolinha[], int desvioposicao[], int enderecosnum[]){
-
 	int linhaInicial;
 	int linhaDestino;
 	int diferencaDesvio;
@@ -168,9 +166,11 @@ void calculaDesvio(unsigned char codigo[], int desvionum[], int desviolinha[], i
 			linhaInicial = desviolinha[i];
 			diferencaDesvio = enderecosnum[linhaDestino]-enderecosnum[linhaInicial];
 			posicao = desvioposicao[i];
+			/*
 			printf("\n*****************\n%d\n",enderecosnum[linhaDestino]);
 			printf("%d\n",enderecosnum[linhaInicial]);
 			printf("%d\n*****************\n",diferencaDesvio);
+			*/
 			codigo[posicao] = (unsigned char) diferencaDesvio;
 		}
 	}
