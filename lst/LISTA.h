@@ -84,10 +84,92 @@ typedef enum {
          LIS_CondRetFaltouMemoria = 6,
                /* Faltou memória ao tentar criar um elemento de lista */
 		 
-		 LIS_CondRetNoCorrPrim = 5
+		 LIS_CondRetNoCorrPrim = 5,
 			   /* Nó corrente é o primeiro */
+		
+		LIS_TipoEspacoCabeca = 7,
+				/* Tipo de espaco de dados cabeca */
+
+		LIS_TipoEspacoNo = 8,
+				/* Tipo de espaco de dados no */
+
+	   LIS_CondRetErroEstrutura = 9
+               /* Estrutura da lista está errada */
 
    } LIS_tpCondRet ;
+
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: LIS Modos de deturpar
+*
+*
+***********************************************************************/
+
+#ifdef _DEBUG
+
+   typedef enum {
+
+         DeturpaTipoCabeca        =  1 ,
+               /* Modifica o tipo da cabeça */
+
+         DeturpaCorrenteNulo      =  2 ,
+               /* Anula ponteiro corrente */
+
+         DeturpaCabecaLixo          =  3 ,
+               /* Faz cabeca apontar para lixo */
+
+         DeturpaCorrenteLixo      =  4 ,
+               /* Faz corrente apontar para lixo */
+
+         DeturpaTipoNo            =  5 ,
+               /* Modifica tipo nó corrente */
+
+         DeturpaPtCabecaNulo      =  6 ,
+               /* Anula ponteiro cabeça */
+
+		 DeturpaPtOrigemNulo      =  7 ,
+               /* Anula ponteiro origem */
+
+		 DeturpaPtFimNulo      =  8 ,
+               /* Anula ponteiro final */
+
+         DeturpaPtProxNulo         =  9 ,
+               /* Anula ponteiro proximo */
+
+         DeturpaPtAntNulo         = 10 ,
+               /* Anula ponteiro anterior */
+
+         DeturpaPtCabecaLixo      = 11 ,
+               /* Faz ponteiro cabeça apontar para lixo */
+
+         DeturpaPtOrigemLixo         = 12 ,
+               /* Faz ponteiro origem apontar para lixo */
+
+         DeturpaPtFimLixo         = 13 ,
+               /* Faz ponteiro final apontar para lixo */
+
+		DeturpaPtProxLixo         = 14 ,
+               /* Faz prox apontar para lixo */
+
+         DeturpaPtAntLixo         = 15 ,
+               /* Faz anterior apontar para lixo */
+
+         DeturpaValor             = 16 ,
+               /* Atribui valor de tamanho 1 byte maior do que o alocado */
+
+         DeturparEspacoCabeca     = 17 ,
+               /* Deturpa espaço da cabeca */
+
+         DeturparEspacoNo         = 18,
+               /* Deturpa espaço do nó */
+
+		 DeturparNumNo			  = 19
+				/* Deturpa numero de nos */
+
+   } LIS_tpModosDeturpacao ;
+
+#endif
 
 
 /***********************************************************************
@@ -264,7 +346,7 @@ LIS_tpCondRet LIS_AlterarNoCorr( LIS_tppLista pLista , void * pValor ) ;
 *
 ***********************************************************************/
 
-   void IrInicioLista( LIS_tppLista pLista ) ;
+   void LIS_IrInicioLista( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -280,7 +362,7 @@ LIS_tpCondRet LIS_AlterarNoCorr( LIS_tppLista pLista , void * pValor ) ;
 *
 ***********************************************************************/
 
-   void IrFinalLista( LIS_tppLista pLista ) ;
+   void LIS_IrFinalLista( LIS_tppLista pLista ) ;
 
 /***********************************************************************
 *
@@ -301,3 +383,99 @@ LIS_tpCondRet LIS_AlterarNoCorr( LIS_tppLista pLista , void * pValor ) ;
 ***********************************************************************/
 
 LIS_tpCondRet LIS_DestruirLista( LIS_tppLista pLista ) ;    
+
+
+/***********************************************************************
+*
+*  $FC Função: LIS  &Verificar uma lista
+*
+*  $ED Descrição da função
+*     Função da interface de teste.
+*     Verifica completamente uma determinada lista.
+*     Também marca todos os espaços por ela ocupados.
+*
+***********************************************************************/
+
+#ifdef _DEBUG
+
+   LIS_tpCondRet LIS_VerificarLista( LIS_tppLista pLista) ;
+
+#endif
+
+
+/***********************************************************************
+*
+*  $FC Função: LIS  &Verificar a cabeca da lista
+*
+*  $ED Descrição da função
+*     Função da interface de teste.
+*     Verifica a integridade da cabeca da lista
+*
+*  $EP Parâmetros
+*     $P pLista - ponteiro para um espaço que deveria ser uma cabeça
+*                      de lista.
+*
+*  $FV Valor retornado
+*     Condição de retorno de teste
+*
+***********************************************************************/
+
+#ifdef _DEBUG
+
+   LIS_tpCondRet LIS_VerificarCabeca( void * pLista ) ;
+
+#endif
+
+
+/***********************************************************************
+*
+*  $FC Função: LIS  &Verificar um nó da lista
+*
+*  $ED Descrição da função
+*     Função da interface de teste.
+*     Verifica a integridade de um nó da lista
+*
+*  $EP Parâmetros
+*     $P pNo - ponteiro para espaço que deveria ser um nó da lista.
+*
+*  $FV Valor retornado
+*      Condição de retorno de teste
+*
+***********************************************************************/
+
+#ifdef _DEBUG
+
+   LIS_tpCondRet LIS_VerificarNo( void * pNo ) ;
+
+#endif
+
+
+   /***********************************************************************
+*
+*  $FC Função: LIS  &Deturpar lista
+*
+*  $ED Descrição da função
+*     Função da interface de teste.
+*     Corrompe elementos específicos da estrutura da lista.
+*     Essa função destina-se a preparar os cenários de teste dos
+*     casos de teste utilizados ao testar os verificadores estruturais
+*     da árvore.
+*     Esta função não tem proteção contra erros de uso, consequentemente
+*     poderá levar o programa a ser cancelado pelo sistema operacional.
+*
+*  $EP Parâmetros
+*     $P pLista  - lista a ser deturpada
+*     $P ModoDeturpar - identifica como deve ser feita a deturpação
+*                       LIS_tpModosDeturpacao identifica os modos de
+*                       deturpação conhecidos
+*
+***********************************************************************/
+
+#ifdef _DEBUG
+
+   void LIS_Deturpar( LIS_tppLista pLista ,
+                      LIS_tpModosDeturpacao ModoDeturpar ) ;
+
+#endif
+
+   /********** Fim do módulo de definição: LIS  Módulo lista **********/
