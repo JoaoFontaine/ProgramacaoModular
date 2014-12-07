@@ -25,6 +25,13 @@
 /* Tipo exportado que referencia a estrutura tabuleiro */
 typedef struct TAB_tagPeca {
 
+#ifdef _DEBUG
+
+	tpCasa * pCasa;
+	/*ponteiro para a casa*/
+
+#endif
+
 	char nome;
 	/* Nome da peca */
 	char cor;
@@ -70,8 +77,17 @@ typedef enum {
 	TAB_CondRetXeque = 9,
 	/* O Rei está em xeque */
 
-	TAB_CondRetXequeMate = 10
+	TAB_CondRetXequeMate = 10,
 	/* O Rei está em xeque mate */
+
+	TAB_TipoEspacoTab = 11,
+				/* Tipo de espaco de dados tabuleiro */
+
+	TAB_TipoEspacoCasa = 12,
+				/* Tipo de espaco de dados casa */
+
+	TAB_TipoEspacoPeca = 13
+				/* Tipo de espaco de dados peca */
 
 } TAB_tpCondRet ;
 

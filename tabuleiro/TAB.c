@@ -1,3 +1,15 @@
+/***************************************************************************
+*  $MCI Módulo de implementação: TAB  tabuleiro
+*
+*  Arquivo gerado:              TAB.c
+*  Letras identificadoras:      TAB
+*
+*  Projeto: INF 1301 Jogo de Xadrez
+*  Autores: Guilherme Araujo e João Pedro Fontaine
+*
+***************************************************************************/
+
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -6,6 +18,12 @@
 #define COLUNAS 8
 #define LINHAPEOESBRANCOS 2
 #define LINHAPEOESPRETOS 7
+
+#ifdef _DEBUG
+   #include   "Generico.h"
+   #include   "Conta.h"
+   #include   "CESPDIN.h"
+#endif
 
 
 typedef struct TAB_tagCasa {
@@ -38,6 +56,16 @@ typedef struct TAB_tagTab {
 	/* Ponteiro para o vetor de ponteiros de linhas */
 
 }TAB_tpTab;
+
+/*****  Dados encapsulados no módulo  *****/
+
+      #ifdef _DEBUG
+
+      static char EspacoLixo[ 256 ] =
+             "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" ;
+            /* Espaço de dados lixo usado ao testar */
+
+      #endif
 
 
 /***** Protótipos das funções encapuladas no módulo *****/
@@ -92,11 +120,21 @@ TAB_tppTab TAB_CriarTab ( void ){
 				return NULL;
 			}
 			/*if*/
+			#ifdef _DEBUG
+			CED_DefinirTipoEspaco( pCasa , TAB_TipoEspacoCasa ) ;
+		    #endif
+
 			pCasa->Peca = ( tpPeca * ) malloc( sizeof( tpPeca * )) ;
 			if ( pCasa->Peca == NULL ) {  
 				printf("\n Faltou memória para criar peca");
 				return NULL;
 			}
+
+			#ifdef _DEBUG
+			pCasa->Peca->pCasa = pCasa;
+			CED_DefinirTipoEspaco( pCasa->Peca , TAB_TipoEspacoPeca ) ;
+		    #endif
+
 			pCasa->Peca->nome = 'V';
 			pCasa->Peca->cor = 'V';
 			pCasa->pAmeacadas = LIS_CriarLista( NULL );
@@ -111,6 +149,10 @@ TAB_tppTab TAB_CriarTab ( void ){
 		/*for*/
 	}
 	/*for*/
+
+	#ifdef _DEBUG
+     CED_DefinirTipoEspaco( pTab , TAB_TipoEspacoTab ) ;
+    #endif
 
 
 	return pTab;
@@ -154,6 +196,10 @@ TAB_tpCondRet TAB_RetirarPeca ( int linha , char coluna, TAB_tppTab pTab ){
 
 	peca->cor= 'V';
 	peca->nome= 'V';
+
+	#ifdef _DEBUG
+	peca->pCasa = NULL;
+	#endif
 
 	return TAB_CondRetOK;
 }
@@ -217,6 +263,11 @@ TAB_tpCondRet TAB_MoverPeca ( int linhaOrig , char colunaOrig, int linhaDest , c
 
 	//AtualizarListaAmeacantes ( linhaDest, colunaDest, pTab);
 	//AtualizarListaAmeacados ( linhaDest, colunaDest, pTab);
+
+	#ifdef _DEBUG
+	peca->pCasa = ObterCasa(linhaDest, colunaDest, pTab);
+	#endif
+
 	return condRet;
 }
 
@@ -242,6 +293,10 @@ TAB_tpCondRet TAB_InserirPeca ( int linha , char coluna, char cor, char tipo, TA
 
 	casa->Peca->nome= tipo;
 	casa->Peca->cor= cor;
+
+	#ifdef _DEBUG
+	casa->Peca->pCasa = casa;
+	#endif
 
 	return TAB_CondRetOK;
 

@@ -25,6 +25,13 @@
 /* Tipo exportado que referencia a estrutura tabuleiro */
 typedef struct TAB_tagPeca {
 
+#ifdef _DEBUG
+
+	tpCasa * pCasa;
+	/*ponteiro para a casa*/
+
+#endif
+
 	char nome;
 	/* Nome da peca */
 	char cor;
@@ -64,8 +71,23 @@ typedef enum {
 	TAB_CondRetPecaBloqueando = 7,
 	/* A casa nao pertence ao tabuleiro */
 
-	TAB_CondRetPecaInvalida = 8
+	TAB_CondRetPecaInvalida = 8,
 	/* A casa nao pertence ao tabuleiro */
+
+	TAB_CondRetXeque = 9,
+	/* O Rei está em xeque */
+
+	TAB_CondRetXequeMate = 10,
+	/* O Rei está em xeque mate */
+
+	TAB_TipoEspacoTab = 11,
+				/* Tipo de espaco de dados tabuleiro */
+
+	TAB_TipoEspacoCasa = 12,
+				/* Tipo de espaco de dados casa */
+
+	TAB_TipoEspacoPeca = 13
+				/* Tipo de espaco de dados peca */
 
 } TAB_tpCondRet ;
 
@@ -252,3 +274,23 @@ LIS_tppLista TAB_ObterListaAmeacados( int linha , char coluna, TAB_tppTab pTab )
 **************************************************************************************/
 
 TAB_tpCondRet TAB_DestruirTab ( TAB_tppTab pTab );
+
+/**************************************************************************************
+*
+*	$FC Função: TAB  &Verificar Xeque
+*
+*	$ED Descrição da função
+*		Verifica se o rei está em xeque ou xeque mate, retorna TAB_CondRetOK
+*		caso o rei nao esteja em nehuma dessas condicoes
+*
+*  $EP Parâmetros
+*		pTab (ponteiro para o tabuleiro em questão)
+*
+*	$FV Valor retornado
+*		TAB_CondRetXeque
+*		TAB_CondRetXequeMate
+*		TAB_CondRetOK
+*
+**************************************************************************************/
+
+TAB_tpCondRet TAB_VerificaXeque ( TAB_tppTab pTab );
