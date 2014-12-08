@@ -86,8 +86,20 @@ typedef enum {
 	TAB_TipoEspacoCasa = 12,
 				/* Tipo de espaco de dados casa */
 
-	TAB_TipoEspacoPeca = 13
+	TAB_TipoEspacoPeca = 13,
 				/* Tipo de espaco de dados peca */
+
+	TAB_CondRetErroEstrutura = 14,
+				/* Erro estrutural */
+
+	TAB_TipoEspacoCabeca = 15,
+				/* Tipo de dado cabeca de tab */
+
+	TAB_TipoEspacoCasa = 16,
+				/* Tipo de dado casa de tab */
+
+	TAB_TipoEspacoPeca = 17
+				/* Tipo de dado peca de tab */
 
 } TAB_tpCondRet ;
 
@@ -294,3 +306,21 @@ TAB_tpCondRet TAB_DestruirTab ( TAB_tppTab pTab );
 **************************************************************************************/
 
 TAB_tpCondRet TAB_VerificaXeque ( TAB_tppTab pTab );
+
+
+/***********************************************************************
+*
+*  $FC Função: TAB  &Verificar um tabuleiro
+*
+*  $ED Descrição da função
+*     Função da interface de teste.
+*     Verifica completamente um tabuleiro.
+*     Também marca todos os espaços por ele ocupados.
+*
+***********************************************************************/
+
+#ifdef _DEBUG
+
+   TAB_tpCondRet TAB_VerificarTab( TAB_tppTab pTab) ;
+
+#endif
