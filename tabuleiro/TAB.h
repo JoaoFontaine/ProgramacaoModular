@@ -27,7 +27,7 @@ typedef struct TAB_tagPeca {
 
 #ifdef _DEBUG
 
-	struct TAB_tagCasa * pCasa;
+	tpCasa * pCasa;
 	/*ponteiro para a casa*/
 
 #endif
@@ -317,10 +317,12 @@ TAB_tpCondRet TAB_VerificaXeque ( TAB_tppTab pTab );
 *     Verifica completamente um tabuleiro.
 *     Também marca todos os espaços por ele ocupados.
 *
+*	$FV Valor retornado
+*   Numero de falhas
 ***********************************************************************/
 
 #ifdef _DEBUG
 
-   TAB_tpCondRet TAB_VerificarTab( TAB_tppTab pTab) ;
+   int TAB_VerificarTab( TAB_tppTab pTab) ;
 
 #endif
