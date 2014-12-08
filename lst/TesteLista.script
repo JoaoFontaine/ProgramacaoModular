@@ -23,6 +23,11 @@
 =declararparm   pNULL          int  0
 =declararparm   pNaoNULL       int  1
 
+== Iniciar contagem
+=inicializarcontadores  ""
+=lercontadores          "Lista"
+=iniciarcontagem
+
 == Criar a lista 0
 =criarlista lista0 str0 OK
 
@@ -89,6 +94,24 @@
 
 == Verificar ir para o ultimo elemento
 =irfinal lista2
+
+== Verificar cabeca da lista 2
+=verificarcabeca  lista2  OK
+
+== Verificar contadores
+=contagemcontador  "LIS_VerificarCabeca"  0
+=contagemcontador  "LIS_CabecaOK"  0
+=contagemcontador  "LIS_VerificaCorr"  0
+=contagemcontador  "LIS_VerificaOrigem"  0
+=contagemcontador  "LIS_VerificaFim"  0
+=contagemcontador  "LIS_NumNoOK"  0
+
+== Terminar controlar contadores
+=pararcontagem
+=verificarcontagens    33
+
+== Terminar contagem
+=terminarcontadores
 
 == Destruir a lista
 =destruirlista   lista2   OK

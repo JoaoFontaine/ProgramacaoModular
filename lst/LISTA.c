@@ -130,9 +130,9 @@
 		  return NULL;
 	  }
 	  /*if*/
-	  /*if ( strlen(idLista) > 4) printf("\n Só serão utilizados os 4 primeiros caracteres para identificar a lista");
+	  if ( strlen(idLista) > 4) printf("\n Só serão utilizados os 4 primeiros caracteres para identificar a lista");
 
-	  strncpy(pLista->idLista , idLista, 4);*/
+	  strncpy(pLista->idLista , idLista, 4);
 	  LimparCabeca( pLista ) ;
 
 	   #ifdef _DEBUG
@@ -651,10 +651,6 @@
             } /* if */
          } /* if */
 
-
-		   #ifdef _DEBUG
-			 CNT_CONTAR( "LIS_ListaVazia" ) ;
-			#endif
 
 		   pNoAux = (tpNoLista *) (pListaAux->pOrigemLista);
 
