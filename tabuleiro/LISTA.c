@@ -419,6 +419,59 @@
 
 	}/* Fim função: LIS  &Destruir lista */
 
+	/***************************************************************************
+*
+*  Função: LIS  &Esvaziar lista
+*  ****/
+
+   void LIS_EsvaziarLista( LIS_tppLista pLista )
+   {
+
+      tpNoLista * pNo ;
+      tpNoLista * pProx ;
+
+      pNo = pLista->pOrigemLista ;
+      while ( pNo != NULL )
+      {
+         pProx = pNo->pProx ;
+         free(pNo) ;
+         pNo = pProx ;
+      } /* while */
+
+      LimparCabeca( pLista ) ;
+
+   } /* Fim função: LIS  &Esvaziar lista */
+
+   /***************************************************************************
+*
+*  Função: LIS  &Procurar elemento contendo valor
+*  ****/
+
+   LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista, void* pValor )
+   {
+
+      tpNoLista * pNo ;
+
+      #ifdef _DEBUG
+         assert( pLista  != NULL ) ;
+      #endif
+
+      if ( pLista->pNoCorr == NULL )
+      {
+         return LIS_CondRetListaVazia ;
+      } /* if */
+
+      for ( pNo = pLista->pNoCorr; pNo != NULL; pNo = pNo->pProx )
+      {
+         if ( pNo->pValor == pValor )
+         {
+            pLista->pNoCorr = pNo ;
+            return LIS_CondRetOK ;
+         } /* if */
+      } /* for */
+
+      return LIS_CondRetNaoAchou;
+	} /* Fim função: LIS  &Procurar elemento contendo valor */
 
 #ifdef _DEBUG
 
