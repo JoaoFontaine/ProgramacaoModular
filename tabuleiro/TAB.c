@@ -80,6 +80,19 @@ int ObterLimitesDeMovimentoRei( int linha, char coluna, tpCasa*** casasLimite, T
 
 int ObterCasasEntre( int linhaOrig, char colunaOrig, int linhaDest, char colunaDest, tpCasa*** casasEntre, TAB_tppTab pTab);
 
+	#ifdef _DEBUG
+	TAB_tpCondRet VerificarCabeca( void * pTab );
+	#endif
+
+	#ifdef _DEBUG
+	TAB_tpCondRet VerificarCasas( int linha, void * pTab );
+	#endif
+
+	#ifdef _DEBUG
+	TAB_tpCondRet VerificarPeca(int linha, char coluna, void * pTab );
+	#endif
+
+
 /*****  Código das funções exportadas pelo módulo  *****/
 
 
@@ -110,11 +123,22 @@ TAB_tppTab TAB_CriarTab ( void ){
 				return NULL;
 			}
 			/*if*/
+
+			#ifdef _DEBUG
+			CED_DefinirTipoEspaco( pCasa , TAB_TipoEspacoCasa ) ;
+		    #endif
+
 			pCasa->Peca = ( tpPeca * ) malloc( sizeof( tpPeca * )) ;
 			if ( pCasa->Peca == NULL ) {  
 				printf("\n Faltou memória para criar peca");
 				return NULL;
 			}
+
+			#ifdef _DEBUG
+			pCasa->Peca->pCasa = pCasa;
+			CED_DefinirTipoEspaco( pCasa->Peca , TAB_TipoEspacoPeca ) ;
+		    #endif
+
 			pCasa->Peca->nome = 'V';
 			pCasa->Peca->cor = 'V';
 			pCasa->pAmeacadas = LIS_CriarLista( NULL );
@@ -133,6 +157,9 @@ TAB_tppTab TAB_CriarTab ( void ){
 	}
 	/*for*/
 
+	#ifdef _DEBUG
+     CED_DefinirTipoEspaco( pTab , TAB_TipoEspacoTab ) ;
+    #endif
 
 	return pTab;
 
@@ -175,6 +202,10 @@ TAB_tpCondRet TAB_RetirarPeca ( int linha , char coluna, TAB_tppTab pTab ){
 
 	peca->cor= 'V';
 	peca->nome= 'V';
+
+	#ifdef _DEBUG
+	peca->pCasa = NULL;
+	#endif
 
 	AtualizarAmeacasAposRemocao( linha, coluna, pTab );
 
@@ -236,6 +267,10 @@ TAB_tpCondRet TAB_MoverPeca ( int linhaOrig , char colunaOrig, int linhaDest , c
 		TAB_RetirarPeca(linhaOrig, colunaOrig, pTab);
 	}
 
+	#ifdef _DEBUG
+	peca->pCasa = ObterCasa(linhaDest, colunaDest, pTab);
+	#endif
+
 	return condRet;
 }
 
@@ -261,6 +296,11 @@ TAB_tpCondRet TAB_InserirPeca ( int linha , char coluna, char cor, char tipo, TA
 
 	casa->Peca->nome= tipo;
 	casa->Peca->cor= cor;
+
+	#ifdef _DEBUG
+	casa->Peca->pCasa = casa;
+	#endif
+
 
 	AtualizarAmeacasAposInsersao( linha, coluna, pTab );
 
@@ -314,6 +354,50 @@ TAB_tpCondRet TAB_DestruirTab ( TAB_tppTab pTab ){
 
 	return TAB_CondRetOK;
 }
+
+#ifdef _DEBUG
+
+/***************************************************************************
+*
+*  Função: TAB  &Verificar um tabuleiro
+*  ****/
+
+
+   TAB_tpCondRet TAB_VerificarTab( TAB_tppTab pTab) {
+
+	  TAB_tppTab pTabAux = NULL ;
+
+	  TAB_tpCondRet CondRet;
+
+	  int i = 0;
+
+      if ( VerificarCabeca( pTab) != TAB_CondRetOK )
+      {
+         return TAB_CondRetErroEstrutura ;
+      } /* if */
+
+      CED_MarcarEspacoAtivo( pTab ) ;
+
+      pTabAux = ( TAB_tpTab * ) ( pTab ) ;
+
+	  while(pTab->pLinhas->pLinha[i] != NULL){
+		
+		 CondRet =  VerificarCasas ( i, pTab);
+
+		 if(CondRet != TAB_CondRetOK) { 
+
+			 printf("\n Erro linha %d", i);
+			 return TAB_CondRetErroEstrutura;
+		 }/*if*/
+
+	  }/*while*/
+
+	  return TAB_CondRetOK;
+	 
+
+   } /* Fim função: TAB  &Verificar um tabuleiro */
+
+ #endif
 
 
 /* Funções Encapsuladas no módulo */
@@ -1238,3 +1322,279 @@ int ObterCasasEntre( int linhaOrig, char colunaOrig, int linhaDest, char colunaD
 	nCasas--;
 	return nCasas;
 }
+
+
+#ifdef _DEBUG
+
+/***********************************************************************
+*
+*  $FC Função:TAB  &Verificar a cabeca do tabuleiro
+*
+*  $ED Descrição da função
+*     Função da interface de teste.
+*     Verifica a integridade da cabeca do tab
+*
+*  $EP Parâmetros
+*     $P pTAB - ponteiro para um espaço que deveria ser uma cabeça
+*                      de tab.
+*
+*  $FV Valor retornado
+*     Condição de retorno de teste
+*
+***********************************************************************/
+
+
+   TAB_tpCondRet VerificarCabeca( void * pTab) {
+
+	   TAB_tppTab pTabAux = NULL ;
+
+	   tpCasa * pCasaAux = NULL ;
+
+	   /* Verifica o tipo do espaço */
+
+         if ( pTab == NULL )
+         {
+            TST_NotificarFalha( "Tentou verificar cabeça inexistente." ) ;
+            return TAB_CondRetErroEstrutura ;
+         } /* if */
+
+		 if ( ! CED_VerificarEspaco( pTab , NULL ))
+         {
+            TST_NotificarFalha( "Controle do espaço acusou erro." ) ;
+            return TAB_CondRetErroEstrutura ;
+         } /* if */
+
+		   if ( TST_CompararInt( TAB_TipoEspacoCabeca ,
+              CED_ObterTipoEspaco( pTab) ,
+              "Tipo do espaço de dados não é cabeça de tab." ) != TST_CondRetOK )
+         {
+            return TAB_CondRetErroEstrutura ;
+         } /* if */
+
+		   pTabAux = ( TAB_tpTab * )( pTab ) ;
+
+		   if(pTabAux->pLinhas == NULL)
+		   {
+
+            TST_NotificarFalha( "Erro verificar ponteiro para vetor de linhas." ) ;
+            return TAB_CondRetErroEstrutura ;
+         } /* if */
+
+		   return TAB_CondRetOK;
+	 
+
+   } /* Fim função: TAB  &Verificar cabeca de tab */
+
+ #endif
+
+   #ifdef _DEBUG
+
+/***********************************************************************
+*
+*  $FC Função:TAB  &Verificar as casas do tabuleiro
+*
+*  $ED Descrição da função
+*     Função da interface de teste.
+*     Verifica a integridade dda casas do tab
+*
+*  $EP Parâmetros
+*     $P pTAB - ponteiro para um espaço que deveria ser uma cabeça
+*                      de tab.
+*        linha (int contendo o numero da linha da casa de interesse) 
+*		coluna (char contendo o caractere da coluna da casa de interesse) 
+*		
+*  $FV Valor retornado
+*     Condição de retorno de teste
+*
+***********************************************************************/
+   TAB_tpCondRet VerificarCasas( int linha, void * pTab ){
+
+      tpCasa * pCasaAux     = NULL ;
+      TAB_tppTab pTabAux = NULL ;
+	  TAB_tpCondRet CondRet;
+	  
+	  char coluna;
+
+	  for( coluna = 'A'; coluna < 'H' ; coluna ++){
+
+		  pCasaAux = ObterCasa(linha, coluna,(TAB_tppTab) pTab);
+
+      /* Verificar se é casa estrutural */
+
+         if ( pCasaAux == NULL )
+         {
+
+            TST_NotificarFalha( "Tentou verificar casa inexistente." ) ;
+            return TAB_CondRetErroEstrutura ;
+
+         } /* if */
+
+         if ( ! CED_VerificarEspaco( pCasaAux , NULL ))
+         {
+
+            TST_NotificarFalha( "Controle do espaço acusou erro." ) ;
+            return TAB_CondRetErroEstrutura ;
+         } /* if */
+
+         if ( TST_CompararInt( TAB_TipoEspacoCasa ,
+              CED_ObterTipoEspaco( pCasaAux) ,
+              "Tipo do espaço de dados não é casa de tab." ) != TST_CondRetOK )
+         {
+            return TAB_CondRetErroEstrutura ;
+         } /* if */
+
+
+		/* Verifica peca da casa */
+
+		CondRet = VerificarPeca(linha, coluna, pTab);
+
+		if(CondRet != TAB_CondRetOK){
+
+			TST_NotificarFalha( "Erro verificar peca." ) ;
+            return TAB_CondRetErroEstrutura ;
+		}/*if*/
+	  }/*for*/
+
+	  return TAB_CondRetOK;
+
+
+     } /* Fim função: TAB  &Verificar casa de tab */
+
+ #endif
+
+
+ #ifdef _DEBUG
+
+/***********************************************************************
+*
+*  $FC Função:TAB  &Verificar peca do tabuleiro
+*
+*  $ED Descrição da função
+*     Função da interface de teste.
+*     Verifica a integridade da peca do tab
+*
+*  $EP Parâmetros
+*     $P pTAB - ponteiro para um espaço que deveria ser uma cabeça
+*                      de tab.
+*        linha (int contendo o numero da linha da casa de interesse)
+*		coluna (char contendo o caractere da coluna da casa de interesse) 
+*
+*  $FV Valor retornado
+*     Condição de retorno de teste
+*
+***********************************************************************/
+   TAB_tpCondRet VerificarPeca( int linha, char coluna, void * pTab ){
+
+      tpCasa * pCasaAux     = NULL ;
+      TAB_tppPeca pPecaAux = NULL ;
+	  TAB_tpCondRet CondRet;
+	  
+
+		  pCasaAux = ObterCasa(linha, coluna,(TAB_tppTab) pTab);
+		  pPecaAux = TAB_ObterPeca(linha, coluna,(TAB_tppTab) pTab);
+
+      /* Verificar se peca estrutural */
+
+         if ( pPecaAux == NULL )
+         {
+
+            TST_NotificarFalha( "Tentou verificar peca inexistente." ) ;
+            return TAB_CondRetErroEstrutura ;
+
+         } /* if */
+
+         if ( ! CED_VerificarEspaco( pPecaAux , NULL ))
+         {
+
+            TST_NotificarFalha( "Controle do espaço acusou erro." ) ;
+            return TAB_CondRetErroEstrutura ;
+         } /* if */
+
+         if ( TST_CompararInt(TAB_TipoEspacoPeca ,
+              CED_ObterTipoEspaco( pPecaAux ) ,
+              "Tipo do espaço de dados não é peca." ) != TST_CondRetOK )
+         {
+
+            return TAB_CondRetErroEstrutura ;
+         } /* if */
+
+
+			 pCasaAux->Peca->pCasa;
+
+      /* Verificar casa */
+
+			 if ( pCasaAux->Peca != NULL  )
+         {
+
+			 if ( TST_CompararPonteiro( pCasaAux , pCasaAux->Peca->pCasa,
+                 "Peca não pertence à casa." ) != TST_CondRetOK )
+            {
+
+               return TAB_CondRetErroEstrutura ;
+            } /* if */
+         } else
+         {
+
+            TST_NotificarFalha( "Peca pertence a casa vazia." ) ;
+			return TAB_CondRetErroEstrutura ;
+         } /* if */
+
+      /* Verificar cor */
+
+		 switch(pPecaAux->cor)
+		 {
+
+		 case 'V':
+			 break;
+			 
+		 case 'P':
+			 break;
+
+		 case 'B':
+			 break;
+
+		 default:
+			 TST_NotificarFalha( "Cor invalida." ) ;
+			 return TAB_CondRetErroEstrutura ;
+		 }
+
+      /* Verificar nome */
+
+		 switch(pPecaAux->nome)
+		 {
+
+		 case 'V':
+			 break;
+			 
+		 case 'P':
+			 break;
+
+		 case 'R':
+			 break;
+
+		 case 'D':
+			 break;
+
+		 case 'T':
+			 break;
+
+		 case 'C':
+			 break;
+
+		 case 'B':
+			 break;
+
+		 default:
+			 TST_NotificarFalha( "Nome invalido." ) ;
+			 return TAB_CondRetErroEstrutura ;
+		 }
+
+      
+
+	  return TAB_CondRetOK;
+
+
+
+     } /* Fim função: TAB  &Verificar peca de tab */
+
+ #endif
