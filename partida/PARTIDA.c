@@ -13,8 +13,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include "TAB.h"
 #include "LISTA.h"
+#include "TAB.h"
 #include "PARTIDA.h"
 
 

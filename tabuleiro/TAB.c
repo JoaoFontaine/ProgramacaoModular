@@ -13,7 +13,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include "LISTA.h"
 #include "TAB.h"
+
 #define LINHAS 8
 #define COLUNAS 8
 #define LINHAPEOESBRANCOS 2
@@ -22,9 +24,9 @@
 #define AMEACANTESPOSSIVEIS 12
 
 #ifdef _DEBUG
-   #include   "Generico.h"
-   #include   "Conta.h"
-   #include   "CESPDIN.h"
+	#include   "Generico.h"
+	#include   "CONTA.h"
+	#include   "CESPDIN.h"
 #endif
 
 typedef struct TAB_tagCasa {
@@ -1514,7 +1516,7 @@ int ObterCasasEntre( int linhaOrig, char colunaOrig, int linhaDest, char colunaD
 
       tpCasa * pCasaAux     = NULL ;
       TAB_tppPeca pPecaAux = NULL ;
-	  TAB_tpCondRet CondRet;
+	  //TAB_tpCondRet CondRet;
 	  
 
 		  pCasaAux = ObterCasa(linha, coluna,(TAB_tppTab) pTab);

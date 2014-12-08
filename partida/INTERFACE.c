@@ -1,9 +1,10 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include "TAB.h"
 #include "LISTA.h"
+#include "TAB.h"
 #include "PARTIDA.h"
+
 #define LINHAS 8
 #define COLUNAS 8
 
@@ -12,10 +13,9 @@ void VerificaCor(char cor1){
 	if(cor1!='B' || cor1!='P'){
 		printf("\nCor invalida, digite B para branca ou P para preta)");
 		scanf("%c",cor1);
-		return VerificaCor(cor1);
+		VerificaCor(cor1);
 	}
 	/*if*/
-	return ;
 }
 
 
@@ -46,7 +46,8 @@ void ReceberDigitacao (char cor,  TAB_tppTab pTab){
 
 	if(pPeca->cor!=cor){
 		printf("\n Peca nao pertencente ao jogador, por favor retentar");
-		return ReceberDigitacao(cor, pTab);
+		ReceberDigitacao(cor, pTab);
+		return;
 	}
 	/*if*/
 
@@ -54,7 +55,8 @@ void ReceberDigitacao (char cor,  TAB_tppTab pTab){
 
 	if(CondRet!=TAB_CondRetOK){
 		printf("\n Movimento invalido, por favor retentar");
-		return ReceberDigitacao(cor, pTab);
+		ReceberDigitacao(cor, pTab);
+		return;
 	}
 	/*if*/
 
@@ -113,8 +115,7 @@ int main(void){
 		printf("\n Jogador 2 comecara a partida com as pecas brancas ");
 	}
 	/*if*/
-
-
+	
 	while(!FimDeJogo(pTab)){
 		PAR_ImprimirTabuleiro(pTab);
 
@@ -128,9 +129,6 @@ int main(void){
 		}
 		/*if*/
 	}
-
-
-		
 
 	return 0;
 }

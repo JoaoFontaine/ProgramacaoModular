@@ -15,10 +15,6 @@
 *       de uma partida de xadrez
 **************************************************************************************/
 
-
-#include "TAB.h"
-#include "LISTA.h"
-
 typedef enum {
 
 	PAR_CondRetOK = 0,

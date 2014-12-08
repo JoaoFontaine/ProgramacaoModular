@@ -21,21 +21,24 @@
 *			ameaçadas pela peça que está nesta casa.
 *
 **************************************************************************************/
-#include "LISTA.h"
+
 /* Tipo exportado que referencia a estrutura tabuleiro */
+
+typedef struct TAB_tagCasa * TAB_tppCasa;
+
 typedef struct TAB_tagPeca {
-
-#ifdef _DEBUG
-
-	tpCasa * pCasa;
-	/*ponteiro para a casa*/
-
-#endif
 
 	char nome;
 	/* Nome da peca */
 	char cor;
 	/* Cor da peca */
+
+	#ifdef _DEBUG
+
+		TAB_tppCasa pCasa;
+		/*ponteiro para a casa*/
+
+	#endif
 
 } tpPeca ;
 
@@ -95,10 +98,10 @@ typedef enum {
 	TAB_TipoEspacoCabeca = 15,
 				/* Tipo de dado cabeca de tab */
 
-	TAB_TipoEspacoCasa = 16,
+	TAB_TipooDadoCasa = 16,
 				/* Tipo de dado casa de tab */
 
-	TAB_TipoEspacoPeca = 17
+	TAB_TipoDadoPeca = 17
 				/* Tipo de dado peca de tab */
 
 } TAB_tpCondRet ;
@@ -241,8 +244,7 @@ TAB_tpCondRet TAB_InserirPeca ( int linha , char coluna, char cor, char tipo, TA
 *
 **************************************************************************************/
 
-LIS_tppLista TAB_ObterListaAmeacantes( int linha , char coluna, TAB_tppTab pTab );
-
+LIS_tppLista TAB_ObterListaAmeacantes( int linha, char coluna, TAB_tppTab pTab );
 
 
 /**************************************************************************************

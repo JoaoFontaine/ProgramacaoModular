@@ -93,7 +93,7 @@ typedef enum {
 	LIS_TipoEspacoNo = 8,
 	/* Tipo de espaco de dados no */
 
-	LIS_CondRetErroEstrutura = 9
+	LIS_CondRetErroEstrutura = 9,
 	/* Estrutura da lista está errada */
 
 	LIS_CondRetNaoAchou = 10

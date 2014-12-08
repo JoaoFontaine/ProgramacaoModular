@@ -25,9 +25,9 @@
 #include "LISTA.h"
 
 #ifdef _DEBUG
-   #include   "Generico.h"
-   #include   "Conta.h"
-   #include   "CESPDIN.h"
+#include   "Generico.h"
+#include   "Conta.h"
+#include   "CESPDIN.h"
 #endif
 
 /***********************************************************************
@@ -38,81 +38,81 @@
 ***********************************************************************/
 
 
- typedef struct tagNoLista {
+typedef struct tagNoLista {
 
-	 #ifdef _DEBUG
+#ifdef _DEBUG
 
-         struct LIS_tagLista * pCabeca ;
-               /* Ponteiro para cabeca */
-			
-     #endif
+	struct LIS_tagLista * pCabeca ;
+	/* Ponteiro para cabeca */
 
-         void * pValor ;
-               /* Ponteiro para o valor contido no nó */
+#endif
 
-         struct tagNoLista * pAnt ;
-               /* Ponteiro para o nó predecessor */
+	void * pValor ;
+	/* Ponteiro para o valor contido no nó */
 
-         struct tagNoLista * pProx ;
-               /* Ponteiro para o nó sucessor */
+	struct tagNoLista * pAnt ;
+	/* Ponteiro para o nó predecessor */
 
-   } tpNoLista ;
+	struct tagNoLista * pProx ;
+	/* Ponteiro para o nó sucessor */
+
+} tpNoLista ;
 
 
 
- /***********************************************************************
+/***********************************************************************
 *
 *  $TC Tipo de dados: LIS Descritor da cabeça de lista
 *
 *
 ***********************************************************************/
-    
- typedef struct LIS_tagLista {
 
-	 #ifdef _DEBUG
+typedef struct LIS_tagLista {
 
-         int numNo ;
-               /* Numero de nos */
-     #endif
+#ifdef _DEBUG
 
-         tpNoLista * pOrigemLista ;
-               /* Ponteiro para a origem da lista */
+	int numNo ;
+	/* Numero de nos */
+#endif
 
-         tpNoLista * pFimLista ;
-               /* Ponteiro para o final da lista */
+	tpNoLista * pOrigemLista ;
+	/* Ponteiro para a origem da lista */
 
-         tpNoLista * pNoCorr ;
-               /* Ponteiro para o nó corrente da lista */
-		
-		 char idLista[4];
-		      /* Estrutura identificadora da lista */
+	tpNoLista * pFimLista ;
+	/* Ponteiro para o final da lista */
 
-   } LIS_tpLista ;
+	tpNoLista * pNoCorr ;
+	/* Ponteiro para o nó corrente da lista */
 
+	char idLista[4];
+	/* Estrutura identificadora da lista */
 
-
- /***** Protótipos das funções encapuladas no módulo *****/
+} LIS_tpLista ;
 
 
-	tpNoLista * CriarNo( void * pValor);  
-	void LimparCabeca( LIS_tppLista pLista );
 
-	#ifdef _DEBUG
-	LIS_tpCondRet VerificarNo( tpNoLista * pNo );
-	#endif
-
-	/*****  Dados encapsulados no módulo  *****/
-
-      #ifdef _DEBUG
-
-      static char EspacoLixo[ 256 ] =
-             "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" ;
-            /* Espaço de dados lixo usado ao testar */
-
-      #endif
+/***** Protótipos das funções encapuladas no módulo *****/
 
 
-	/*****  Código das funções exportadas pelo módulo  *****/
+tpNoLista * CriarNo( void * pValor);  
+void LimparCabeca( LIS_tppLista pLista );
+
+#ifdef _DEBUG
+LIS_tpCondRet VerificarNo( tpNoLista * pNo );
+#endif
+
+/*****  Dados encapsulados no módulo  *****/
+
+#ifdef _DEBUG
+
+static char EspacoLixo[ 256 ] =
+	"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" ;
+/* Espaço de dados lixo usado ao testar */
+
+#endif
+
+
+/*****  Código das funções exportadas pelo módulo  *****/
 
 
 
@@ -120,242 +120,242 @@
 *
 *  Função: LIS  &Criar lista
 *  ****/
-	
-	LIS_tppLista LIS_CriarLista( char * idLista ) {
 
-	  LIS_tpLista * pLista =( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
-     
-	  if ( pLista == NULL ){
-		  printf("\n Faltou memória para criar lista");
-		  return NULL;
-	  }
-	  /*if*/
-	  /*if ( strlen(idLista) > 4) printf("\n Só serão utilizados os 4 primeiros caracteres para identificar a lista");
+LIS_tppLista LIS_CriarLista( char * idLista ) {
 
-	  strncpy(pLista->idLista , idLista, 4);*/
-	  LimparCabeca( pLista ) ;
+	LIS_tpLista * pLista =( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
 
-	   #ifdef _DEBUG
-	  pLista->numNo = 0;
-         CED_DefinirTipoEspaco( pLista , LIS_TipoEspacoCabeca ) ;
-      #endif
+	if ( pLista == NULL ){
+		printf("\n Faltou memória para criar lista");
+		return NULL;
+	}
+	/*if*/
+	/*if ( strlen(idLista) > 4) printf("\n Só serão utilizados os 4 primeiros caracteres para identificar a lista");
 
-	  return pLista;
+	strncpy(pLista->idLista , idLista, 4);*/
+	LimparCabeca( pLista ) ;
 
-	} /* Fim função: LIS  &Criar lista */
+#ifdef _DEBUG
+	pLista->numNo = 0;
+	CED_DefinirTipoEspaco( pLista , LIS_TipoEspacoCabeca ) ;
+#endif
+
+	return pLista;
+
+} /* Fim função: LIS  &Criar lista */
 
 
 
-	/***************************************************************************
+/***************************************************************************
 *
 *  Função: LIS  &Orbter Id Lista
 *  ****/
 
-	void * LIS_ObterIdLista( LIS_tppLista pLista ) {
+void * LIS_ObterIdLista( LIS_tppLista pLista ) {
 
-		/* Tratar lista vazia */
+	/* Tratar lista vazia */
 
-		if ( pLista == NULL ) return NULL;
-		
-
-		return pLista->idLista;
-
-	}/* Fim função: LIS  &Orbter Id Lista */
+	if ( pLista == NULL ) return NULL;
 
 
+	return pLista->idLista;
 
-	/***************************************************************************
+}/* Fim função: LIS  &Orbter Id Lista */
+
+
+
+/***************************************************************************
 *
 *  Função: LIS  &Inserir nó
 *  ****/
 
-	LIS_tpCondRet LIS_InserirNo( LIS_tppLista pLista , void * pValor ) {
+LIS_tpCondRet LIS_InserirNo( LIS_tppLista pLista , void * pValor ) {
 
-		tpNoLista* pNo = CriarNo( pValor ) ;
+	tpNoLista* pNo = CriarNo( pValor ) ;
 
-         if ( pNo == NULL ) return LIS_CondRetFaltouMemoria ;
-		 /* if */
-         if ( pLista->pNoCorr == NULL )
-         {
-            pLista->pOrigemLista = pNo ;
-            pLista->pFimLista = pNo ;
-         } else
-         {
-            if ( pLista->pNoCorr->pProx != NULL )
-            {
-               pNo->pProx  = pLista->pNoCorr->pProx ;
-               pLista->pNoCorr->pProx->pAnt = pNo ;
-            } else
-            {
-               pLista->pFimLista = pNo ;
-            } /* if */
+	if ( pNo == NULL ) return LIS_CondRetFaltouMemoria ;
+	/* if */
+	if ( pLista->pNoCorr == NULL )
+	{
+		pLista->pOrigemLista = pNo ;
+		pLista->pFimLista = pNo ;
+	} else
+	{
+		if ( pLista->pNoCorr->pProx != NULL )
+		{
+			pNo->pProx  = pLista->pNoCorr->pProx ;
+			pLista->pNoCorr->pProx->pAnt = pNo ;
+		} else
+		{
+			pLista->pFimLista = pNo ;
+		} /* if */
 
-            pNo->pAnt = pLista->pNoCorr ;
-            pLista->pNoCorr->pProx = pNo ;
+		pNo->pAnt = pLista->pNoCorr ;
+		pLista->pNoCorr->pProx = pNo ;
 
-         } /* if */
-                  
-         pLista->pNoCorr = pNo ;
+	} /* if */
 
-		#ifdef _DEBUG
-		 pLista->numNo ++;
-		 CED_DefinirTipoEspaco( pNo , LIS_TipoEspacoNo ) ;
-		#endif   
+	pLista->pNoCorr = pNo ;
 
-         return LIS_CondRetOK ;
+#ifdef _DEBUG
+	pLista->numNo ++;
+	CED_DefinirTipoEspaco( pNo , LIS_TipoEspacoNo ) ;
+#endif   
 
-   } /* Fim função: LIS  &Inserir nó */
+	return LIS_CondRetOK ;
+
+} /* Fim função: LIS  &Inserir nó */
 
 
 
-	/***************************************************************************
+/***************************************************************************
 *
 *  Função: LIS  &Obter referência para o valor contido no nó
 *  ****/
 
-	void * LIS_ObterNo( LIS_tppLista pLista ){
+void * LIS_ObterNo( LIS_tppLista pLista ){
 
-		if ( pLista == NULL )
-		{
-			printf(" \n Lista inexistente");
-      		 return NULL;
-		}
-		
-		if( pLista->pNoCorr == NULL )
-		{
-			//printf(" \n Lista Vazia");
-			return NULL;
-		}
+	if ( pLista == NULL )
+	{
+		printf(" \n Lista inexistente");
+		return NULL;
+	}
 
-		return pLista->pNoCorr->pValor;
+	if( pLista->pNoCorr == NULL )
+	{
+		//printf(" \n Lista Vazia");
+		return NULL;
+	}
 
-	}/* Fim função: LIS  &Obter referência para o valor contido no nó */
+	return pLista->pNoCorr->pValor;
+
+}/* Fim função: LIS  &Obter referência para o valor contido no nó */
 
 
 
-	/***************************************************************************
+/***************************************************************************
 *
 *  Função: LIS  &Excluir nó corrente
 *  ****/
 
-	void LIS_ExcluirNoCorr( LIS_tppLista pLista ){
+void LIS_ExcluirNoCorr( LIS_tppLista pLista ){
 
-		tpNoLista * pNo ;
+	tpNoLista * pNo ;
 
-		/* Tratar lista vazia */
+	/* Tratar lista vazia */
 
-      if ( pLista->pNoCorr == NULL )
-      {
-		 printf("\n Erro ao excluir no corrente, lista vazia");
-         return;
-      } 
+	if ( pLista->pNoCorr == NULL )
+	{
+		printf("\n Erro ao excluir no corrente, lista vazia");
+		return;
+	} 
 
-      pNo = pLista->pNoCorr ;
+	pNo = pLista->pNoCorr ;
 
-      /* Desencadeia à esquerda */
+	/* Desencadeia à esquerda */
 
-         if ( pNo->pAnt != NULL )
-         {
-            pNo->pAnt->pProx   = pNo->pProx ;
-            pLista->pNoCorr    = pNo->pAnt ;
-         } else {
-            pLista->pNoCorr    = pNo->pProx ;
-            pLista->pOrigemLista = pLista->pNoCorr ;
-         } /* if */
+	if ( pNo->pAnt != NULL )
+	{
+		pNo->pAnt->pProx   = pNo->pProx ;
+		pLista->pNoCorr    = pNo->pAnt ;
+	} else {
+		pLista->pNoCorr    = pNo->pProx ;
+		pLista->pOrigemLista = pLista->pNoCorr ;
+	} /* if */
 
-      /* Desencadeia à direita */
+	/* Desencadeia à direita */
 
-         if ( pNo->pProx != NULL )
-         {
-            pNo->pProx->pAnt = pNo->pAnt ;
-         } else
-         {
-            pLista->pFimLista = pNo->pAnt ;
-         } /* if */
+	if ( pNo->pProx != NULL )
+	{
+		pNo->pProx->pAnt = pNo->pAnt ;
+	} else
+	{
+		pLista->pFimLista = pNo->pAnt ;
+	} /* if */
 
-      free(pNo) ;
+	free(pNo) ;
 
-	    #ifdef _DEBUG
-	  pLista->numNo--;
-      #endif
+#ifdef _DEBUG
+	pLista->numNo--;
+#endif
 
-      return;
+	return;
 
-   } /* Fim função: LIS  &Excluir nó corrente */
+} /* Fim função: LIS  &Excluir nó corrente */
 
 
 
-	/***************************************************************************
+/***************************************************************************
 *
 *  Função: LIS  &Ir para o proximo nó da lista
 *  ****/
 
 
-	LIS_tpCondRet LIS_IrProx( LIS_tppLista pLista ){
+LIS_tpCondRet LIS_IrProx( LIS_tppLista pLista ){
 
-      tpNoLista * pNo ;
+	tpNoLista * pNo ;
 
-      /* Tratar lista vazia */
+	/* Tratar lista vazia */
 
-         if ( pLista->pNoCorr == NULL ) return LIS_CondRetListaVazia;
+	if ( pLista->pNoCorr == NULL ) return LIS_CondRetListaVazia;
 
-		 if(pLista->pNoCorr==pLista->pFimLista) return LIS_CondRetFimLista ;
-		 /* if */
+	if(pLista->pNoCorr==pLista->pFimLista) return LIS_CondRetFimLista ;
+	/* if */
 
-		 pNo=pLista->pNoCorr;
+	pNo=pLista->pNoCorr;
 
-		 pLista->pNoCorr=pNo->pProx;
+	pLista->pNoCorr=pNo->pProx;
 
-		 return LIS_CondRetOK;
+	return LIS_CondRetOK;
 
-	} /* Fim função: LIS &Ir para o proximo nó da lista */
+} /* Fim função: LIS &Ir para o proximo nó da lista */
 
 
 
-    	/***************************************************************************
+/***************************************************************************
 *
 *  Função: LIS  &Ir para o nó anterior da lista
 *  ****/
 
-	LIS_tpCondRet LIS_IrAnt( LIS_tppLista pLista ) {
+LIS_tpCondRet LIS_IrAnt( LIS_tppLista pLista ) {
 
-		tpNoLista * pNo ;
+	tpNoLista * pNo ;
 
-      /* Tratar lista vazia */
+	/* Tratar lista vazia */
 
-         if ( pLista->pNoCorr == NULL ) return LIS_CondRetListaVazia;
+	if ( pLista->pNoCorr == NULL ) return LIS_CondRetListaVazia;
 
-		 if(pLista->pNoCorr==pLista->pOrigemLista) return LIS_CondRetNoCorrPrim;
-		 /* if */
+	if(pLista->pNoCorr==pLista->pOrigemLista) return LIS_CondRetNoCorrPrim;
+	/* if */
 
-		 pNo=pLista->pNoCorr;
+	pNo=pLista->pNoCorr;
 
-		 pLista->pNoCorr=pNo->pAnt;
+	pLista->pNoCorr=pNo->pAnt;
 
-		 return LIS_CondRetOK;
+	return LIS_CondRetOK;
 
-	}/* Fim função: LIS &Ir para o nó anterior da lista */
+}/* Fim função: LIS &Ir para o nó anterior da lista */
 
 
 
-	   	/***************************************************************************
+/***************************************************************************
 *
 *  Função: LIS  &Alterar valor do nó corrente
 *  ****/
 
-	LIS_tpCondRet LIS_AlterarNoCorr( LIS_tppLista pLista , void * pValor ){
+LIS_tpCondRet LIS_AlterarNoCorr( LIS_tppLista pLista , void * pValor ){
 
-		/* Tratar lista vazia ou inexistente */
+	/* Tratar lista vazia ou inexistente */
 
-		if(pLista==NULL) return LIS_CondRetNaoExiste;
+	if(pLista==NULL) return LIS_CondRetNaoExiste;
 
-		if(pLista->pNoCorr==NULL) return LIS_CondRetListaVazia;
+	if(pLista->pNoCorr==NULL) return LIS_CondRetListaVazia;
 
-		pLista->pNoCorr->pValor=pValor;
+	pLista->pNoCorr->pValor=pValor;
 
-		return LIS_CondRetOK;
+	return LIS_CondRetOK;
 
-	}/* Fim função: LIS &Alterar valor do nó corrente */
+}/* Fim função: LIS &Alterar valor do nó corrente */
 
 
 
@@ -364,114 +364,114 @@
 *  Função: LIS  &Ir para o elemento inicial
 *  ****/
 
-   void LIS_IrInicioLista( LIS_tppLista pLista )
-   {
-      assert( pLista != NULL ) ;
+void LIS_IrInicioLista( LIS_tppLista pLista )
+{
+	assert( pLista != NULL ) ;
 
-	  pLista->pNoCorr = pLista->pOrigemLista ;
+	pLista->pNoCorr = pLista->pOrigemLista ;
 
-   } /* Fim função: LIS  &Ir para o elemento inicial */
+} /* Fim função: LIS  &Ir para o elemento inicial */
 
 /***************************************************************************
 *
 *  Função: LIS  &Ir para o elemento final
 *  ****/
 
-   void LIS_IrFinalLista( LIS_tppLista pLista )
-   {
+void LIS_IrFinalLista( LIS_tppLista pLista )
+{
 
-         assert( pLista != NULL ) ;
- 
-
-		 pLista->pNoCorr = pLista->pFimLista ;
-
-   } /* Fim função: LIS  &Ir para o elemento final */
+	assert( pLista != NULL ) ;
 
 
+	pLista->pNoCorr = pLista->pFimLista ;
+
+} /* Fim função: LIS  &Ir para o elemento final */
 
 
-	/***************************************************************************
+
+
+/***************************************************************************
 *
 *  Função: LIS  &Destruir lista
 *  ****/
 
-	LIS_tpCondRet LIS_DestruirLista( LIS_tppLista pLista ){
+LIS_tpCondRet LIS_DestruirLista( LIS_tppLista pLista ){
 
-		/* Tratar lista inexistente */
-		tpNoLista * pProx;
+	/* Tratar lista inexistente */
+	tpNoLista * pProx;
 
-        tpNoLista * pNo = pLista->pOrigemLista ;
+	tpNoLista * pNo = pLista->pOrigemLista ;
 
-		if(pLista==NULL) return LIS_CondRetNaoExiste;
+	if(pLista==NULL) return LIS_CondRetNaoExiste;
 
-        while ( pNo != NULL )
-        {
-           pProx = pNo->pProx ;
-           free(pNo);
-           pNo = pProx ;
-        } /* while */
-		
-        pLista->pOrigemLista = NULL ;
-        pLista->pFimLista = NULL ;
-        pLista->pNoCorr = NULL ;
-		free(pLista);
-		return LIS_CondRetOK;
+	while ( pNo != NULL )
+	{
+		pProx = pNo->pProx ;
+		free(pNo);
+		pNo = pProx ;
+	} /* while */
 
-	}/* Fim função: LIS  &Destruir lista */
+	pLista->pOrigemLista = NULL ;
+	pLista->pFimLista = NULL ;
+	pLista->pNoCorr = NULL ;
+	free(pLista);
+	return LIS_CondRetOK;
 
-	/***************************************************************************
+}/* Fim função: LIS  &Destruir lista */
+
+/***************************************************************************
 *
 *  Função: LIS  &Esvaziar lista
 *  ****/
 
-   void LIS_EsvaziarLista( LIS_tppLista pLista )
-   {
+void LIS_EsvaziarLista( LIS_tppLista pLista )
+{
 
-      tpNoLista * pNo ;
-      tpNoLista * pProx ;
+	tpNoLista * pNo ;
+	tpNoLista * pProx ;
 
-      pNo = pLista->pOrigemLista ;
-      while ( pNo != NULL )
-      {
-         pProx = pNo->pProx ;
-         free(pNo) ;
-         pNo = pProx ;
-      } /* while */
+	pNo = pLista->pOrigemLista ;
+	while ( pNo != NULL )
+	{
+		pProx = pNo->pProx ;
+		free(pNo) ;
+		pNo = pProx ;
+	} /* while */
 
-      LimparCabeca( pLista ) ;
+	LimparCabeca( pLista ) ;
 
-   } /* Fim função: LIS  &Esvaziar lista */
+} /* Fim função: LIS  &Esvaziar lista */
 
-   /***************************************************************************
+/***************************************************************************
 *
 *  Função: LIS  &Procurar elemento contendo valor
 *  ****/
 
-   LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista, void* pValor )
-   {
+LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista, void* pValor )
+{
 
-      tpNoLista * pNo ;
+	tpNoLista * pNo ;
 
-      #ifdef _DEBUG
-         assert( pLista  != NULL ) ;
-      #endif
+#ifdef _DEBUG
+	assert( pLista  != NULL ) ;
+#endif
 
-      if ( pLista->pNoCorr == NULL )
-      {
-         return LIS_CondRetListaVazia ;
-      } /* if */
+	if ( pLista->pNoCorr == NULL )
+	{
+		return LIS_CondRetListaVazia ;
+	} /* if */
 
-      for ( pNo = pLista->pNoCorr; pNo != NULL; pNo = pNo->pProx )
-      {
-         if ( pNo->pValor == pValor )
-         {
-            pLista->pNoCorr = pNo ;
-            return LIS_CondRetOK ;
-         } /* if */
-      } /* for */
+	for ( pNo = pLista->pNoCorr; pNo != NULL; pNo = pNo->pProx )
+	{
+		if ( pNo->pValor == pValor )
+		{
+			pLista->pNoCorr = pNo ;
+			return LIS_CondRetOK ;
+		} /* if */
+	} /* for */
 
-      return LIS_CondRetNaoAchou;
-	} /* Fim função: LIS  &Procurar elemento contendo valor */
+	return LIS_CondRetNaoAchou;
+} /* Fim função: LIS  &Procurar elemento contendo valor */
 
 #ifdef _DEBUG
 
@@ -481,81 +481,81 @@
 *  ****/
 
 
-   LIS_tpCondRet LIS_VerificarLista( LIS_tppLista pLista) {
+LIS_tpCondRet LIS_VerificarLista( LIS_tppLista pLista) {
 
-	  LIS_tpLista * pListaAux = NULL ;
+	LIS_tpLista * pListaAux = NULL ;
 
-	  #ifdef _DEBUG
-         CNT_CONTAR( "LIS_VerificarLista" ) ;
-      #endif
+#ifdef _DEBUG
+	CNT_CONTAR( "LIS_VerificarLista" ) ;
+#endif
 
-      if ( LIS_VerificarCabeca( pLista) != LIS_CondRetOK )
-      {
-		 #ifdef _DEBUG
-         CNT_CONTAR( "LIS_VerificarCabecaErro" ) ;
-         #endif
+	if ( LIS_VerificarCabeca( pLista) != LIS_CondRetOK )
+	{
+#ifdef _DEBUG
+		CNT_CONTAR( "LIS_VerificarCabecaErro" ) ;
+#endif
 
-         return LIS_CondRetErroEstrutura ;
-      } /* if */
+		return LIS_CondRetErroEstrutura ;
+	} /* if */
 
-	  #ifdef _DEBUG
-         CNT_CONTAR( "LIS_VerificarCabecaOK" ) ;
-      #endif
+#ifdef _DEBUG
+	CNT_CONTAR( "LIS_VerificarCabecaOK" ) ;
+#endif
 
-      CED_MarcarEspacoAtivo( pLista ) ;
+	CED_MarcarEspacoAtivo( pLista ) ;
 
-      pListaAux = ( LIS_tpLista * ) ( pLista ) ;
+	pListaAux = ( LIS_tpLista * ) ( pLista ) ;
 
-	  if(pListaAux->pOrigemLista != NULL){
+	if(pListaAux->pOrigemLista != NULL){
 
-		  #ifdef _DEBUG
-         CNT_CONTAR( "pOrigem nao NULL" ) ;
-          #endif
+#ifdef _DEBUG
+		CNT_CONTAR( "pOrigem nao NULL" ) ;
+#endif
 
-		  return LIS_VerificarNo(pListaAux->pOrigemLista);
-	  
-	  }/* if */
-	  else{
-		  
-		  if(pListaAux->pNoCorr != NULL){
+		return LIS_VerificarNo(pListaAux->pOrigemLista);
 
-			  #ifdef _DEBUG
-			 CNT_CONTAR( "pNoCorr nao NULL" ) ;
-			#endif
+	}/* if */
+	else{
 
-			  return LIS_VerificarNo(pListaAux->pNoCorr);
-	  
-		  }/* if */
-		  else {
+		if(pListaAux->pNoCorr != NULL){
 
-			  if(pListaAux->pFimLista != NULL){
+#ifdef _DEBUG
+			CNT_CONTAR( "pNoCorr nao NULL" ) ;
+#endif
 
-				   #ifdef _DEBUG
-					CNT_CONTAR( "pFim nao NULL" ) ;
-					#endif
+			return LIS_VerificarNo(pListaAux->pNoCorr);
 
-				 return LIS_VerificarNo(pListaAux->pFimLista);
-			  
-			  }/* if */
+		}/* if */
+		else {
 
-		  }/* else */
+			if(pListaAux->pFimLista != NULL){
 
-	  }/* else */
+#ifdef _DEBUG
+				CNT_CONTAR( "pFim nao NULL" ) ;
+#endif
 
-	   #ifdef _DEBUG
-		CNT_CONTAR( "Lista vazia" ) ;
-	   #endif
+				return LIS_VerificarNo(pListaAux->pFimLista);
 
-	  return LIS_CondRetOK;
-	 
+			}/* if */
 
-   } /* Fim função: LIS  &Verificar uma lista */
+		}/* else */
 
- #endif
+	}/* else */
+
+#ifdef _DEBUG
+	CNT_CONTAR( "Lista vazia" ) ;
+#endif
+
+	return LIS_CondRetOK;
 
 
+} /* Fim função: LIS  &Verificar uma lista */
 
- #ifdef _DEBUG
+#endif
+
+
+
+#ifdef _DEBUG
 
 /***************************************************************************
 *
@@ -563,345 +563,344 @@
 *  ****/
 
 
-   LIS_tpCondRet LIS_VerificarCabeca( void * pLista) {
+LIS_tpCondRet LIS_VerificarCabeca( void * pLista) {
 
-	   LIS_tpLista * pListaAux = NULL ;
+	LIS_tpLista * pListaAux = NULL ;
 
-	   tpNoLista * pNoAux = NULL ;
+	tpNoLista * pNoAux = NULL ;
 
-	   int numDeNo = 0;
+	int numDeNo = 0;
 
-	    #ifdef _DEBUG
-			 CNT_CONTAR( "LIS_VerificarCabeca" ) ;
-			#endif
+#ifdef _DEBUG
+	CNT_CONTAR( "LIS_VerificarCabeca" ) ;
+#endif
 
-	   /* Verifica o tipo do espaço */
+	/* Verifica o tipo do espaço */
 
-         if ( pLista == NULL )
-         {
-			 #ifdef _DEBUG
-			 CNT_CONTAR( "pLista NULL" ) ;
-			#endif
+	if ( pLista == NULL )
+	{
+#ifdef _DEBUG
+		CNT_CONTAR( "pLista NULL" ) ;
+#endif
 
-            TST_NotificarFalha( "Tentou verificar cabeça inexistente." ) ;
-            return LIS_CondRetErroEstrutura ;
-         } /* if */
+		TST_NotificarFalha( "Tentou verificar cabeça inexistente." ) ;
+		return LIS_CondRetErroEstrutura ;
+	} /* if */
 
-		 if ( ! CED_VerificarEspaco( pLista , NULL ))
-         {
-			 #ifdef _DEBUG
-			 CNT_CONTAR( "Erro verificar espaco cabeca" ) ;
-			#endif
+	if ( ! CED_VerificarEspaco( pLista , NULL ))
+	{
+#ifdef _DEBUG
+		CNT_CONTAR( "Erro verificar espaco cabeca" ) ;
+#endif
 
-            TST_NotificarFalha( "Controle do espaço acusou erro." ) ;
-            return LIS_CondRetErroEstrutura ;
-         } /* if */
+		TST_NotificarFalha( "Controle do espaço acusou erro." ) ;
+		return LIS_CondRetErroEstrutura ;
+	} /* if */
 
-		   if ( TST_CompararInt( LIS_TipoEspacoCabeca ,
-              CED_ObterTipoEspaco( pLista) ,
-              "Tipo do espaço de dados não é cabeça de lista." ) != TST_CondRetOK )
-         {
-			 #ifdef _DEBUG
-			 CNT_CONTAR( "Nao e cabeca de lista" ) ;
-			#endif
+	if ( TST_CompararInt( LIS_TipoEspacoCabeca ,
+		CED_ObterTipoEspaco( pLista) ,
+		"Tipo do espaço de dados não é cabeça de lista." ) != TST_CondRetOK )
+	{
+#ifdef _DEBUG
+		CNT_CONTAR( "Nao e cabeca de lista" ) ;
+#endif
 
-            return LIS_CondRetErroEstrutura ;
-         } /* if */
+		return LIS_CondRetErroEstrutura ;
+	} /* if */
 
-		   #ifdef _DEBUG
-			 CNT_CONTAR( "Cabeca OK" ) ;
-			#endif
+#ifdef _DEBUG
+	CNT_CONTAR( "Cabeca OK" ) ;
+#endif
 
-		   pListaAux = ( LIS_tpLista * )( pLista ) ;
+	pListaAux = ( LIS_tpLista * )( pLista ) ;
 
-      /* Verifica no corrente */
+	/* Verifica no corrente */
 
-		   if ( pListaAux->pNoCorr != NULL )
-         {
-			 #ifdef _DEBUG
-			 CNT_CONTAR( "Verifica corrente" ) ;
-			#endif
+	if ( pListaAux->pNoCorr != NULL )
+	{
+#ifdef _DEBUG
+		CNT_CONTAR( "Verifica corrente" ) ;
+#endif
 
-			 if ( TST_CompararPonteiro( pLista , pListaAux->pNoCorr->pCabeca ,
-                 "Nó corrente não aponta para cabeça." ) != TST_CondRetOK )
-            {
-				#ifdef _DEBUG
-			 CNT_CONTAR( "No corrrente nao aponta cabeca" ) ;
-			#endif
+		if ( TST_CompararPonteiro( pLista , pListaAux->pNoCorr->pCabeca ,
+			"Nó corrente não aponta para cabeça." ) != TST_CondRetOK )
+		{
+#ifdef _DEBUG
+			CNT_CONTAR( "No corrrente nao aponta cabeca" ) ;
+#endif
 
-               return LIS_CondRetErroEstrutura ;
-            } /* if */
-         } else {
-			 if ( TST_CompararPonteiro( NULL , pListaAux->pNoCorr ,
-                 "Lista vazia tem nó corrente não NULL." ) != TST_CondRetOK )
-            {
-				#ifdef _DEBUG
-			 CNT_CONTAR( "Lista vazia tem no corrente nao NULL" ) ;
-			#endif
+			return LIS_CondRetErroEstrutura ;
+		} /* if */
+	} else {
+		if ( TST_CompararPonteiro( NULL , pListaAux->pNoCorr ,
+			"Lista vazia tem nó corrente não NULL." ) != TST_CondRetOK )
+		{
+#ifdef _DEBUG
+			CNT_CONTAR( "Lista vazia tem no corrente nao NULL" ) ;
+#endif
 
-               return LIS_CondRetErroEstrutura ;
-            } /* if */
-         } /* if */
-
-
-		/* Verifica comeco lista */
-
-		   if ( pListaAux->pOrigemLista!= NULL )
-         {
-			 #ifdef _DEBUG
-			 CNT_CONTAR( "Verifica Origem" ) ;
-			#endif
-
-			 if ( TST_CompararPonteiro( pLista , pListaAux->pOrigemLista->pCabeca ,
-                 "Primeiro no não aponta para cabeça." ) != TST_CondRetOK )
-            {
-
-				#ifdef _DEBUG
-			 CNT_CONTAR( "Primeiro no nao aponta para cabeca" ) ;
-			#endif
-
-               return LIS_CondRetErroEstrutura ;
-            } /* if */
-         } else {
-			 if ( TST_CompararPonteiro( NULL , pListaAux->pOrigemLista ,
-                 "Lista vazia tem primeiro no não NULL." ) != TST_CondRetOK )
-            {
-				#ifdef _DEBUG
-			 CNT_CONTAR( "Lista vazia tem primeiro no nao NULL" ) ;
-			#endif
-
-               return LIS_CondRetErroEstrutura ;
-            } /* if */
-         } /* if */
-
-	 /* Verifica fim lista */
-
-		   if ( pListaAux->pFimLista != NULL )
-         {
-			 #ifdef _DEBUG
-			 CNT_CONTAR( "Verifica Fim" ) ;
-			#endif
-
-			 if ( TST_CompararPonteiro( pLista , pListaAux->pFimLista->pCabeca,
-                 "Ultimo no não aponta para cabeça." ) != TST_CondRetOK )
-            {
-				#ifdef _DEBUG
-			 CNT_CONTAR( "Ultimo no nao aponta para cabeca" ) ;
-			#endif
-
-               return LIS_CondRetErroEstrutura ;
-            } /* if */
-         } else {
-			 if ( TST_CompararPonteiro( NULL , pListaAux->pFimLista ,
-                 "Lista vazia tem ultimo no não NULL." ) != TST_CondRetOK )
-            {
-
-				#ifdef _DEBUG
-			 CNT_CONTAR( "Lista vazia tem ultimo no nao NULL" ) ;
-			#endif
-
-               return LIS_CondRetErroEstrutura ;
-            } /* if */
-         } /* if */
+			return LIS_CondRetErroEstrutura ;
+		} /* if */
+	} /* if */
 
 
-		   #ifdef _DEBUG
-			 CNT_CONTAR( "Lista vazia" ) ;
-			#endif
+	/* Verifica comeco lista */
 
-		   pNoAux = (tpNoLista *) (pListaAux->pOrigemLista);
+	if ( pListaAux->pOrigemLista!= NULL )
+	{
+#ifdef _DEBUG
+		CNT_CONTAR( "Verifica Origem" ) ;
+#endif
 
-		/* Verfica veracidade do numero de nos */
+		if ( TST_CompararPonteiro( pLista , pListaAux->pOrigemLista->pCabeca ,
+			"Primeiro no não aponta para cabeça." ) != TST_CondRetOK )
+		{
 
-		   while (pNoAux != NULL){
+#ifdef _DEBUG
+			CNT_CONTAR( "Primeiro no nao aponta para cabeca" ) ;
+#endif
 
-			   numDeNo ++;
-			   pNoAux = pNoAux->pProx;
+			return LIS_CondRetErroEstrutura ;
+		} /* if */
+	} else {
+		if ( TST_CompararPonteiro( NULL , pListaAux->pOrigemLista ,
+			"Lista vazia tem primeiro no não NULL." ) != TST_CondRetOK )
+		{
+#ifdef _DEBUG
+			CNT_CONTAR( "Lista vazia tem primeiro no nao NULL" ) ;
+#endif
 
-		   }/* while */
+			return LIS_CondRetErroEstrutura ;
+		} /* if */
+	} /* if */
+
+	/* Verifica fim lista */
+
+	if ( pListaAux->pFimLista != NULL )
+	{
+#ifdef _DEBUG
+		CNT_CONTAR( "Verifica Fim" ) ;
+#endif
+
+		if ( TST_CompararPonteiro( pLista , pListaAux->pFimLista->pCabeca,
+			"Ultimo no não aponta para cabeça." ) != TST_CondRetOK )
+		{
+#ifdef _DEBUG
+			CNT_CONTAR( "Ultimo no nao aponta para cabeca" ) ;
+#endif
+
+			return LIS_CondRetErroEstrutura ;
+		} /* if */
+	} else {
+		if ( TST_CompararPonteiro( NULL , pListaAux->pFimLista ,
+			"Lista vazia tem ultimo no não NULL." ) != TST_CondRetOK )
+		{
+
+#ifdef _DEBUG
+			CNT_CONTAR( "Lista vazia tem ultimo no nao NULL" ) ;
+#endif
+
+			return LIS_CondRetErroEstrutura ;
+		} /* if */
+	} /* if */
 
 
-		   if (pListaAux->numNo != numDeNo) {
-			   
-			   #ifdef _DEBUG
-			 CNT_CONTAR( "Erro numero de nos" ) ;
-			#endif
+#ifdef _DEBUG
+	CNT_CONTAR( "Lista vazia" ) ;
+#endif
 
-			   TST_NotificarFalha( "Numero de nos informado pela cabeca diferente do real." ) ;
-            return LIS_CondRetErroEstrutura ;
+	pNoAux = (tpNoLista *) (pListaAux->pOrigemLista);
 
-		   }/* if */
+	/* Verfica veracidade do numero de nos */
 
+	while (pNoAux != NULL){
 
-		   #ifdef _DEBUG
-			 CNT_CONTAR( "Numero de nos OK" ) ;
-			#endif
+		numDeNo ++;
+		pNoAux = pNoAux->pProx;
 
-		   return LIS_CondRetOK ;
-	 
-
-   } /* Fim função: LIS  &Verificar cabeca de lista */
-
- #endif
+	}/* while */
 
 
- #ifdef _DEBUG
+	if (pListaAux->numNo != numDeNo) {
 
-   /***************************************************************************
+#ifdef _DEBUG
+		CNT_CONTAR( "Erro numero de nos" ) ;
+#endif
+
+		TST_NotificarFalha( "Numero de nos informado pela cabeca diferente do real." ) ;
+		return LIS_CondRetErroEstrutura ;
+
+	}/* if */
+
+
+#ifdef _DEBUG
+	CNT_CONTAR( "Numero de nos OK" ) ;
+#endif
+
+	return LIS_CondRetOK ;
+
+
+} /* Fim função: LIS  &Verificar cabeca de lista */
+
+#endif
+
+
+#ifdef _DEBUG
+
+/***************************************************************************
 *
 *  Função: LIS &Verificar um nó da lista
 *  ****/
 
-   LIS_tpCondRet LIS_VerificarNo( void * pNo )
-   {
+LIS_tpCondRet LIS_VerificarNo( void * pNo )
+{
+	tpNoLista * pNoAux;
+	LIS_tpLista * pListaAux;
 
-	   #ifdef _DEBUG
-			 CNT_CONTAR( "LIS_VerificarNo" ) ;
-			#endif
+#ifdef _DEBUG
+	CNT_CONTAR( "LIS_VerificarNo" ) ;
+#endif
 
-      tpNoLista * pNoAux     = NULL ;
-      LIS_tpLista * pListaAux = NULL ;
+	/* Verificar se é nó estrutural */
 
-      /* Verificar se é nó estrutural */
+	if ( pNo == NULL )
+	{
+#ifdef _DEBUG
+		CNT_CONTAR( "No NULL" ) ;
+#endif
 
-         if ( pNo == NULL )
-         {
-			 #ifdef _DEBUG
-			 CNT_CONTAR( "No NULL" ) ;
-			#endif
+		TST_NotificarFalha( "Tentou verificar nó inexistente." ) ;
+		return LIS_CondRetErroEstrutura ;
 
-            TST_NotificarFalha( "Tentou verificar nó inexistente." ) ;
-            return LIS_CondRetErroEstrutura ;
+	} /* if */
 
-         } /* if */
+	if ( ! CED_VerificarEspaco( pNo , NULL ))
+	{
+#ifdef _DEBUG
+		CNT_CONTAR( "Erro verificar espaco no" ) ;
+#endif
 
-         if ( ! CED_VerificarEspaco( pNo , NULL ))
-         {
-			 #ifdef _DEBUG
-			 CNT_CONTAR( "Erro verificar espaco no" ) ;
-			#endif
+		TST_NotificarFalha( "Controle do espaço acusou erro." ) ;
+		return LIS_CondRetErroEstrutura ;
+	} /* if */
 
-            TST_NotificarFalha( "Controle do espaço acusou erro." ) ;
-            return LIS_CondRetErroEstrutura ;
-         } /* if */
+	if ( TST_CompararInt( LIS_TipoEspacoNo ,
+		CED_ObterTipoEspaco( pNo ) ,
+		"Tipo do espaço de dados não é nó de lista." ) != TST_CondRetOK )
+	{
+#ifdef _DEBUG
+		CNT_CONTAR( "Nao e no" ) ;
+#endif
 
-         if ( TST_CompararInt( LIS_TipoEspacoNo ,
-              CED_ObterTipoEspaco( pNo ) ,
-              "Tipo do espaço de dados não é nó de lista." ) != TST_CondRetOK )
-         {
-			  #ifdef _DEBUG
-			 CNT_CONTAR( "Nao e no" ) ;
-			#endif
+		return LIS_CondRetErroEstrutura ;
+	} /* if */
 
-            return LIS_CondRetErroEstrutura ;
-         } /* if */
+#ifdef _DEBUG
+	CNT_CONTAR( "No OK" ) ;
+#endif
 
-		  #ifdef _DEBUG
-			 CNT_CONTAR( "No OK" ) ;
-			#endif
+	pNoAux     = ( tpNoLista * )( pNo ) ;
+	pListaAux = pNoAux->pCabeca ;
 
-         pNoAux     = ( tpNoLista * )( pNo ) ;
-         pListaAux = pNoAux->pCabeca ;
+	/* Verificar cabeça */
 
-      /* Verificar cabeça */
+	if ( pListaAux->pNoCorr != NULL  )
+	{
+#ifdef _DEBUG
+		CNT_CONTAR( "Verifica cabeca" ) ;
+#endif
 
-		 if ( pListaAux->pNoCorr != NULL  )
-         {
-			  #ifdef _DEBUG
-			 CNT_CONTAR( "Verifica cabeca" ) ;
-			#endif
+		if ( TST_CompararPonteiro( pListaAux , pListaAux->pNoCorr->pCabeca,
+			"Nó não pertence à lista." ) != TST_CondRetOK )
+		{
+#ifdef _DEBUG
+			CNT_CONTAR( "No nao pertence a lista" ) ;
+#endif
 
-			 if ( TST_CompararPonteiro( pListaAux , pListaAux->pNoCorr->pCabeca,
-                 "Nó não pertence à lista." ) != TST_CondRetOK )
-            {
-				 #ifdef _DEBUG
-			 CNT_CONTAR( "No nao pertence a lista" ) ;
-			#endif
-
-               return LIS_CondRetErroEstrutura ;
-            } /* if */
-         } else
-         {
-			 #ifdef _DEBUG
-			 CNT_CONTAR( "No pertence a lista vazia" ) ;
-			#endif
-
-            TST_NotificarFalha( "Nó pertence a lista vazia." ) ;
 			return LIS_CondRetErroEstrutura ;
-         } /* if */
+		} /* if */
+	} else
+	{
+#ifdef _DEBUG
+		CNT_CONTAR( "No pertence a lista vazia" ) ;
+#endif
 
-      /* Verificar anterior */
+		TST_NotificarFalha( "Nó pertence a lista vazia." ) ;
+		return LIS_CondRetErroEstrutura ;
+	} /* if */
 
-		 if ( pNoAux->pAnt != NULL )
-         {
+	/* Verificar anterior */
 
-			  #ifdef _DEBUG
-			 CNT_CONTAR( "Verifica anterior" ) ;
-			#endif
+	if ( pNoAux->pAnt != NULL )
+	{
 
-			 if ( TST_CompararPonteiro( pNoAux , pNoAux->pAnt->pProx ,
-                 "O proximo do anterior nao é o corrente." ) != TST_CondRetOK )
-            {
+#ifdef _DEBUG
+		CNT_CONTAR( "Verifica anterior" ) ;
+#endif
 
-				#ifdef _DEBUG
-			 CNT_CONTAR( "O proximo do anterior nao e o corrente" ) ;
-			#endif
+		if ( TST_CompararPonteiro( pNoAux , pNoAux->pAnt->pProx ,
+			"O proximo do anterior nao é o corrente." ) != TST_CondRetOK )
+		{
 
-               return LIS_CondRetErroEstrutura ;
-            } /* if */
-         } else
-         {
-			 if ( TST_CompararPonteiro( pNoAux , pListaAux->pOrigemLista,
-                 "No nao possui anterior mas nao é o inicial." ) != TST_CondRetOK )
-            {
-				#ifdef _DEBUG
-			 CNT_CONTAR( "No nao possui anterior mas nao e o inicial" ) ;
-			#endif
+#ifdef _DEBUG
+			CNT_CONTAR( "O proximo do anterior nao e o corrente" ) ;
+#endif
 
-               return LIS_CondRetErroEstrutura ;
-            } /* if */
-         } /* if */
+			return LIS_CondRetErroEstrutura ;
+		} /* if */
+	} else
+	{
+		if ( TST_CompararPonteiro( pNoAux , pListaAux->pOrigemLista,
+			"No nao possui anterior mas nao é o inicial." ) != TST_CondRetOK )
+		{
+#ifdef _DEBUG
+			CNT_CONTAR( "No nao possui anterior mas nao e o inicial" ) ;
+#endif
 
-      /* Verificar proximo */
+			return LIS_CondRetErroEstrutura ;
+		} /* if */
+	} /* if */
 
-         if ( pNoAux->pProx != NULL )
-         {
-			 #ifdef _DEBUG
-			 CNT_CONTAR( "Verificar proximo" ) ;
-			#endif
+	/* Verificar proximo */
+
+	if ( pNoAux->pProx != NULL )
+	{
+#ifdef _DEBUG
+		CNT_CONTAR( "Verificar proximo" ) ;
+#endif
 
 
-			 if ( TST_CompararPonteiro( pNoAux , pNoAux->pProx->pAnt ,
-                 "O anterior do proximo nao e o corrente." ) != TST_CondRetOK )
-            {
+		if ( TST_CompararPonteiro( pNoAux , pNoAux->pProx->pAnt ,
+			"O anterior do proximo nao e o corrente." ) != TST_CondRetOK )
+		{
 
-				 #ifdef _DEBUG
-			 CNT_CONTAR( "O anterior do proximo nao e o corrente" ) ;
-			#endif
+#ifdef _DEBUG
+			CNT_CONTAR( "O anterior do proximo nao e o corrente" ) ;
+#endif
 
-               return LIS_CondRetErroEstrutura ;
-            } /* if */
-         } else
-         {
-			 if ( TST_CompararPonteiro( pNoAux , pListaAux->pFimLista,
-                 "No nao possui proximo mas nao é o final." ) != TST_CondRetOK )
-            {
+			return LIS_CondRetErroEstrutura ;
+		} /* if */
+	} else
+	{
+		if ( TST_CompararPonteiro( pNoAux , pListaAux->pFimLista,
+			"No nao possui proximo mas nao é o final." ) != TST_CondRetOK )
+		{
 
-				 #ifdef _DEBUG
-			 CNT_CONTAR( "No nao possui proximo mas nao e o final" ) ;
-			#endif
+#ifdef _DEBUG
+			CNT_CONTAR( "No nao possui proximo mas nao e o final" ) ;
+#endif
 
-               return LIS_CondRetErroEstrutura ;
-            } /* if */
-         } /* if */
+			return LIS_CondRetErroEstrutura ;
+		} /* if */
+	} /* if */
 
-		 #ifdef _DEBUG
-			 CNT_CONTAR( "No OK" ) ;
-			#endif
+#ifdef _DEBUG
+	CNT_CONTAR( "No OK" ) ;
+#endif
 
-      return LIS_CondRetOK ;
+	return LIS_CondRetOK ;
 
-   } /* Fim função: LIS  &Verificar um nó de lista */
+} /* Fim função: LIS  &Verificar um nó de lista */
 
 #endif
 
@@ -912,299 +911,299 @@
 *  Função: LIS &Deturpar lista
 *  ****/
 
-   void ARV_Deturpar( LIS_tppLista pLista ,
-                      LIS_tpModosDeturpacao ModoDeturpar )
-   {
+void ARV_Deturpar( LIS_tppLista pLista ,
+				  LIS_tpModosDeturpacao ModoDeturpar )
+{
 
-      LIS_tppLista pListaAux = NULL ;
+	LIS_tppLista pListaAux = NULL ;
 
-      if ( pLista == NULL )
-      {
-         return ;
-      } /* if */
+	if ( pLista == NULL )
+	{
+		return ;
+	} /* if */
 
-      pListaAux = ( LIS_tppLista  )( pLista) ;
+	pListaAux = ( LIS_tppLista  )( pLista) ;
 
-      switch ( ModoDeturpar ) {
+	switch ( ModoDeturpar ) {
 
-      /* Modifica o tipo da cabeça */
+		/* Modifica o tipo da cabeça */
 
-         case DeturpaTipoCabeca :
-         {
+	//case DeturpaTipoCabeca :
+	//	{
 
-            CED_DefinirTipoEspaco( pListaAux , CED_ID_TIPO_VALOR_NULO ) ;
+	//		CED_DefinirTipoEspaco( pListaAux , CED_ID_TIPO_VALOR_NULO ) ;
 
-            break ;
+	//		break ;
 
-         } /* fim ativa: Modifica o tipo da cabeça */
+	//	} /* fim ativa: Modifica o tipo da cabeça */
 
-	  /* Modifica numero de nos */
+		/* Modifica numero de nos */
 
-         case DeturparNumNo :
-         {
+	case DeturparNumNo :
+		{
 
-			 pListaAux->numNo++ ;
+			pListaAux->numNo++ ;
 
-            break ;
+			break ;
 
-         } /* fim ativa: Modifica numero de nos */
+		} /* fim ativa: Modifica numero de nos */
 
-      /* Anula ponteiro origem */
+		/* Anula ponteiro origem */
 
-         case DeturpaPtOrigemNulo :
-         {
+	case DeturpaPtOrigemNulo :
+		{
 
-			 pListaAux->pOrigemLista = NULL ;
+			pListaAux->pOrigemLista = NULL ;
 
-            break ;
+			break ;
 
-         } /* fim ativa: Anula ponteiro origem */
+		} /* fim ativa: Anula ponteiro origem */
 
-	/* Anula ponteiro final */
+		/* Anula ponteiro final */
 
-         case DeturpaPtFimNulo :
-         {
+	case DeturpaPtFimNulo :
+		{
 
-			 pListaAux->pFimLista = NULL ;
+			pListaAux->pFimLista = NULL ;
 
-            break ;
+			break ;
 
-         } /* fim ativa: Anula ponteiro final */
+		} /* fim ativa: Anula ponteiro final */
 
-      /* Anula ponteiro corrente */
+		/* Anula ponteiro corrente */
 
-         case DeturpaCorrenteNulo :
-         {
+	case DeturpaCorrenteNulo :
+		{
 
-            pListaAux->pNoCorr = NULL ;
+			pListaAux->pNoCorr = NULL ;
 
-            break ;
+			break ;
 
-         } /* fim ativa: Anula ponteiro corrente */
+		} /* fim ativa: Anula ponteiro corrente */
 
-      /* Faz cabeca apontar para lixo */
+		/* Faz cabeca apontar para lixo */
 
-         case DeturpaCabecaLixo :
-         {
+	case DeturpaCabecaLixo :
+		{
 
-            pListaAux = ( LIS_tppLista )( EspacoLixo ) ;
+			pListaAux = ( LIS_tppLista )( EspacoLixo ) ;
 
-            break ;
+			break ;
 
-         } /* fim ativa: Faz cabeca apontar para lixo */
+		} /* fim ativa: Faz cabeca apontar para lixo */
 
-	 /* Faz origem apontar para lixo */
+		/* Faz origem apontar para lixo */
 
-         case DeturpaPtOrigemLixo :
-         {
+	case DeturpaPtOrigemLixo :
+		{
 
-			 pListaAux->pOrigemLista = ( tpNoLista * )( EspacoLixo ) ;
+			pListaAux->pOrigemLista = ( tpNoLista * )( EspacoLixo ) ;
 
-            break ;
+			break ;
 
-         } /* fim ativa: Faz origem apontar para lixo */
+		} /* fim ativa: Faz origem apontar para lixo */
 
-	/* Faz pnteiro final para lixo */
+		/* Faz pnteiro final para lixo */
 
-         case DeturpaPtFimLixo :
-         {
+	case DeturpaPtFimLixo :
+		{
 
-			 pListaAux->pFimLista = ( tpNoLista * )( EspacoLixo ) ;
+			pListaAux->pFimLista = ( tpNoLista * )( EspacoLixo ) ;
 
-            break ;
+			break ;
 
-         } /* fim ativa: Faz finnal apontar para lixo */
+		} /* fim ativa: Faz finnal apontar para lixo */
 
-      /* Faz corrente apontar para lixo */
+		/* Faz corrente apontar para lixo */
 
-         case DeturpaCorrenteLixo :
-         {
+	case DeturpaCorrenteLixo :
+		{
 
-            pListaAux->pNoCorr = ( tpNoLista * )( EspacoLixo ) ;
+			pListaAux->pNoCorr = ( tpNoLista * )( EspacoLixo ) ;
 
-            break ;
+			break ;
 
-         } /* fim ativa: Faz corrente apontar para lixo */
+		} /* fim ativa: Faz corrente apontar para lixo */
 
-      /* Deturpar espaço cabeca */
+		/* Deturpar espaço cabeca */
 
-         case DeturparEspacoCabeca :
-         {
+	case DeturparEspacoCabeca :
+		{
 
-            memcpy( (( char * )( pListaAux )) - 10 , "????" , 4 ) ;
+			memcpy( (( char * )( pListaAux )) - 10 , "????" , 4 ) ;
 
-            break ;
+			break ;
 
-         } /* fim ativa: Deturpar espaço cabeca */
+		} /* fim ativa: Deturpar espaço cabeca */
 
-      /* Deturpa nóo */
+		/* Deturpa nóo */
 
-         default :
+	default :
 
-         if ( pListaAux->pNoCorr != NULL )
-         {
+		if ( pListaAux->pNoCorr != NULL )
+		{
 
-            switch ( ModoDeturpar ) {
+			switch ( ModoDeturpar ) {
 
-            /* Modifica tipo nó corrente */
+				/* Modifica tipo nó corrente */
 
-               case DeturpaTipoNo :
-               {
+			//case DeturpaTipoNo :
+			//	{
 
-                  CED_DefinirTipoEspaco( pListaAux->pNoCorr , CED_ID_TIPO_VALOR_NULO ) ;
+			//		CED_DefinirTipoEspaco( pListaAux->pNoCorr , CED_ID_TIPO_VALOR_NULO ) ;
 
-                  break ;
+			//		break ;
 
-               } /* fim ativa: Modifica tipo nó corrente */
+			//	} /* fim ativa: Modifica tipo nó corrente */
 
-            /* Anula ponteiro cabeça */
+				/* Anula ponteiro cabeça */
 
-               case DeturpaPtCabecaNulo :
-               {
+			case DeturpaPtCabecaNulo :
+				{
 
-                  pListaAux->pNoCorr->pCabeca = NULL ;
+					pListaAux->pNoCorr->pCabeca = NULL ;
 
-                  break ;
+					break ;
 
-               } /* fim ativa: Anula ponteiro cabeça */
+				} /* fim ativa: Anula ponteiro cabeça */
 
-            /* Anula ponteiro prox */
+				/* Anula ponteiro prox */
 
-               case DeturpaPtProxNulo :
-               {
+			case DeturpaPtProxNulo :
+				{
 
-                  pListaAux->pNoCorr->pProx = NULL ;
+					pListaAux->pNoCorr->pProx = NULL ;
 
-                  break ;
+					break ;
 
-               } /* fim ativa: Anula ponteiro prox */
+				} /* fim ativa: Anula ponteiro prox */
 
-            /* Anula ponteiro anterior */
+				/* Anula ponteiro anterior */
 
-               case DeturpaPtAntNulo :
-               {
+			case DeturpaPtAntNulo :
+				{
 
-				   pListaAux->pNoCorr->pAnt = NULL ;
+					pListaAux->pNoCorr->pAnt = NULL ;
 
-                  break ;
+					break ;
 
-               } /* fim ativa: Anula ponteiro anterior */
+				} /* fim ativa: Anula ponteiro anterior */
 
-            /* Faz ponteiro cabeça apontar para lixo */
+				/* Faz ponteiro cabeça apontar para lixo */
 
-               case DeturpaPtCabecaLixo :
-               {
+			case DeturpaPtCabecaLixo :
+				{
 
-                  pListaAux->pNoCorr->pCabeca = ( LIS_tppLista )( EspacoLixo ) ;
+					pListaAux->pNoCorr->pCabeca = ( LIS_tppLista )( EspacoLixo ) ;
 
-                  break ;
+					break ;
 
-               } /* fim ativa: Faz ponteiro cabeça apontar para lixo */
+				} /* fim ativa: Faz ponteiro cabeça apontar para lixo */
 
-            /* Faz ponteiro prox apontar para lixo */
+				/* Faz ponteiro prox apontar para lixo */
 
-               case DeturpaPtProxLixo :
-               {
+			case DeturpaPtProxLixo :
+				{
 
-				   pListaAux->pNoCorr->pProx = ( tpNoLista * )( EspacoLixo ) ;
+					pListaAux->pNoCorr->pProx = ( tpNoLista * )( EspacoLixo ) ;
 
-                  break ;
+					break ;
 
-               } /* fim ativa: Faz ponteiro prox apontar para lixo */
+				} /* fim ativa: Faz ponteiro prox apontar para lixo */
 
-            /* Faz ponteiro anterior apontar para lixo */
+				/* Faz ponteiro anterior apontar para lixo */
 
-               case DeturpaPtAntLixo :
-               {
+			case DeturpaPtAntLixo :
+				{
 
-                  pListaAux->pNoCorr->pAnt = ( tpNoLista * )( EspacoLixo ) ;
+					pListaAux->pNoCorr->pAnt = ( tpNoLista * )( EspacoLixo ) ;
 
-                  break ;
+					break ;
 
-               } /* fim ativa: Faz ponteiro anteriror apontar para lixo */
+				} /* fim ativa: Faz ponteiro anteriror apontar para lixo */
 
-            /* Atribui valor fora do domínio do espaço */
+				/* Atribui valor fora do domínio do espaço */
 
-               case DeturpaValor :
-               {
+			case DeturpaValor :
+				{
 
-                  memcpy( &( pListaAux->pNoCorr->pValor ) , "<<<<<" , 5 ) ;
+					memcpy( &( pListaAux->pNoCorr->pValor ) , "<<<<<" , 5 ) ;
 
-                  break ;
+					break ;
 
-               } /* fim ativa: Atribui valor fora do domínio do espaço */
+				} /* fim ativa: Atribui valor fora do domínio do espaço */
 
-            /* Deturpar espaço no */
+				/* Deturpar espaço no */
 
-               case DeturparEspacoNo :
-               {
+			case DeturparEspacoNo :
+				{
 
-                  memcpy( (( char * )( pListaAux->pNoCorr )) - 50 , "????????" , 8 ) ;
+					memcpy( (( char * )( pListaAux->pNoCorr )) - 50 , "????????" , 8 ) ;
 
-                  break ;
+					break ;
 
-               } /* fim ativa: Deturpar espaço no */
+				} /* fim ativa: Deturpar espaço no */
 
-            } /* fim seleciona: Deturpa nóo */
+			} /* fim seleciona: Deturpa nóo */
 
-            break ;
+			break ;
 
-         } /* fim ativa: Deturpa nóo */
+		} /* fim ativa: Deturpa nóo */
 
-      } /* fim seleciona: Cabeca de lista  &Deturpar lista */
+	} /* fim seleciona: Cabeca de lista  &Deturpar lista */
 
-   } /* Fim função: LIS &Deturpar lista */
+} /* Fim função: LIS &Deturpar lista */
 
 #endif
 
 
 
-	/*****  Código das funções encapsuladas no módulo  *****/
+/*****  Código das funções encapsuladas no módulo  *****/
 
-   /***********************************************************************
+/***********************************************************************
 *
 *  $FC Função: LIS  -Criar o nó
 *
 ***********************************************************************/
 
 
-	tpNoLista * CriarNo( void * pValor){
-	
-      tpNoLista * pNo ;
+tpNoLista * CriarNo( void * pValor){
 
-      pNo = ( tpNoLista * ) malloc( sizeof( tpNoLista )) ;
-      if ( pNo == NULL )
-      {
+	tpNoLista * pNo ;
+
+	pNo = ( tpNoLista * ) malloc( sizeof( tpNoLista )) ;
+	if ( pNo == NULL )
+	{
 		printf("/n Falta de memoria para criar no");
-         return NULL ;
-      } /* if */
+		return NULL ;
+	} /* if */
 
-      pNo->pValor = pValor ;
-      pNo->pAnt   = NULL  ;
-      pNo->pProx  = NULL  ;
+	pNo->pValor = pValor ;
+	pNo->pAnt   = NULL  ;
+	pNo->pProx  = NULL  ;
 
-      return pNo ;
+	return pNo ;
 
-   }/* Fim função: LIS  -Criar o nó */
+}/* Fim função: LIS  -Criar o nó */
 
 
-	/***********************************************************************
+/***********************************************************************
 *
 *  $FC Função: LIS  -Limpar a cabeça da lista
 *
 ***********************************************************************/
 
-   void LimparCabeca( LIS_tppLista pLista )
-   {
+void LimparCabeca( LIS_tppLista pLista )
+{
 
-      pLista->pOrigemLista = NULL ;
-      pLista->pFimLista = NULL ;
-      pLista->pNoCorr = NULL ;
+	pLista->pOrigemLista = NULL ;
+	pLista->pFimLista = NULL ;
+	pLista->pNoCorr = NULL ;
 
-   } /* Fim função: LIS  -Limpar a cabeça da lista */
+} /* Fim função: LIS  -Limpar a cabeça da lista */
 
 
-   #ifdef _DEBUG
+#ifdef _DEBUG
 
 
 /***********************************************************************
@@ -1219,33 +1218,33 @@
 *
 ***********************************************************************/
 
-   LIS_tpCondRet VerificarNo( tpNoLista * pNo )
-   {
+LIS_tpCondRet VerificarNo( tpNoLista * pNo )
+{
 
-      LIS_tpCondRet CondErro = LIS_CondRetOK ;
+	LIS_tpCondRet CondErro = LIS_CondRetOK ;
 
-      if ( pNo == NULL )
-      {
-         return LIS_CondRetOK ;
-      } /* if */
+	if ( pNo == NULL )
+	{
+		return LIS_CondRetOK ;
+	} /* if */
 
-      CED_MarcarEspacoAtivo( pNo ) ;
+	CED_MarcarEspacoAtivo( pNo ) ;
 
-      CondErro = LIS_VerificarNo( pNo ) ;
+	CondErro = LIS_VerificarNo( pNo ) ;
 
-      if ( CondErro == LIS_CondRetOK )
-      {
-		  CondErro = VerificarNo( pNo->pProx) ;
-      } /* if */
+	if ( CondErro == LIS_CondRetOK )
+	{
+		CondErro = VerificarNo( pNo->pProx) ;
+	} /* if */
 
-      if ( CondErro == LIS_CondRetOK )
-      {
-		  CondErro = VerificarNo( pNo->pAnt) ;
-      } /* if */
+	if ( CondErro == LIS_CondRetOK )
+	{
+		CondErro = VerificarNo( pNo->pAnt) ;
+	} /* if */
 
-      return CondErro ;
+	return CondErro ;
 
-   } /* Fim função: LIS  -Explorar verificando os nós de uma álista */
+} /* Fim função: LIS  -Explorar verificando os nós de uma álista */
 
 #endif
 
