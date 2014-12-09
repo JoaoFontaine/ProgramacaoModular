@@ -314,6 +314,28 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
 
 		#endif
 
+		 /* Deturpar uma lista */
+      #ifdef _DEBUG
+
+         else if ( strcmp( ComandoTeste , DETURPAR_CMD ) == 0 )
+         {
+
+            numLidos = LER_LerParametros( "ii" ,
+                               &inxTab , &ValDado1 ) ;
+
+            if ( ( numLidos != 2 )
+              || ( ! ValidarInxTab( inxTab , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+            TAB_Deturpar( vtTab[inxTab]  , ValDado1 ) ;
+
+            return TST_CondRetOK ;
+
+         } /* fim ativa: Deturpar uma árvore */
+      #endif
+
       return TST_CondRetNaoConhec ;
 
    } /* Fim função: TTAB &Testar tabuleiro */

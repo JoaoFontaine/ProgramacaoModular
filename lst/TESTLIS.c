@@ -495,6 +495,28 @@ int estaInicializado = 0 ;
          } /* fim ativa: Testar verificador de no */
       #endif
 
+		 /* Deturpar uma lista */
+      #ifdef _DEBUG
+
+         else if ( strcmp( ComandoTeste , DETURPAR_CMD ) == 0 )
+         {
+
+            numLidos = LER_LerParametros( "ii" ,
+                               &inxLista , &CondRetEsp ) ;
+
+            if ( ( numLidos != 2 )
+              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+            LIS_Deturpar( vtListas[ inxLista ]  , CondRetEsp ) ;
+
+            return TST_CondRetOK ;
+
+         } /* fim ativa: Deturpar uma lista */
+      #endif
+
 	/* Verificar vazamento de memória */
       #ifdef _DEBUG
 
