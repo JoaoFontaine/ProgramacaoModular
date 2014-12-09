@@ -28,6 +28,13 @@ typedef struct TAB_tagCasa * TAB_tppCasa;
 
 typedef struct TAB_tagPeca {
 
+#ifdef _DEBUG
+
+	tpCasa * pCasa;
+	/*ponteiro para a casa*/
+
+#endif
+
 	char nome;
 	/* Nome da peca */
 	char cor;
@@ -95,14 +102,8 @@ typedef enum {
 	TAB_CondRetErroEstrutura = 14,
 				/* Erro estrutural */
 
-	TAB_TipoEspacoCabeca = 15,
+	TAB_TipoEspacoCabeca = 15
 				/* Tipo de dado cabeca de tab */
-
-	TAB_TipooDadoCasa = 16,
-				/* Tipo de dado casa de tab */
-
-	TAB_TipoDadoPeca = 17
-				/* Tipo de dado peca de tab */
 
 } TAB_tpCondRet ;
 
@@ -312,17 +313,19 @@ TAB_tpCondRet TAB_VerificaXeque ( TAB_tppTab pTab );
 
 /***********************************************************************
 *
-*  $FC Função: TAB  &Verificar um tabuleiro
+*  	$FC Função: TAB  &Verificar um tabuleiro
 *
-*  $ED Descrição da função
+*  	$ED Descrição da função
 *     Função da interface de teste.
 *     Verifica completamente um tabuleiro.
 *     Também marca todos os espaços por ele ocupados.
 *
+*	$FV Valor retornado
+*   Numero de falhas
 ***********************************************************************/
 
 #ifdef _DEBUG
 
-   TAB_tpCondRet TAB_VerificarTab( TAB_tppTab pTab) ;
+   int TAB_VerificarTab( TAB_tppTab pTab) ;
 
 #endif

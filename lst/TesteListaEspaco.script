@@ -23,6 +23,8 @@
 =declararparm   pNULL          int  0
 =declararparm   pNaoNULL       int  1
 
+=declararparm    CriterioExibir int   1
+
 == Iniciar contagem
 =inicializarcontadores  ""
 =lercontadores          "Lista"
@@ -115,5 +117,9 @@
 
 == Destruir a lista
 =destruirlista   lista2   OK
+
+== Controlar vazamento de memória
+=obternumeroespacosalocados  0
+=verificartodosespacos       CriterioExibir
 
 // fim

@@ -1,0 +1,41 @@
+////////////////////////////////////////////////
+//
+// Exemplo de arquivo de declaração de contadores
+// Conta módulo Arvore marcado
+//
+///////////////////////////////////////////////
+    
+    LIS_VerificarLista
+    LIS_VerificarCabecaErro
+    LIS_VerificarCabecaOK
+    LIS_pOrigemOK
+    LIS_pCorrOK
+    LIS_pFimOK
+    LIS_ListaVazia
+    LIS_VerificarCabeca
+    LIS_pListaNULL
+    LIS_ErroEspacoCabeca
+    LIS_NaoCabeca
+    LIS_CabecaOK
+    LIS_VerificaCorr
+    LIS_CorrenteNaoApontaCabeca
+    LIS_ListaVaziaCorrNaoNULL
+    LIS_VerificaOrigem
+    LIS_OrigemNaoApontaCabeca
+    LIS_ListaVaziaOrigemNaoNULL
+    LIS_VerificaFim
+    LIS_FimNaoApontaCabeca
+    LIS_ListaVaziaFimNaoNULL
+    LIS_ErroNumNo
+    LIS_NumNoOK
+    LIS_VerificarNo
+    LIS_NoNULL
+    LIS_ErroEspacoNo
+    LIS_NaoNo
+    LIS_NoOK
+    LIS_VerificaAnterior
+    LIS_ProxDoAntNaoCorr
+    LIS_NaoProxNaoFim
+    LIS_NaoAntNaoOrigem
+    LIS_AntDoProxNaoCorr
+	 XPTO nome adicionado para fins de teste\=-2

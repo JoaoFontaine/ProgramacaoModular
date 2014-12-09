@@ -122,11 +122,7 @@ int ObterCasasEntre( int linhaOrig, char colunaOrig, int linhaDest, char colunaD
 	TAB_tpCondRet VerificarPeca(int linha, char coluna, void * pTab );
 	#endif
 
-
-
 /*****  Código das funções exportadas pelo módulo  *****/
-
-
 
 TAB_tppTab TAB_CriarTab ( void ){
 
@@ -154,6 +150,7 @@ TAB_tppTab TAB_CriarTab ( void ){
 				return NULL;
 			}
 			/*if*/
+
 			#ifdef _DEBUG
 			CED_DefinirTipoEspaco( pCasa , TAB_TipoEspacoCasa ) ;
 		    #endif
@@ -190,10 +187,8 @@ TAB_tppTab TAB_CriarTab ( void ){
 	#ifdef _DEBUG
      CED_DefinirTipoEspaco( pTab , TAB_TipoEspacoTab ) ;
     #endif
-
-
+	
 	return pTab;
-
 }
 
 TAB_tppPeca TAB_ObterPeca ( int linha , char coluna, TAB_tppTab pTab ){
@@ -382,6 +377,50 @@ TAB_tpCondRet TAB_DestruirTab ( TAB_tppTab pTab ){
 
 	return TAB_CondRetOK;
 }
+
+#ifdef _DEBUG
+
+/***************************************************************************
+*
+*  Função: TAB  &Verificar um tabuleiro
+*  ****/
+
+
+   TAB_tpCondRet TAB_VerificarTab( TAB_tppTab pTab) {
+
+	  TAB_tppTab pTabAux = NULL ;
+
+	  TAB_tpCondRet CondRet;
+
+	  int i = 0;
+
+      if ( VerificarCabeca( pTab) != TAB_CondRetOK )
+      {
+         return TAB_CondRetErroEstrutura ;
+      } /* if */
+
+      CED_MarcarEspacoAtivo( pTab ) ;
+
+      pTabAux = ( TAB_tpTab * ) ( pTab ) ;
+
+	  while(pTab->pLinhas->pLinha[i] != NULL){
+		
+		 CondRet =  VerificarCasas ( i, pTab);
+
+		 if(CondRet != TAB_CondRetOK) { 
+
+			 printf("\n Erro linha %d", i);
+			 return TAB_CondRetErroEstrutura;
+		 }/*if*/
+
+	  }/*while*/
+
+	  return TAB_CondRetOK;
+	 
+
+   } /* Fim função: TAB  &Verificar um tabuleiro */
+
+ #endif
 
 
 #ifdef _DEBUG
@@ -1516,8 +1555,6 @@ int ObterCasasEntre( int linhaOrig, char colunaOrig, int linhaDest, char colunaD
 
       tpCasa * pCasaAux     = NULL ;
       TAB_tppPeca pPecaAux = NULL ;
-	  //TAB_tpCondRet CondRet;
-	  
 
 		  pCasaAux = ObterCasa(linha, coluna,(TAB_tppTab) pTab);
 		  pPecaAux = TAB_ObterPeca(linha, coluna,(TAB_tppTab) pTab);
@@ -1627,3 +1664,4 @@ int ObterCasasEntre( int linhaOrig, char colunaOrig, int linhaDest, char colunaD
      } /* Fim função: TAB  &Verificar peca de tab */
 
  #endif
+

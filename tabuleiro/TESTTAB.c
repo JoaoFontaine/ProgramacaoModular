@@ -19,6 +19,7 @@
 #include    "GENERICO.h"
 #include    "LERPARM.h"
 
+#include "CESPDIN.h"
 #include	"TAB.h"
 
 static const char RESET_TAB_CMD				  [ ] = "=resetteste"     ;
@@ -30,6 +31,10 @@ static const char RETIRAR_PECA_CMD            [ ] = "=retirarpeca" ;
 static const char MOVER_PECA_CMD              [ ] = "=moverpeca"    ;
 static const char OBTER_LST_AMEACANTES_CMD    [ ] = "=obterlistaameacantes"    ;
 static const char OBTER_LST_AMEACADOS_CMD     [ ] = "=obterlistaameacados"    ;
+
+/* os comandos a seguir somente operam em modo _DEBUG */
+
+const char VER_TAB_CMD[ ] = "=verificartabuleiro" ;
 
 #define TRUE  1
 #define FALSE 0
@@ -282,6 +287,29 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
 				                            , "Dado tipo um deveria existir." ) ;
 
          } /* fim ativa: Testar obter lista de ameacados */
+
+		#ifdef _DEBUG
+
+		 /* Testar verificador do tabuleiro */
+
+         else if ( strcmp( ComandoTeste , VER_TAB_CMD ) == 0 )
+         {
+
+           numLidos = LER_LerParametros( "ii" ,
+                  &inxTab, &ValDado1) ;
+
+            if ( ( numLidos != 2 )
+              || ( ! ValidarInxTab( inxTab , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+            return TST_CompararInt( TAB_VerificarTab(vtTab[inxTab]) , ValDado1 ,
+                     "Condicao de retorno errada ao retirar." ) ;
+
+         } /* fim ativa: Testar verificador do tabuleiro*/
+
+		#endif
 
       return TST_CondRetNaoConhec ;
 

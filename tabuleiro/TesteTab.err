@@ -1,19 +1,39 @@
 TestTab.c
 Tab.c
-.\Tab.c(529) : warning C4189: 'distanciaColunas' : local variable is initialized but not referenced
-.\Tab.c(744) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(757) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(762) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(767) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(772) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(830) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(835) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(840) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(845) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(859) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(864) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(869) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
-.\Tab.c(879) : warning C4244: 'function' : conversion from 'int' to 'unsigned char', possible loss of data
+.\Tab.c(1228) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1228) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1252) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1252) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1252) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1252) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1252) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1252) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1252) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1252) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1253) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1253) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1253) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1253) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1253) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1253) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1253) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1253) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1269) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1269) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1269) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1269) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1269) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1269) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1269) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1269) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1270) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1270) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1270) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1270) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1270) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1270) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1270) : warning C4204: nonstandard extension used : non-constant aggregate initializer
+.\Tab.c(1270) : warning C4204: nonstandard extension used : non-constant aggregate initializer
 Lista.c
 .\Lista.c(90) : warning C4100: 'idLista' : unreferenced formal parameter
 Microsoft (R) Incremental Linker Version 10.00.30319.01

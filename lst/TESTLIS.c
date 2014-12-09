@@ -20,6 +20,8 @@
 *
 ***************************************************************************/
 
+#define _DEBUG
+
 #include    <string.h>
 #include    <stdio.h>
 #include    <malloc.h>
@@ -29,8 +31,11 @@
 #include    "GENERICO.h"
 #include    "LERPARM.h"
 
+#include "CESPDIN.h"
+
 #include    "LISTA.h"
 
+/* Tabela dos nomes dos comandos de teste específicos */
 
 static const char RESET_LISTA_CMD         [ ] = "=resetteste"     ;
 static const char CRIAR_LISTA_CMD         [ ] = "=criarlista"     ;
@@ -42,8 +47,16 @@ static const char EXC_NO_CMD              [ ] = "=excluirnocorr"    ;
 static const char IR_PROX_CMD             [ ] = "=irprox"    ;
 static const char ALTERAR_NO_CMD          [ ] = "=alterarnocorr"    ;
 static const char IR_ANT_CMD              [ ] = "=irant"    ;
-static const char IR_FIM_CMD            [ ] = "=irfinal"    ;
+static const char IR_FIM_CMD              [ ] = "=irfinal"    ;
 static const char IR_INICIO_CMD           [ ] = "=irinicio"    ;
+
+/* os comandos a seguir somente operam em modo _DEBUG */
+
+const char VER_CABECA_CMD[ ] = "=verificarcabeca" ;
+const char VER_LISTA_CMD[ ] = "=verificarlista" ;
+const char VER_MEMORIA_CMD[ ] = "=verificarmemoria" ;
+const char DETURPAR_CMD[ ]   = "=deturpar" ;
+const char VER_NO_CMD[ ] = "=verificarno" ;
 
 #define TRUE  1
 #define FALSE 0
@@ -55,6 +68,8 @@ static const char IR_INICIO_CMD           [ ] = "=irinicio"    ;
 #define DIM_VALOR     100
 
 LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
+
+int estaInicializado = 0 ;
 
 /***** Protótipos das funções encapuladas no módulo *****/
 
@@ -86,10 +101,25 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
 *     =irprox                       inxLista  CondretEsp
 *     =alterarnocorr                inxLista  CondRetEsp
 *
+*     Estes comandos somente podem ser executados se o modulo tiver sido
+*     compilado com _DEBUG ligado
+*
+*     =verificarcabeca       <inxLista>		CondRetEsp
+*
+*     =verificarlista        <inxLista>		CondRetEsp
+*
+*     =verificarmemoria
+*
+*     =deturpar              <inxLista> < idCodigoDeturpa >
+*   
+*     =verificarno			 <inxLista> CondRetEsp
 ***********************************************************************/
 
    TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
    {
+	    #ifdef _DEBUG
+         int  IntEsperado   = -1 ;
+      #endif
 
       int inxLista  = -1 ,
           numLidos   = -1 ,
@@ -105,6 +135,7 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
       int i ;
 
       StringDado[ 0 ] = 0 ;
+
 
       /* Efetuar reset de teste de lista */
 
@@ -354,7 +385,7 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            IrInicioLista( vtListas[ inxLista ] ) ;
+            LIS_IrInicioLista( vtListas[ inxLista ] ) ;
 
             return TST_CondRetOK ;
 
@@ -373,7 +404,7 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
                return TST_CondRetParm ;
             } /* if */
 
-            IrFinalLista( vtListas[ inxLista ] ) ;
+            LIS_IrFinalLista( vtListas[ inxLista ] ) ;
 
             return TST_CondRetOK ;
 
@@ -398,6 +429,87 @@ LIS_tppLista   vtListas[ DIM_VT_LISTA ] ;
                       "Condicao de retorno errada ao avancar" ) ;
 
          } /* fim ativa: LIS  &Avançar elemento */
+
+		 /* Testar verificador de cabeça */
+      #ifdef _DEBUG
+
+         else if ( strcmp( ComandoTeste , VER_CABECA_CMD ) == 0 )
+         {
+
+            numLidos = LER_LerParametros( "ii" ,
+                                          &inxLista , &CondRetEsp ) ;
+             if ( ( numLidos != 2 )
+              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+
+            return TST_CompararInt( CondRetEsp ,
+                      LIS_VerificarCabeca( vtListas[ inxLista ]  ) ,
+                      "Condicao de retorno errada ao verificar cabeca" ) ; ;
+
+         } /* fim ativa: Testar verificador de cabeça */
+      #endif
+
+	/* Testar verificador de lista */
+      #ifdef _DEBUG
+
+         else if ( strcmp( ComandoTeste , VER_LISTA_CMD ) == 0 )
+         {
+
+            numLidos = LER_LerParametros( "ii" ,
+                                          &inxLista , &CondRetEsp ) ;
+            if ( ( numLidos != 2 )
+              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+
+            return TST_CompararInt( CondRetEsp ,
+                             LIS_VerificarLista( vtListas[ inxLista ]  )  ,
+                             "Retorno incorreto ao verificar lista." ) ;
+
+         } /* fim ativa: Testar verificador de lista */
+      #endif
+
+
+	  /* Testar verificador de no */
+      #ifdef _DEBUG
+
+         else if ( strcmp( ComandoTeste , VER_NO_CMD ) == 0 )
+         {
+
+            numLidos = LER_LerParametros( "ii" ,
+                                          &inxLista , &CondRetEsp ) ;
+            if ( ( numLidos != 2 )
+              || ( ! ValidarInxLista( inxLista , NAO_VAZIO )) )
+            {
+               return TST_CondRetParm ;
+            } /* if */
+
+
+            return TST_CompararInt( CondRetEsp ,
+                             LIS_VerificarNo( LIS_ObterNo(vtListas[ inxLista ])  )  ,
+                             "Retorno incorreto ao verificar no." ) ;
+
+         } /* fim ativa: Testar verificador de no */
+      #endif
+
+	/* Verificar vazamento de memória */
+      #ifdef _DEBUG
+
+         else if ( strcmp( ComandoTeste , VER_MEMORIA_CMD ) == 0 )
+         {
+
+            CED_ExibirTodosEspacos( CED_ExibirTodos ) ;
+
+            return TST_CondRetOK ;
+
+         } /* fim ativa: Verificar vazamento de memória */
+      #endif
+		 
 
       return TST_CondRetNaoConhec ;
 

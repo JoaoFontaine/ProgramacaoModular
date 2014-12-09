@@ -7,7 +7,11 @@
 *  Arquivo gerado:              GENERICO.h
 *  Letras identificadoras:      TST
 *
-*  Projeto: INF 1301 Jogo de Xadrez
+*  Nome da base de software:    Arcabouço para a automação de testes de programas redigidos em C
+*  Arquivo da base de software: C:\AUTOTEST\PROJETOS\INSTRUM.BSW
+*
+*  Projeto: INF 1301 / 1628 Automatização dos testes de módulos C
+*  Gestor:  LES/DI/PUC-Rio
 *  Autores: avs
 *
 *  $HA Histórico de evolução:
@@ -147,7 +151,7 @@
 
 /***** Declarações exportadas pelo módulo *****/
 
-#include    "TST_Espc.h"
+#include    "TST_ESPC.h"
 
 
 /***********************************************************************
@@ -170,33 +174,18 @@
 
 /***********************************************************************
 *
-*  $FC Função: TSTG &Inicializar o módulo de teste
+*  $FC Função: TSTG &Controlar uma sessão de teste
 *
 *  $ED Descrição da função
-*     Inicializa todas as variáveis globais exportadas e encapsuladas
-*     do módulo de teste genérico.
-*
-*     Embora pouco recomendável (ver descrição do módulo TesteSpc)
-*     esta função pode ser alterada para assegurar o estabelecimento
-*     do contexto inicial do módulo TesteSpc. Este deve conter uma
-*     função de inicialização a ser chamada pela presente função.
+*     Esta função é o ponto de entrada para a realização do teste.
+*     Permite que se adicione o arcabouço de teste a um sistema qualquer.
 *
 ***********************************************************************/
 
-   void TST_InicializarTeste( void ) ;
-
-
-/***********************************************************************
-*
-*  $FC Função: TSTG &Terminar a execução do módulo de teste
-*
-*  $ED Descrição da função
-*     Fecha todos os arquivos e desaloca todos os espaços de dados
-*     alocados sob controle do módulo de teste genérico
-*
-***********************************************************************/
-
-   void TST_TerminarTeste( void ) ;
+   int TST_ControlarSessaoTeste( char * NomeConstrutoParm ,
+                                 char * NomeArqScriptParm ,
+                                 char * NomeArqLogParm    ,
+                                 char * NomeArqAcumParm    ) ;
 
 
 /***********************************************************************
@@ -225,38 +214,6 @@
 
 /***********************************************************************
 *
-*  $FC Função: TSTG &Abrir arquivo log
-*
-*  $ED Descrição da função
-*     Abre o arquivo log a ser utilizado como saída durante os testes.
-*     Todas as saídas geradas pelo módulo de teste são dirigidos para
-*     este arquivo. Caso não tenha sido aberto, será utilizado o
-*     arquivo stdout.
-*
-*     A extensão default do arquivo log é ".log" e será acrescida ao nome
-*     do arquivo caso este não contenha nome de extensão.
-*
-*  $EP Parâmetros
-*     $P NomeArqParm - nome do arquivo. Pode (deve) ser um nome relativo
-*                      ao diretório corrente. Caso o arquivo
-*                      exista, será destruido sem perguntar se pode.
-*
-*  $FV Valor retornado
-*     TST_CondRetOK       - abriu corretamente
-*     TST_CondRetNaoAbriu - ocorreu algum problema ao tentar abrir.
-*                           O problema não é descriminado.
-*                           O arquivo de saída do log volta a ser stdout
-*
-*  $EIU Interface com usuário pessoa
-*     Esta função deve ser chamada antes de iniciar a execução dos testes.
-*
-***********************************************************************/
-
-   TST_tpCondRet TST_AbrirArquivoLog( char * NomeArqParm ) ;
-
-
-/***********************************************************************
-*
 *  $FC Função: TSTG &Obter ponteiro para arquivo LOG
 *
 *  $ED Descrição da função
@@ -270,111 +227,6 @@
 ***********************************************************************/
 
    FILE * TST_ObterArqLog( void ) ;
-
-
-/***********************************************************************
-*
-*  $FC Função: TSTG &Registrar nome do arquivo acumulador
-*
-*  $ED Descrição da função
-*     Registra o nome do arquivo acumulador. Este arquivo é utilizado
-*     para acumular as estatísticas de um teste formado por um conjunto
-*     de massas de teste. Cada massa de teste gera o seu conjunto de
-*     estatísticas de execução. O arquivo acumulador acumula estas
-*     estatísticas permitindo ver o total de todas as massas de teste.
-*
-*  $EIU Interface com usuário pessoa
-*     O arquivo acumulador tem serventia somente se o teste é formado
-*     por um conjunto de duas ou mais massas de teste.
-*     Antes de executar a primeira deve ser apagado o arquivo acumulador.
-*     Após terminar a execução da última massa de teste exiba o resultado
-*     como o programa "ExbeEstat" que faz parte do arcabouço.
-*
-***********************************************************************/
-
-   void TST_RegistrarArquivoAcumulador( char * pNomeArquivoAcumulador ) ;
-
-
-/***********************************************************************
-*
-*  $FC Função: TSTG &Interpretar toda a massa de teste
-*
-*  $ED Descrição da função
-*     Interpreta o arquivo de diretivas (script) de teste já aberto
-*
-*     A função de teste é dividida em três classes de comandos:
-*
-*     - os de teste genérico, que coordenam e controlam a realização do
-*       teste. Estes comandos são interpretados por esta função.
-*     - os de teste e controle de módulos componentes do arcabouço.
-*       Estes comandos são interpretados por funções de teste específicas
-*       para cada um dos módulos componentes.
-*     - os de teste específico do módulo (ou módulos) a ser testado.
-*       O módulo de teste específico interpreta os comandos projetados
-*       para realizar os testes do módulo a testar.
-*
-*     A função de teste genérico lê um arquivo de diretivas de teste.
-*     Cada linha deste arquivo é um comando de teste.
-*     A função de teste lê uma a uma as linhas do arquivo, limpa os
-*     caracteres em branco no final da linha e procura interpretar o
-*     comando.
-*
-*     As funções de teste específicas comunicam os resultados da execução
-*     de cada comando por meio de uma condição de retorno.
-*
-*     Cada linha do arquivo script de teste corresponde a um comando de
-*     teste.
-*
-*     Caso seja encontrada uma falha não esperada (ver comando =recuperar)
-*     os restantes comandos do caso de teste serão ignorados e contados
-*     como problemas.
-*
-*     A sintaxe utilizada pelos comandos de teste é semelhante a assembler.
-*     Esta sintaxe facilita a análise:
-*
-*        =<cmd> <parâmetros>
-*
-*     em que:
-*        =            - todos os comandos a serem interpretados iniciam
-*                       com este caractere
-*        <cmd>        - é o string que identifica o comando
-*        <parâmetros> - são zero ou mais itens a serem utilizados
-*                       pelo comando de teste. Os itens devem, de preferência,
-*                       ser separados um do outro por um caractere "espaço"
-*
-*     Deve ser adotado o seguinte padrão de uso:
-*
-*     - procure sempre utlizar uma das funções TST_CompararXXX, na forma:
-*          return TST_CompararXXX( valoresperado, funcao a testar , mensagem )
-*
-*     - as funções de comparação fornecidas sempre geram as mensagens no
-*       padrão estipulado
-*
-*     - quando não for possível utilizar uma função de comparação, reporte
-*       a falha, esperadas ou não, através da função
-*          TST_ImprimirPrefixo( Mensagem )
-*
-*     - a seguir mostre o valor esperado e o obtido
-*
-*     - Informações relativas a falhas dos testes são sinalizadas por
-*       uma mensagem iniciando com ">>>" o número da linha do comando de teste
-*       e o número de falhas encontradas até o momento.
-*
-*     - Informações relativas à execução dos testes são sinalizadas por
-*       uma mensagem iniciando com "!!!".
-*
-*  $FV Valor retornado
-*     TST_CondRetErro   - caso tenha sido encontrado um ou mais problemas
-*     TST_CondRetOK     - caso o teste tenha terminado com zero problemas
-*                         não esperados.
-*
-*  $FGP Tipos e Variáveis globais externas do próprio módulo
-*     pArqScript - deve referenciar o arquivo script aberto
-*     pArqLog    - deve referenciar o arquivo log aberto
-*
-***********************************************************************/
-
-   TST_tpCondRet TST_RealizarTeste( char * Construto ) ;
 
 
 /***********************************************************************

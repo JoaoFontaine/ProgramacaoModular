@@ -19,14 +19,13 @@
 =declararparm   NaoExiste      int  3
 =declararparm   FaltouMemoria  int  6
 =declararparm   NoCorrPrim     int  5
+=declararparm   ErroEstrutura  int  9
 
 =declararparm   pNULL          int  0
 =declararparm   pNaoNULL       int  1
 
-== Iniciar contagem
-=inicializarcontadores  ""
-=lercontadores          "Lista"
-=iniciarcontagem
+== Iniciar contadores de passagem
+=inicializarcontadores  "."
 
 == Criar a lista 0
 =criarlista lista0 str0 OK
@@ -38,8 +37,20 @@
 =insno    lista0   str0   OK
 =obterno  lista0   str0   pNaoNULL
 
+== Deturpar tipo cabeca
+=deturpar lista0 1
+
+== Verificar espaco cabeca
+=verificarcabeca lista0 ErroEstrutura
+
 == Alterar elemento corrente
 =alterarnocorr lista0 str1 OK 
+
+== Derturpar tipo no
+=dertupar lista0 5
+
+== Verificar espaco cabeca
+=verificarno lista0 ErroEstrutura
 
 == Excluir elemento corrente
 =obterno  lista0   str1   pNaoNULL
@@ -62,58 +73,10 @@
 == Destruir a lista
 =destruirlista   lista1    OK
 
-== Criar uma lista com quatro elementos
-=criarlista      lista2    str2    OK
-=insno     lista2   str0   OK
-=insno     lista2   str1   OK
-=insno     lista2   str2   OK
-=insno     lista2   str3   OK
-
-== Verificar a lista de trás para frente
-=obterno  lista2   str3   pNaoNULL
-=irant    lista2    OK
-=obterno  lista2   str2   pNaoNULL
-=irant    lista2    OK
-=obterno  lista2   str1   pNaoNULL
-=irant     lista2    OK
-=obterno  lista2   str0   pNaoNULL
-=irant     lista2   NoCorrPrim
-
-== Verificar a lista de frente para trás
-=obterno  lista2   str0   pNaoNULL
-=irprox     lista2   OK
-=obterno  lista2   str1   pNaoNULL
-=irprox     lista2   OK
-=obterno  lista2   str2   pNaoNULL
-=irprox    lista2   OK
-=obterno  lista2   str3   pNaoNULL
-=irprox     lista2  FimLista
-
-== Verificar ir para o primeiro elemento
-=irinicio lista2
-
-== Verificar ir para o ultimo elemento
-=irfinal lista2
-
 == Verificar cabeca da lista 2
 =verificarcabeca    lista2   OK
 
-== Verificar contadores
-=contagemcontador  "LIS_VerificarCabeca"  0
-=contagemcontador  "LIS_CabecaOK"  0
-=contagemcontador  "LIS_VerificaCorr"  0
-=contagemcontador  "LIS_VerificaOrigem"  0
-=contagemcontador  "LIS_VerificaFim"  0
-=contagemcontador  "LIS_NumNoOK"  0
 
-== Terminar controlar contadores
-=pararcontagem
-=verificarcontagens    33
 
-== Terminar contagem
-=terminarcontadores
-
-== Destruir a lista
-=destruirlista   lista2   OK
 
 // fim
