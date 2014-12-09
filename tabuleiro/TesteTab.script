@@ -34,6 +34,7 @@
 =criartab  tab0
 
 ==Inserir pecas brancas do jogo de xadrez
+=inspeca  tab0  1  'H'  branco  torre  OK
 =inspeca  tab0  2  'A'  branco  peao  OK
 =inspeca  tab0  2  'B'  branco  peao  OK
 =inspeca  tab0  2  'C'  branco  peao  OK
@@ -53,6 +54,7 @@
 
 
 ==Inserir pecas pretas do jogo de xadrez
+=inspeca  tab0  8  'H'  preto  torre  OK
 =inspeca  tab0  7  'A'  preto  peao  OK
 =inspeca  tab0  7  'B'  preto  peao  OK
 =inspeca  tab0  7  'C'  preto  peao  OK

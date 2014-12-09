@@ -129,10 +129,9 @@ LIS_tppLista LIS_CriarLista( char * idLista ) {
 		printf("\n Faltou memória para criar lista");
 		return NULL;
 	}
-	/*if*/
-	/*if ( strlen(idLista) > 4) printf("\n Só serão utilizados os 4 primeiros caracteres para identificar a lista");
+	if( strlen(idLista) > 4) printf("\n Só serão utilizados os 4 primeiros caracteres para identificar a lista");
 
-	strncpy(pLista->idLista , idLista, 4);*/
+	strncpy(pLista->idLista , idLista, 4);
 	LimparCabeca( pLista ) ;
 
 #ifdef _DEBUG
@@ -901,7 +900,7 @@ LIS_tpCondRet LIS_VerificarNo( void * pNo )
 *  Função: LIS &Deturpar lista
 *  ****/
 
-void ARV_Deturpar( LIS_tppLista pLista ,
+void LIS_Deturpar( LIS_tppLista pLista ,
 				  LIS_tpModosDeturpacao ModoDeturpar )
 {
 
@@ -918,14 +917,14 @@ void ARV_Deturpar( LIS_tppLista pLista ,
 
 		/* Modifica o tipo da cabeça */
 
-	//case DeturpaTipoCabeca :
-	//	{
+	case DeturpaTipoCabeca :
+		{
 
-	//		CED_DefinirTipoEspaco( pListaAux , CED_ID_TIPO_VALOR_NULO ) ;
+			CED_DefinirTipoEspaco( pListaAux , CED_ID_TIPO_VALOR_NULO ) ;
 
-	//		break ;
+			break ;
 
-	//	} /* fim ativa: Modifica o tipo da cabeça */
+		} /* fim ativa: Modifica o tipo da cabeça */
 
 		/* Modifica numero de nos */
 
@@ -1037,14 +1036,14 @@ void ARV_Deturpar( LIS_tppLista pLista ,
 
 				/* Modifica tipo nó corrente */
 
-			//case DeturpaTipoNo :
-			//	{
+			case DeturpaTipoNo :
+				{
 
-			//		CED_DefinirTipoEspaco( pListaAux->pNoCorr , CED_ID_TIPO_VALOR_NULO ) ;
+					CED_DefinirTipoEspaco( pListaAux->pNoCorr , CED_ID_TIPO_VALOR_NULO ) ;
 
-			//		break ;
+					break ;
 
-			//	} /* fim ativa: Modifica tipo nó corrente */
+				} /* fim ativa: Modifica tipo nó corrente */
 
 				/* Anula ponteiro cabeça */
 

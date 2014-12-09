@@ -478,7 +478,7 @@ LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista, void* pValor );
 *     Corrompe elementos específicos da estrutura da lista.
 *     Essa função destina-se a preparar os cenários de teste dos
 *     casos de teste utilizados ao testar os verificadores estruturais
-*     da árvore.
+*     da lista.
 *     Esta função não tem proteção contra erros de uso, consequentemente
 *     poderá levar o programa a ser cancelado pelo sistema operacional.
 *

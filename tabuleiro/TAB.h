@@ -126,6 +126,33 @@ typedef enum {
 
 } TAB_tpCondRet ;
 
+/***********************************************************************
+*
+*  $TC Tipo de dados: TAB Modos de deturpar
+*
+*
+***********************************************************************/
+
+#ifdef _DEBUG
+
+   typedef enum {
+
+         DeturpaTipoTab       =  1 ,
+               /* Modifica o tipo do tabuleiro*/
+
+         DeturpaTabNulo      =  2 ,
+               /* Anula ponteiro tabuleiro */
+
+         DeturpaTabLixo          =  3 ,
+               /* Faz tab apontar para lixo */
+
+         DeturparEspacoTab    = 4 
+               /* Deturpa espaço do tab */
+
+   } TAB_tpModosDeturpacao ;
+
+#endif
+
 
 
 /**************************************************************************************
@@ -344,5 +371,33 @@ TAB_tpCondRet TAB_VerificaXeque ( int linha , char coluna, TAB_tppTab pTab );
 #ifdef _DEBUG
 
    int TAB_VerificarTab( TAB_tppTab pTab) ;
+
+#endif
+
+   /***********************************************************************
+*
+*  $FC Função: TAB  &Deturpar tab
+*
+*  $ED Descrição da função
+*     Função da interface de teste.
+*     Corrompe elementos específicos da estrutura tabuleiro.
+*     Essa função destina-se a preparar os cenários de teste dos
+*     casos de teste utilizados ao testar os verificadores estruturais
+*     do tab.
+*     Esta função não tem proteção contra erros de uso, consequentemente
+*     poderá levar o programa a ser cancelado pelo sistema operacional.
+*
+*  $EP Parâmetros
+*     $P pTab  - tab a ser deturpado
+*     $P ModoDeturpar - identifica como deve ser feita a deturpação
+*                       TAB_tpModosDeturpacao identifica os modos de
+*                       deturpação conhecidos
+*
+***********************************************************************/
+
+#ifdef _DEBUG
+
+   void TAB_Deturpar( TAB_tppTab pTAB ,
+                      TAB_tpModosDeturpacao ModoDeturpar ) ;
 
 #endif

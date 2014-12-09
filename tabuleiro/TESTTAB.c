@@ -37,6 +37,7 @@ static const char OBTER_LST_AMEACADOS_CMD     [ ] = "=obterlistaameacados"    ;
 /* os comandos a seguir somente operam em modo _DEBUG */
 
 const char VER_TAB_CMD[ ] = "=verificartabuleiro" ;
+const char DETURPAR_CMD[ ]   = "=deturpar" ;
 
 #define TRUE  1
 #define FALSE 0
