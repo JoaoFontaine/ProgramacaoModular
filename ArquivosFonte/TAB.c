@@ -973,6 +973,13 @@ TAB_tpCondRet AtualizarAmeacasAposRemocao ( int linhaOrig , char colunaOrig, TAB
 	tpCasa **casasAmeacantes[AMEACANTESPOSSIVEIS + 1];
 	tpCasa *pCasaOrig;
 
+	for( i = 0; i < DIRECOESPOSSIVEIS/2 * LINHAS; i++){
+		casasAmeacadas[i] = (tpCasa**)malloc(sizeof(tpCasa*));
+	}
+	for( i = 0; i < AMEACANTESPOSSIVEIS + 1; i++){
+		casasAmeacantes[i] = (tpCasa**)malloc(sizeof(tpCasa*));
+	}
+
 	pCasaOrig = ObterCasa( linhaOrig ,colunaOrig, pTab);
 
 	// Remove as ameaçadas da casa que agora está vazia, removendo também as referencias nas ameacadas
@@ -989,7 +996,7 @@ TAB_tpCondRet AtualizarAmeacasAposRemocao ( int linhaOrig , char colunaOrig, TAB
 			nAmeacantes++;
 		} while( LIS_IrProx(pCasaOrig->pAmeacantes) == LIS_CondRetOK );
 
-		for( i = 0; i < nAmeacantes && casasAmeacantes[nAmeacantes] != NULL; i++)
+		for( i = 0; i < nAmeacantes; i++)
 		{
 			if( (*casasAmeacantes[i])->Peca->nome == 'T' || (*casasAmeacantes[i])->Peca->nome == 'B'
 				|| (*casasAmeacantes[i])->Peca->nome == 'D' )
@@ -998,6 +1005,13 @@ TAB_tpCondRet AtualizarAmeacasAposRemocao ( int linhaOrig , char colunaOrig, TAB
 				InserirAmeacante( (*casasAmeacantes[i]), casasAmeacadas, nAmeacadas );
 			}
 		}
+	}
+
+	for( i = 0; i < DIRECOESPOSSIVEIS/2 * LINHAS; i++){
+		free(casasAmeacadas[i]);
+	}
+	for( i = 0; i < AMEACANTESPOSSIVEIS + 1; i++){
+		free(casasAmeacantes[i]);
 	}
 
 	return TAB_CondRetOK;
@@ -1191,7 +1205,8 @@ int ObterLimitesDeMovimento( int linha, char coluna, tpCasa ***casasLimite, TAB_
 	for(linhaDest = 1, colunaDest = 1; colunaDest < 9; colunaDest++)
 	{
 		condRet = pTesteMovimento( linha, coluna,  linhaDest,  (char)(colunaDest-1+'A'), casasLimite[nCasas],  pTab);
-		if( condRet == TAB_CondRetPecaBloqueando || condRet == TAB_CondRetCasaCheia || condRet == TAB_CondRetCaptPeca){
+		if( ( condRet == TAB_CondRetPecaBloqueando || condRet == TAB_CondRetCasaCheia || condRet == TAB_CondRetCaptPeca ) 
+			&& ( nCasas == 0 || ( *casasLimite[nCasas] != *casasLimite[nCasas-1] ) ) ){
 			nCasas++;
 		}
 		if( condRet == TAB_CondRetOK )
@@ -1206,7 +1221,8 @@ int ObterLimitesDeMovimento( int linha, char coluna, tpCasa ***casasLimite, TAB_
 	for(linhaDest = 8, colunaDest = 1; colunaDest < 9; colunaDest++)
 	{
 		condRet = pTesteMovimento( linha, coluna,  linhaDest,  (char)(colunaDest-1+'A'), casasLimite[nCasas],  pTab);
-		if( condRet == TAB_CondRetPecaBloqueando || condRet == TAB_CondRetCasaCheia || condRet == TAB_CondRetCaptPeca){
+		if( ( condRet == TAB_CondRetPecaBloqueando || condRet == TAB_CondRetCasaCheia || condRet == TAB_CondRetCaptPeca ) 
+			&& ( nCasas == 0 || ( *casasLimite[nCasas] != *casasLimite[nCasas-1] ) ) ){
 			nCasas++;
 		}
 		if( condRet == TAB_CondRetOK )
@@ -1221,7 +1237,8 @@ int ObterLimitesDeMovimento( int linha, char coluna, tpCasa ***casasLimite, TAB_
 	for(linhaDest = 2, colunaDest = 1; linhaDest < 8; linhaDest++)
 	{
 		condRet = pTesteMovimento( linha, coluna,  linhaDest,  (char)(colunaDest-1+'A'), casasLimite[nCasas],  pTab);
-		if( condRet == TAB_CondRetPecaBloqueando || condRet == TAB_CondRetCasaCheia || condRet == TAB_CondRetCaptPeca){
+		if( ( condRet == TAB_CondRetPecaBloqueando || condRet == TAB_CondRetCasaCheia || condRet == TAB_CondRetCaptPeca ) 
+			&& ( nCasas == 0 || ( *casasLimite[nCasas] != *casasLimite[nCasas-1] ) ) ){
 			nCasas++;
 		}
 		if( condRet == TAB_CondRetOK )
@@ -1236,7 +1253,8 @@ int ObterLimitesDeMovimento( int linha, char coluna, tpCasa ***casasLimite, TAB_
 	for(linhaDest = 2, colunaDest = 8; linhaDest < 8; linhaDest++)
 	{
 		condRet = pTesteMovimento( linha, coluna,  linhaDest,  (char)(colunaDest-1+'A'), casasLimite[nCasas],  pTab);
-		if( condRet == TAB_CondRetPecaBloqueando || condRet == TAB_CondRetCasaCheia || condRet == TAB_CondRetCaptPeca){
+		if( ( condRet == TAB_CondRetPecaBloqueando || condRet == TAB_CondRetCasaCheia || condRet == TAB_CondRetCaptPeca ) 
+			&& ( nCasas == 0 || ( *casasLimite[nCasas] != *casasLimite[nCasas-1] ) ) ){
 			nCasas++;
 		}
 		if( condRet == TAB_CondRetOK )
