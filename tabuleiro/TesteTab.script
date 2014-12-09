@@ -49,7 +49,8 @@
 =inspeca  tab0  1  'E'  branco  dama  OK
 =inspeca  tab0  1  'F'  branco  bispo  OK
 =inspeca  tab0  1  'G'  branco  cavalo  OK
-=inspeca  tab0  1  'H'  branco  torre  OK
+
+
 
 ==Inserir pecas pretas do jogo de xadrez
 =inspeca  tab0  7  'A'  preto  peao  OK
@@ -67,7 +68,7 @@
 =inspeca  tab0  8  'E'  preto  dama  OK
 =inspeca  tab0  8  'F'  preto  bispo  OK
 =inspeca  tab0  8  'G'  preto  cavalo  OK
-=inspeca  tab0  8  'H'  preto  torre  OK
+
 
 
 ==Inserir peca em cima de outra
@@ -107,6 +108,9 @@
 ==Obter lista de ameacados e ameacantes do rei branco
 =obterlistaameacantes tab0  1  'D'  OK
 =obterlistaameacados tab0  1  'D'  OK
+
+==Verificar tabuleiro
+=verificartabuleiro tab0 0
 
 ==Destruir tabuleiro 0  
 =destruirtab  tab0  OK

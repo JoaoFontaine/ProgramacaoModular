@@ -20,8 +20,6 @@
 *
 ***************************************************************************/
 
-#define _DEBUG
-
 #include    <string.h>
 #include    <stdio.h>
 #include    <malloc.h>

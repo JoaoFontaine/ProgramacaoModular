@@ -343,6 +343,6 @@ TAB_tpCondRet TAB_VerificaXeque ( int linha , char coluna, TAB_tppTab pTab );
 
 #ifdef _DEBUG
 
-   TAB_tpCondRet TAB_VerificarTab( TAB_tppTab pTab) ;
+   int TAB_VerificarTab( TAB_tppTab pTab) ;
 
 #endif

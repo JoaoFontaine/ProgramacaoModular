@@ -307,7 +307,7 @@ TAB_tppTab   vtTab[ DIM_VT_TAB ] ;
             } /* if */
 
             return TST_CompararInt( TAB_VerificarTab(vtTab[inxTab]) , ValDado1 ,
-                     "Condicao de retorno errada ao retirar." ) ;
+                     "Numero de falhas esperado errado." ) ;
 
          } /* fim ativa: Testar verificador do tabuleiro*/
 
