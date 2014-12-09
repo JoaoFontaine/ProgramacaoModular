@@ -42,6 +42,26 @@ typedef struct TAB_tagPeca {
 
 } tpPeca ;
 
+
+typedef struct TAB_tagCasa {
+
+	tpPeca *  Peca; 
+	/* Ponteiro para a peca contida na casa */
+
+	LIS_tppLista  pAmeacadas;
+	/* Ponteiro para a cabeca da lista de ameacadas */
+
+	LIS_tppLista  pAmeacantes;
+	/* Ponteiro para a cabeca da lista de ameacantes */
+
+	int linha;
+	/* Linha do tabuleiro a qual a casa pertence */
+
+	char coluna;
+	/* Coluna do tabuleiro a qual a casa pertence */
+
+}tpCasa ;
+
 typedef struct TAB_tagTab * TAB_tppTab ;
 
 /* Tipo exportado que referencia a estrutura peca */
@@ -307,7 +327,7 @@ TAB_tpCondRet TAB_DestruirTab ( TAB_tppTab pTab );
 *
 **************************************************************************************/
 
-TAB_tpCondRet TAB_VerificaXeque ( TAB_tppTab pTab );
+TAB_tpCondRet TAB_VerificaXeque ( int linha , char coluna, TAB_tppTab pTab );
 
 
 /***********************************************************************

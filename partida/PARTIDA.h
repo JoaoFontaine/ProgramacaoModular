@@ -41,6 +41,27 @@ typedef enum {
 	PAR_CondRetPecaBloqueando = 7,
 	/* A casa nao pertence ao tabuleiro */
 
+	PAR_CondRetPecaInvalida = 8,
+	/* A casa nao pertence ao tabuleiro */
+
+	PAR_CondRetXeque = 9,
+	/* O Rei está em xeque */
+
+	PAR_CondRetXequeMate = 10,
+	/* O Rei está em xeque mate */
+
+	PAR_CondRetNomeInvalido = 11,
+	/* O nome do jogador não é válido */
+
+	PAR_CondRetCorInvalida = 12,
+	/* A cor escolhida não é válida */
+
+	PAR_CondRetNumInvalidoJogadores = 13,
+	/* Numero de jogadores inferior ou superior ao correto para o jogo */
+
+	PAR_CondRetDesistencia = 14
+	/* Numero de jogadores inferior ou superior ao correto para o jogo */
+
 } PAR_tpCondRet ;
 
 /**************************************************************************************
@@ -60,7 +81,7 @@ typedef enum {
 **************************************************************************************/
 
 
-TAB_tppTab PAR_IniciarJogo ( void );
+PAR_tpCondRet PAR_IniciarPartida ( char modoDeInicializacao );
 
 
 
@@ -111,6 +132,27 @@ PAR_tpCondRet  PAR_ImprimirTabuleiro ( TAB_tppTab pTab );
 *
 **************************************************************************************/
 
-
 PAR_tpCondRet RealizarJogada (int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab );
 
+
+
+/**************************************************************************************
+*
+*	$FC Função: PAR  &Cadastrar Jogador
+*
+*	$ED Descrição da função
+*		Realiza o cadastro de jogadores na partida do jogo de xadrez.
+*
+*	$EP Parâmetros
+*		nome (char[] contendo o nome do jogador a ser cadastrado)  
+*		cor (char contendo o caractere da cor que o jogador gostaria 'B' ou 'P')  
+*		
+*	$FV Valor retornado
+*		CondRetOK
+*       CondRetNomeInvalido
+*		CondRetCorInvalida
+*       CondRetNumInvalidoJogadores
+*
+**************************************************************************************/
+
+PAR_tpCondRet PAR_CadastrarJogador( char nome[], char cor );
