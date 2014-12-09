@@ -114,15 +114,6 @@
 ==Verificar tabuleiro
 =verificartabuleiro tab0 0
 
-==Criar tabuleiro 1
-=criartab  tab1
-
-==Deturpar tabuleiro
-=deturpar tab1 1 
-
-==Destruir tabuleiro 1  
-=destruirtab  tab1  NaoExiste
-
 ==Destruir tabuleiro 0  
 =destruirtab  tab0  OK
 
