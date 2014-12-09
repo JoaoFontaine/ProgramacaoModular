@@ -69,6 +69,7 @@
 =inspeca  tab0  8  'G'  preto  cavalo  OK
 =inspeca  tab0  8  'H'  preto  torre  OK
 
+
 ==Inserir peca em cima de outra
 =inspeca  tab0  2   'A'  preto  rei  CasaCheia
 

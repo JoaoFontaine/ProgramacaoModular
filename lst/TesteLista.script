@@ -111,6 +111,7 @@
 =verificarcontagens    33
 
 == Terminar contagem
+=zerartodoscontadores
 =terminarcontadores
 
 == Destruir a lista

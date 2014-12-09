@@ -21,11 +21,8 @@
 *			ameaçadas pela peça que está nesta casa.
 *
 **************************************************************************************/
-
+#include "LISTA.h"
 /* Tipo exportado que referencia a estrutura tabuleiro */
-
-typedef struct TAB_tagCasa * TAB_tppCasa;
-
 typedef struct TAB_tagPeca {
 
 #ifdef _DEBUG
@@ -39,13 +36,6 @@ typedef struct TAB_tagPeca {
 	/* Nome da peca */
 	char cor;
 	/* Cor da peca */
-
-	#ifdef _DEBUG
-
-		TAB_tppCasa pCasa;
-		/*ponteiro para a casa*/
-
-	#endif
 
 } tpPeca ;
 
@@ -245,7 +235,8 @@ TAB_tpCondRet TAB_InserirPeca ( int linha , char coluna, char cor, char tipo, TA
 *
 **************************************************************************************/
 
-LIS_tppLista TAB_ObterListaAmeacantes( int linha, char coluna, TAB_tppTab pTab );
+LIS_tppLista TAB_ObterListaAmeacantes( int linha , char coluna, TAB_tppTab pTab );
+
 
 
 /**************************************************************************************
@@ -313,9 +304,9 @@ TAB_tpCondRet TAB_VerificaXeque ( TAB_tppTab pTab );
 
 /***********************************************************************
 *
-*  	$FC Função: TAB  &Verificar um tabuleiro
+*  $FC Função: TAB  &Verificar um tabuleiro
 *
-*  	$ED Descrição da função
+*  $ED Descrição da função
 *     Função da interface de teste.
 *     Verifica completamente um tabuleiro.
 *     Também marca todos os espaços por ele ocupados.

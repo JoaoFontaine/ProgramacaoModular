@@ -1,10 +1,4 @@
-////////////////////////////////////////////////
-//
-// Exemplo de arquivo de declaração de contadores
-// Conta módulo Arvore marcado
-//
-///////////////////////////////////////////////
-    
+
     LIS_VerificarLista
     LIS_VerificarCabecaErro
     LIS_VerificarCabecaOK

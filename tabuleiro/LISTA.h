@@ -53,7 +53,7 @@
 
 /* Tipo referência para uma lista */
 
-typedef struct LIS_tagLista * LIS_tppLista;
+typedef struct LIS_tagLista * LIS_tppLista ;
 
 
 /***********************************************************************
@@ -69,37 +69,34 @@ typedef struct LIS_tagLista * LIS_tppLista;
 
 typedef enum {
 
-	LIS_CondRetOK = 0,
-	/* Concluiu corretamente */
+         LIS_CondRetOK = 0,
+               /* Concluiu corretamente */
 
-	LIS_CondRetListaVazia = 2 ,
-	/* A lista não possui elementos */
+         LIS_CondRetListaVazia = 2 ,
+               /* A lista não possui elementos */
 
-	LIS_CondRetNaoExiste = 3 ,
-	/* A lista nao existe */
-	
-	LIS_CondRetFimLista = 4,
-	/* Foi atingido o fim de lista */
-	
-	LIS_CondRetNoCorrPrim = 5,
-	/* Nó corrente é o primeiro */
+         LIS_CondRetFimLista = 4,
+               /* Foi atingido o fim de lista */
 
-    LIS_CondRetFaltouMemoria = 6,
-	/* Faltou memória ao tentar criar um elemento de lista */
+         LIS_CondRetNaoExiste = 3 ,
+               /* A lista nao existe */
 
-	LIS_TipoEspacoCabeca = 7,
-	/* Tipo de espaco de dados cabeca */
+         LIS_CondRetFaltouMemoria = 6,
+               /* Faltou memória ao tentar criar um elemento de lista */
+		 
+		 LIS_CondRetNoCorrPrim = 5,
+			   /* Nó corrente é o primeiro */
+		
+		LIS_TipoEspacoCabeca = 7,
+				/* Tipo de espaco de dados cabeca */
 
-	LIS_TipoEspacoNo = 8,
-	/* Tipo de espaco de dados no */
+		LIS_TipoEspacoNo = 8,
+				/* Tipo de espaco de dados no */
 
-	LIS_CondRetErroEstrutura = 9,
-	/* Estrutura da lista está errada */
+	   LIS_CondRetErroEstrutura = 9
+               /* Estrutura da lista está errada */
 
-	LIS_CondRetNaoAchou = 10
-	/* Elemento procurado não foi encontrado */
-
-} LIS_tpCondRet ;
+   } LIS_tpCondRet ;
 
 
 /***********************************************************************
@@ -349,7 +346,7 @@ LIS_tpCondRet LIS_AlterarNoCorr( LIS_tppLista pLista , void * pValor ) ;
 *
 ***********************************************************************/
 
-void LIS_IrInicioLista( LIS_tppLista pLista ) ;
+   void LIS_IrInicioLista( LIS_tppLista pLista ) ;
 
 
 /***********************************************************************
@@ -365,7 +362,7 @@ void LIS_IrInicioLista( LIS_tppLista pLista ) ;
 *
 ***********************************************************************/
 
-void LIS_IrFinalLista( LIS_tppLista pLista ) ;
+   void LIS_IrFinalLista( LIS_tppLista pLista ) ;
 
 /***********************************************************************
 *
@@ -387,22 +384,6 @@ void LIS_IrFinalLista( LIS_tppLista pLista ) ;
 
 LIS_tpCondRet LIS_DestruirLista( LIS_tppLista pLista ) ;    
 
-
-/***********************************************************************
-*
-*  $FC Função: LIS  &Esvaziar lista
-*
-*  $ED Descrição da função
-*     Elimina todos os elementos, sem contudo eliminar a lista
-*
-*  $EP Parâmetros
-*     pLista - ponteiro para a lista a ser esvaziada
-*
-***********************************************************************/
-
-void LIS_EsvaziarLista( LIS_tppLista pLista );
-
-LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista, void* pValor );
 
 /***********************************************************************
 *

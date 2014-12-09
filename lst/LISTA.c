@@ -123,24 +123,24 @@
 	
 	LIS_tppLista LIS_CriarLista( char * idLista ) {
 
-		LIS_tpLista * pLista =( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
+	  LIS_tpLista * pLista =( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
      
-		if ( pLista == NULL ){
-			printf("\n Faltou memória para criar lista");
-			return NULL;
-		}
-		/*if*/
-		if ( strlen(idLista) > 4) printf("\n Só serão utilizados os 4 primeiros caracteres para identificar a lista");
+	  if ( pLista == NULL ){
+		  printf("\n Faltou memória para criar lista");
+		  return NULL;
+	  }
+	  /*if*/
+	  if ( strlen(idLista) > 4) printf("\n Só serão utilizados os 4 primeiros caracteres para identificar a lista");
 
-		strncpy(pLista->idLista , idLista, 4);
-		LimparCabeca( pLista ) ;
+	  strncpy(pLista->idLista , idLista, 4);
+	  LimparCabeca( pLista ) ;
 
-		#ifdef _DEBUG
-		pLista->numNo = 0;
-			CED_DefinirTipoEspaco( pLista , LIS_TipoEspacoCabeca ) ;
-		#endif
+	   #ifdef _DEBUG
+	  pLista->numNo = 0;
+         CED_DefinirTipoEspaco( pLista , LIS_TipoEspacoCabeca ) ;
+      #endif
 
-		return pLista;
+	  return pLista;
 
 	} /* Fim função: LIS  &Criar lista */
 
@@ -407,13 +407,10 @@
         while ( pNo != NULL )
         {
            pProx = pNo->pProx ;
-           free(pNo);
+           LIS_ExcluirNoCorr(pLista);
            pNo = pProx ;
         } /* while */
 		
-        pLista->pOrigemLista = NULL ;
-        pLista->pFimLista = NULL ;
-        pLista->pNoCorr = NULL ;
 		free(pLista);
 		return LIS_CondRetOK;
 
@@ -456,9 +453,7 @@
 	  if(pListaAux->pOrigemLista != NULL){
 
 		  #ifdef _DEBUG
-
-			CNT_CONTAR( "LIS_pOrigemOK" ) ;
-
+         CNT_CONTAR( "LIS_pOrigemOK" ) ;
           #endif
 
 		  return LIS_VerificarNo(pListaAux->pOrigemLista);
@@ -468,10 +463,8 @@
 		  
 		  if(pListaAux->pNoCorr != NULL){
 
-			#ifdef _DEBUG
-
-				CNT_CONTAR( "LIS_pCorrOK" ) ;
-			 
+			  #ifdef _DEBUG
+			 CNT_CONTAR( "LIS_pCorrOK" ) ;
 			#endif
 
 			  return LIS_VerificarNo(pListaAux->pNoCorr);
@@ -482,9 +475,7 @@
 			  if(pListaAux->pFimLista != NULL){
 
 				   #ifdef _DEBUG
-
 					CNT_CONTAR( "LIS_pFimOK" ) ;
-
 					#endif
 
 				 return LIS_VerificarNo(pListaAux->pFimLista);
@@ -496,9 +487,7 @@
 	  }/* else */
 
 	   #ifdef _DEBUG
-
 		CNT_CONTAR( "LIS_ListaVazia" ) ;
-
 	   #endif
 
 	  return LIS_CondRetOK;
@@ -535,9 +524,7 @@
          if ( pLista == NULL )
          {
 			 #ifdef _DEBUG
-
 			 CNT_CONTAR( "LIS_pListaNULL" ) ;
-
 			#endif
 
             TST_NotificarFalha( "Tentou verificar cabeça inexistente." ) ;
@@ -547,9 +534,7 @@
 		 if ( ! CED_VerificarEspaco( pLista , NULL ))
          {
 			 #ifdef _DEBUG
-
 			 CNT_CONTAR( "LIS_ErroEspacoCabeca" ) ;
-
 			#endif
 
             TST_NotificarFalha( "Controle do espaço acusou erro." ) ;
@@ -561,18 +546,14 @@
               "Tipo do espaço de dados não é cabeça de lista." ) != TST_CondRetOK )
          {
 			 #ifdef _DEBUG
-
 			 CNT_CONTAR( "LIS_NaoCabeca" ) ;
-
 			#endif
 
             return LIS_CondRetErroEstrutura ;
          } /* if */
 
 		   #ifdef _DEBUG
-
 			 CNT_CONTAR( "LIS_CabecaOK" ) ;
-
 			#endif
 
 		   pListaAux = ( LIS_tpLista * )( pLista ) ;
@@ -582,18 +563,14 @@
 		   if ( pListaAux->pNoCorr != NULL )
          {
 			 #ifdef _DEBUG
-
 			 CNT_CONTAR( "LIS_VerificaCorr" ) ;
-
 			#endif
 
 			 if ( TST_CompararPonteiro( pLista , pListaAux->pNoCorr->pCabeca ,
                  "Nó corrente não aponta para cabeça." ) != TST_CondRetOK )
             {
 				#ifdef _DEBUG
-
 			 CNT_CONTAR( "LIS_CorrenteNaoApontaCabeca" ) ;
-
 			#endif
 
                return LIS_CondRetErroEstrutura ;
@@ -603,9 +580,7 @@
                  "Lista vazia tem nó corrente não NULL." ) != TST_CondRetOK )
             {
 				#ifdef _DEBUG
-
 			 CNT_CONTAR( "LIS_ListaVaziaCorrNaoNULL" ) ;
-
 			#endif
 
                return LIS_CondRetErroEstrutura ;
@@ -618,9 +593,7 @@
 		   if ( pListaAux->pOrigemLista!= NULL )
          {
 			 #ifdef _DEBUG
-
 			 CNT_CONTAR( "LIS_VerificaOrigem" ) ;
-
 			#endif
 
 			 if ( TST_CompararPonteiro( pLista , pListaAux->pOrigemLista->pCabeca ,
@@ -628,9 +601,7 @@
             {
 
 				#ifdef _DEBUG
-
 			 CNT_CONTAR( "LIS_OrigemNaoApontaCabeca" ) ;
-
 			#endif
 
                return LIS_CondRetErroEstrutura ;
@@ -640,9 +611,7 @@
                  "Lista vazia tem primeiro no não NULL." ) != TST_CondRetOK )
             {
 				#ifdef _DEBUG
-
 			 CNT_CONTAR( "LIS_ListaVaziaOrigemNaoNULL" ) ;
-
 			#endif
 
                return LIS_CondRetErroEstrutura ;
@@ -654,18 +623,14 @@
 		   if ( pListaAux->pFimLista != NULL )
          {
 			 #ifdef _DEBUG
-
 			 CNT_CONTAR( "LIS_VerificaFim" ) ;
-
 			#endif
 
 			 if ( TST_CompararPonteiro( pLista , pListaAux->pFimLista->pCabeca,
                  "Ultimo no não aponta para cabeça." ) != TST_CondRetOK )
             {
 				#ifdef _DEBUG
-
 			 CNT_CONTAR( "LIS_FimNaoApontaCabeca" ) ;
-
 			#endif
 
                return LIS_CondRetErroEstrutura ;
@@ -676,14 +641,13 @@
             {
 
 				#ifdef _DEBUG
-
 			 CNT_CONTAR( "LIS_ListaVaziaFimNaoNULL" ) ;
-
 			#endif
 
                return LIS_CondRetErroEstrutura ;
             } /* if */
          } /* if */
+
 
 		   pNoAux = (tpNoLista *) (pListaAux->pOrigemLista);
 
@@ -715,6 +679,7 @@
 
 		   return LIS_CondRetOK ;
 	 
+
    } /* Fim função: LIS  &Verificar cabeca de lista */
 
  #endif
@@ -869,6 +834,7 @@
                return LIS_CondRetErroEstrutura ;
             } /* if */
          } /* if */
+
 
       return LIS_CondRetOK ;
 

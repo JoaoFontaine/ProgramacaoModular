@@ -1,3 +1,4 @@
+Lista.c
 Microsoft (R) Incremental Linker Version 10.00.30319.01
 Copyright (C) Microsoft Corporation.  All rights reserved.
 
@@ -6,7 +7,3 @@ Copyright (C) Microsoft Corporation.  All rights reserved.
 /MACHINE:IX86 
 TestLis.obj Lista.obj 
 ArcaboucoTeste.lib 
-TestLis.obj : error LNK2019: unresolved external symbol _LIS_VerificarNo referenced in function _TST_EfetuarComando
-TestLis.obj : error LNK2019: unresolved external symbol _LIS_VerificarLista referenced in function _TST_EfetuarComando
-TestLis.obj : error LNK2019: unresolved external symbol _LIS_VerificarCabeca referenced in function _TST_EfetuarComando
-TesteLista.exe : fatal error LNK1120: 3 unresolved externals

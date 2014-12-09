@@ -70,12 +70,21 @@
 =insno     lista1   str0   OK
 =insno     lista1   str1   OK
 
+== Derturpar corrente nulo
+=dertupar lista1 2
+
+== Verifica corrente
+=verificarno lista1 ErroEstrutura
+
+== Derturpar ponteiro final lixo
+=dertupar lista1 13
+
+== Verifica ponteiro final
+=irfinal lista1
+=verificarno lista1 ErroEstrutura
+
 == Destruir a lista
 =destruirlista   lista1    OK
-
-== Verificar cabeca da lista 2
-=verificarcabeca    lista2   OK
-
 
 
 
