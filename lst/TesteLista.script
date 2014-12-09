@@ -19,6 +19,7 @@
 =declararparm   NaoExiste      int  3
 =declararparm   FaltouMemoria  int  6
 =declararparm   NoCorrPrim     int  5
+=declararparm   ErroEstrutura  int  9
 
 =declararparm   pNULL          int  0
 =declararparm   pNaoNULL       int  1

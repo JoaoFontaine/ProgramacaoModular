@@ -93,8 +93,11 @@ typedef enum {
 		LIS_TipoEspacoNo = 8,
 				/* Tipo de espaco de dados no */
 
-	   LIS_CondRetErroEstrutura = 9
+	   LIS_CondRetErroEstrutura = 9,
                /* Estrutura da lista está errada */
+
+	   LIS_CondRetNaoAchou = 10
+	/* Elemento procurado não foi encontrado */
 
    } LIS_tpCondRet ;
 
@@ -383,6 +386,22 @@ LIS_tpCondRet LIS_AlterarNoCorr( LIS_tppLista pLista , void * pValor ) ;
 ***********************************************************************/
 
 LIS_tpCondRet LIS_DestruirLista( LIS_tppLista pLista ) ;    
+
+/***********************************************************************
+*
+*  $FC Função: LIS  &Esvaziar lista
+*
+*  $ED Descrição da função
+*     Elimina todos os elementos, sem contudo eliminar a lista
+*
+*  $EP Parâmetros
+*     pLista - ponteiro para a lista a ser esvaziada
+*
+***********************************************************************/
+
+void LIS_EsvaziarLista( LIS_tppLista pLista );
+
+LIS_tpCondRet LIS_ProcurarValor( LIS_tppLista pLista, void* pValor );
 
 
 /***********************************************************************

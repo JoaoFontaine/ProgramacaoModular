@@ -14,6 +14,8 @@
 #include    <stdio.h>
 #include    <malloc.h>
 
+#include "LISTA.h"
+
 #include    "TST_ESPC.h"
 
 #include    "GENERICO.h"
