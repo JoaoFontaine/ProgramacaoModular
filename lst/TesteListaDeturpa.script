@@ -24,6 +24,27 @@
 =declararparm   pNULL          int  0
 =declararparm   pNaoNULL       int  1
 
+=declararparm   DeturpaTipoCabeca	int  1
+=declararparm   DeturpaCorrenteNulo	int  2
+=declararparm   DeturpaCabecaLixo	int  3
+=declararparm   DeturpaCorrenteLixo	int  4
+=declararparm   DeturpaTipoNo		int  5
+=declararparm   DeturpaPtCabecaNulo	int  6
+=declararparm   DeturpaPtOrigemNulo	int  7
+=declararparm   DeturpaPtFimNulo	int  8
+=declararparm   DeturpaPtProxNulo	int  9
+=declararparm   DeturpaPtAntNulo	int  10
+=declararparm   DeturpaPtCabecaLixo	int  11
+=declararparm   DeturpaPtOrigemLixo	int  12
+=declararparm   DeturpaPtFimLixo	int  13
+=declararparm   DeturpaPtProxLixo	int  14
+=declararparm   DeturpaPtAntLixo	int  15
+=declararparm   DeturpaValor		int  16
+=declararparm   DeturpaEspacoCabeca	int  17
+=declararparm   DeturpaEspacoNo		int  18
+=declararparm   DeturpaNumNo		int  19
+
+
 == Iniciar contadores de passagem
 =inicializarcontadores  "."
 
@@ -71,13 +92,13 @@
 =insno     lista1   str1   OK
 
 == Derturpar corrente nulo
-=dertupar lista1 2
+=dertupar  lista1  DeturpaCorrenteNulo
 
 == Verifica corrente
 =verificarno lista1 ErroEstrutura
 
 == Derturpar ponteiro final lixo
-=dertupar lista1 13
+=dertupar lista1  DeturpaPtFimLixo
 
 == Verifica ponteiro final
 =irfinal lista1
