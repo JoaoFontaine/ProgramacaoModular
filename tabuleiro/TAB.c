@@ -907,6 +907,7 @@ TAB_tpCondRet MoverRei ( int linhaOrig , char colunaOrig, int linhaDest , char c
 }
 /* Fim função: MoverRei */
 
+<<<<<<< HEAD
 /***************************************************************************************************
 *
 *	$FC Função:	AtualizarListaAmeacantes
@@ -928,6 +929,59 @@ TAB_tpCondRet AtualizarListaAmeacantes ( int linha , char coluna , TAB_tppTab pT
 
 	tpCasa * pCasa;
 	tpPeca * pPeca;
+=======
+TAB_tpCondRet AtualizarAmeacasAposRemocao ( int linhaOrig , char colunaOrig, TAB_tppTab pTab )
+{
+	int nAmeacadas, nAmeacantes;
+	int i;
+	tpCasa **casasAmeacadas[DIRECOESPOSSIVEIS/2 * LINHAS];
+	tpCasa **casasAmeacantes[AMEACANTESPOSSIVEIS + 1];
+	tpCasa *pCasaOrig;
+
+	for( i = 0; i < DIRECOESPOSSIVEIS/2 * LINHAS; i++){
+		casasAmeacadas[i] = (tpCasa**)malloc(sizeof(tpCasa*));
+	}
+	for( i = 0; i < AMEACANTESPOSSIVEIS + 1; i++){
+		casasAmeacantes[i] = (tpCasa**)malloc(sizeof(tpCasa*));
+	}
+
+	pCasaOrig = ObterCasa( linhaOrig ,colunaOrig, pTab);
+
+	// Remove as ameaçadas da casa que agora está vazia, removendo também as referencias nas ameacadas
+	RemoverAmeacadas( linhaOrig , colunaOrig, pTab);
+
+	// Insere as ameaças nas casas que agora não estão bloqueadas.
+	if( LIS_ObterNo( pCasaOrig->pAmeacantes ) != NULL )
+	{
+		LIS_IrInicioLista( pCasaOrig->pAmeacantes );
+		nAmeacantes = 0;
+		do
+		{
+			*casasAmeacantes[nAmeacantes] = (tpCasa*)LIS_ObterNo( pCasaOrig->pAmeacantes );
+			nAmeacantes++;
+		} while( LIS_IrProx(pCasaOrig->pAmeacantes) == LIS_CondRetOK );
+
+		for( i = 0; i < nAmeacantes; i++)
+		{
+			if( (*casasAmeacantes[i])->Peca->nome == 'T' || (*casasAmeacantes[i])->Peca->nome == 'B'
+				|| (*casasAmeacantes[i])->Peca->nome == 'D' )
+			{
+				nAmeacadas = DescobrirAmeacadas( casasAmeacadas, (*casasAmeacantes[i]), pTab);
+				InserirAmeacante( (*casasAmeacantes[i]), casasAmeacadas, nAmeacadas );
+			}
+		}
+	}
+
+	for( i = 0; i < DIRECOESPOSSIVEIS/2 * LINHAS; i++){
+		free(casasAmeacadas[i]);
+	}
+	for( i = 0; i < AMEACANTESPOSSIVEIS + 1; i++){
+		free(casasAmeacantes[i]);
+	}
+
+	return TAB_CondRetOK;
+}
+>>>>>>> origin/master
 
 	pPeca = TAB_ObterPeca(linha,coluna,pTab);
 	pCasa = ObterCasa ( linha  , coluna , pTab);
@@ -1043,39 +1097,81 @@ TAB_tpCondRet AtualizarListaAmeacados ( int linha , char coluna , TAB_tppTab pTa
 
 	case 'C':
 
+<<<<<<< HEAD
 		pCasa = ObterCasa ( linha + 2 , coluna + 1 , pTab);
 		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
 			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+=======
+	for(linhaDest = 1, colunaDest = 1; colunaDest < 9; colunaDest++)
+	{
+		condRet = pTesteMovimento( linha, coluna,  linhaDest,  (char)(colunaDest-1+'A'), casasLimite[nCasas],  pTab);
+		if( ( condRet == TAB_CondRetPecaBloqueando || condRet == TAB_CondRetCasaCheia || condRet == TAB_CondRetCaptPeca ) 
+			&& ( nCasas == 0 || ( *casasLimite[nCasas] != *casasLimite[nCasas-1] ) ) ){
+			nCasas++;
+>>>>>>> origin/master
 		}
 		/*if*/
 		pCasa = ObterCasa ( linha + 2 , coluna - 1 , pTab);
 		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
 			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
 		}
+<<<<<<< HEAD
 		/*if*/
 		pCasa = ObterCasa ( linha - 2 , coluna + 1 , pTab);
 		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
 			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+=======
+	}
+
+	for(linhaDest = 8, colunaDest = 1; colunaDest < 9; colunaDest++)
+	{
+		condRet = pTesteMovimento( linha, coluna,  linhaDest,  (char)(colunaDest-1+'A'), casasLimite[nCasas],  pTab);
+		if( ( condRet == TAB_CondRetPecaBloqueando || condRet == TAB_CondRetCasaCheia || condRet == TAB_CondRetCaptPeca ) 
+			&& ( nCasas == 0 || ( *casasLimite[nCasas] != *casasLimite[nCasas-1] ) ) ){
+			nCasas++;
+>>>>>>> origin/master
 		}
 		/*if*/
 		pCasa = ObterCasa ( linha - 2 , coluna - 1 , pTab);
 		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
 			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
 		}
+<<<<<<< HEAD
 		/*if*/
 		pCasa = ObterCasa ( linha + 1 , coluna + 2 , pTab);
 		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
 			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+=======
+	}
+
+	for(linhaDest = 2, colunaDest = 1; linhaDest < 8; linhaDest++)
+	{
+		condRet = pTesteMovimento( linha, coluna,  linhaDest,  (char)(colunaDest-1+'A'), casasLimite[nCasas],  pTab);
+		if( ( condRet == TAB_CondRetPecaBloqueando || condRet == TAB_CondRetCasaCheia || condRet == TAB_CondRetCaptPeca ) 
+			&& ( nCasas == 0 || ( *casasLimite[nCasas] != *casasLimite[nCasas-1] ) ) ){
+			nCasas++;
+>>>>>>> origin/master
 		}
 		/*if*/
 		pCasa = ObterCasa ( linha + 1 , coluna - 2 , pTab);
 		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
 			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
 		}
+<<<<<<< HEAD
 		/*if*/
 		pCasa = ObterCasa ( linha - 1 , coluna + 2 , pTab);
 		if(pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
 			LIS_InserirNo( pCasa->pAmeacadas , pCasa->Peca);
+=======
+	}
+
+	for(linhaDest = 2, colunaDest = 8; linhaDest < 8; linhaDest++)
+	{
+		condRet = pTesteMovimento( linha, coluna,  linhaDest,  (char)(colunaDest-1+'A'), casasLimite[nCasas],  pTab);
+		if( ( condRet == TAB_CondRetPecaBloqueando || condRet == TAB_CondRetCasaCheia || condRet == TAB_CondRetCaptPeca ) 
+			&& ( nCasas == 0 || ( *casasLimite[nCasas] != *casasLimite[nCasas-1] ) ) ){
+			nCasas++;
+>>>>>>> origin/master
 		}
 		/*if*/
 		pCasa = ObterCasa ( linha - 1 , coluna - 2 , pTab);
@@ -1320,7 +1416,11 @@ TAB_tpCondRet AtualizarListaAmeacados ( int linha , char coluna , TAB_tppTab pTa
 
       tpCasa * pCasaAux     = NULL ;
       TAB_tppPeca pPecaAux = NULL ;
+<<<<<<< HEAD
 	  TAB_tpCondRet CondRet;
+=======
+	  //TAB_tpCondRet CondRet;
+>>>>>>> origin/master
 	  
 
 		  pCasaAux = ObterCasa(linha, coluna,(TAB_tppTab) pTab);
@@ -1430,4 +1530,8 @@ TAB_tpCondRet AtualizarListaAmeacados ( int linha , char coluna , TAB_tppTab pTa
 
      } /* Fim função: TAB  &Verificar peca de tab */
 
+<<<<<<< HEAD
  #endif
+=======
+ #endif
+>>>>>>> origin/master
