@@ -39,7 +39,6 @@ int main(void){
 	}
 	else{
 		cor2 = 'B';
-		printf("Jogador 2 comecara a partida com as pecas brancas\n");
 	}
 
 	condRet = PAR_CadastrarJogador( nomeJogador2, cor2 );

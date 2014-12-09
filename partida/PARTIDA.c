@@ -46,6 +46,7 @@ static int jogadoresCadastrados = 0;
 void VerificaCor(char cor);
 void VerificaNomePeca(char nome);
 void ImprimirAmeacas( int linhaDest, char colunaDest, TAB_tppTab pTab );
+void ImprimirCasasAmeacadas( int linhaDest, char colunaDest, TAB_tppTab pTab );
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -161,16 +162,38 @@ TAB_tppTab PAR_PrepararTabuleiro ( char modoDeInicializacao ){
 	}
 	else{
 
-		condRet = TAB_InserirPeca ( 1 , 'A' , 'B' , 'T' , pTab) ; 
-		condRet = TAB_InserirPeca ( 1 , 'B' , 'B' , 'C' , pTab) ; 
-		pPeca = TAB_ObterPeca(1 , 'A', pTab);
+		TAB_InserirPeca ( 1 , 'A' , 'B' , 'T' , pTab) ;
+		ImprimirCasasAmeacadas( 1 , 'A', pTab );
+		TAB_InserirPeca ( 1 , 'B' , 'B' , 'C' , pTab) ; 
+		ImprimirCasasAmeacadas( 1 , 'B', pTab );
 		TAB_InserirPeca ( 1 , 'C' , 'B' , 'B' , pTab) ; 
+		ImprimirCasasAmeacadas( 1 , 'C', pTab );
 		TAB_InserirPeca ( 1 , 'D' , 'B' , 'D' , pTab) ; 
+		ImprimirCasasAmeacadas( 1 , 'D', pTab );
 		TAB_InserirPeca ( 1 , 'E' , 'B' , 'R' , pTab) ; 
+		ImprimirCasasAmeacadas( 1 , 'E', pTab );
 		TAB_InserirPeca ( 1 , 'F' , 'B' , 'B' , pTab) ; 
+		ImprimirCasasAmeacadas( 1 , 'F', pTab );
 		TAB_InserirPeca ( 1 , 'G' , 'B' , 'C' , pTab) ; 
-		TAB_InserirPeca ( 1 , 'H' , 'B' , 'T' , pTab) ; 
-		PAR_ImprimirTabuleiro(pTab);
+		ImprimirCasasAmeacadas( 1 , 'G', pTab );
+		TAB_InserirPeca ( 1 , 'H' , 'B' , 'T' , pTab) ;
+		ImprimirCasasAmeacadas( 1 , 'H', pTab );
+
+		for(i=0;i<8;i++){ /* Apenas para deixar o codigo mais enxuto ao inserir os peoes */
+
+			TAB_InserirPeca ( 2 , ('A'+i) , 'B' , 'P' , pTab) ; 
+			TAB_InserirPeca ( 7 , ('A'+i) , 'P' , 'P' , pTab) ;
+		}
+
+		ImprimirCasasAmeacadas( 1 , 'A', pTab );
+		ImprimirCasasAmeacadas( 1 , 'B', pTab );
+		ImprimirCasasAmeacadas( 1 , 'C', pTab );
+		ImprimirCasasAmeacadas( 1 , 'D', pTab );
+		ImprimirCasasAmeacadas( 1 , 'E', pTab );
+		ImprimirCasasAmeacadas( 1 , 'F', pTab );
+		ImprimirCasasAmeacadas( 1 , 'G', pTab );
+		ImprimirCasasAmeacadas( 1 , 'H', pTab );
+
 		TAB_InserirPeca ( 8 , 'A' , 'P' , 'T' , pTab) ; 
 		TAB_InserirPeca ( 8 , 'B' , 'P' , 'C' , pTab) ; 
 		TAB_InserirPeca ( 8 , 'C' , 'P' , 'B' , pTab) ; 
@@ -412,7 +435,7 @@ void ImprimirAmeacas( int linhaDest, char colunaDest, TAB_tppTab pTab ){
 	printf("Peca\tLinha\tColuna\n");
 	do{
 		pCasa = (TAB_tppCasa)LIS_ObterNo( ameacadas );
-		if(pCasa != NULL && pCasa->Peca->cor != pPeca->cor){
+		if(pCasa != NULL && pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
 			printf("%c\t%d\t%c\n", pCasa->Peca->nome, pCasa->linha, pCasa->coluna);
 		}
 	} while( LIS_IrProx(ameacadas) == LIS_CondRetOK );
@@ -422,10 +445,30 @@ void ImprimirAmeacas( int linhaDest, char colunaDest, TAB_tppTab pTab ){
 	printf("Peca\tLinha\tColuna\n");
 	do{
 		pCasa = (TAB_tppCasa)LIS_ObterNo( ameacantes );
-		if(pCasa != NULL && pCasa->Peca->cor != pPeca->cor){
+		if(pCasa != NULL && pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor ){
 			printf("%c\t%d\t%c\n", pCasa->Peca->nome, pCasa->linha, pCasa->coluna);
 		}
 	} while( LIS_IrProx(ameacantes) == LIS_CondRetOK );
+
+	printf("\n");
+
+}
+
+void ImprimirCasasAmeacadas( int linhaDest, char colunaDest, TAB_tppTab pTab ){
+
+	TAB_tppCasa pCasa;
+	LIS_tppLista ameacadas = TAB_ObterListaAmeacados( linhaDest, colunaDest, pTab );
+	TAB_tppPeca pPeca = TAB_ObterPeca( linhaDest, colunaDest, pTab );
+
+	LIS_IrInicioLista (ameacadas);
+	printf("Lista de Casas ameacadas:\n");
+	printf("Peca\tLinha\tColuna\n");
+	do{
+		pCasa = (TAB_tppCasa)LIS_ObterNo( ameacadas );
+		if(pCasa != NULL){
+			printf("%c\t%d\t%c\n", pCasa->Peca->nome, pCasa->linha, pCasa->coluna);
+		}
+	} while( LIS_IrProx(ameacadas) == LIS_CondRetOK );
 
 	printf("\n");
 

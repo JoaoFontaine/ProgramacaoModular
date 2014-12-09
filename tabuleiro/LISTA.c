@@ -69,12 +69,6 @@ typedef struct tagNoLista {
 
 typedef struct LIS_tagLista {
 
-#ifdef _DEBUG
-
-	int numNo ;
-	/* Numero de nos */
-#endif
-
 	tpNoLista * pOrigemLista ;
 	/* Ponteiro para a origem da lista */
 
@@ -87,7 +81,13 @@ typedef struct LIS_tagLista {
 	char idLista[4];
 	/* Estrutura identificadora da lista */
 
-} LIS_tpLista ;
+	#ifdef _DEBUG
+
+	int numNo ;
+	/* Numero de nos */
+	#endif
+
+}LIS_tpLista;
 
 
 
@@ -122,7 +122,7 @@ static char EspacoLixo[ 256 ] =
 *  ****/
 
 LIS_tppLista LIS_CriarLista( char * idLista ) {
-
+	
 	LIS_tpLista * pLista =( LIS_tpLista * ) malloc( sizeof( LIS_tpLista )) ;
 
 	if ( pLista == NULL ){

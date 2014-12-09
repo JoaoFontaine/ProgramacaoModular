@@ -73,7 +73,7 @@ typedef enum {
 	TAB_CondRetOK = 0,
 	/* Concluiu corretamente */
 
-	TAB_CondRetNaoExiste = 1 ,
+	TAB_CondRetNaoExiste = 1,
 	/* O tabuleiro nao existe */
 
 	TAB_CondRetCasaVazia = 2,
