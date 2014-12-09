@@ -92,14 +92,8 @@ typedef enum {
 	TAB_CondRetErroEstrutura = 14,
 				/* Erro estrutural */
 
-	TAB_TipoEspacoCabeca = 15,
+	TAB_TipoEspacoCabeca = 15
 				/* Tipo de dado cabeca de tab */
-
-	TAB_TipoEspacoCasa = 16,
-				/* Tipo de dado casa de tab */
-
-	TAB_TipoEspacoPeca = 17
-				/* Tipo de dado peca de tab */
 
 } TAB_tpCondRet ;
 

@@ -20,6 +20,8 @@
 *
 ***************************************************************************/
 
+#define _DEBUG
+
 #include    <string.h>
 #include    <stdio.h>
 #include    <malloc.h>
@@ -115,6 +117,9 @@ int estaInicializado = 0 ;
 
    TST_tpCondRet TST_EfetuarComando( char * ComandoTeste )
    {
+	    #ifdef _DEBUG
+         int  IntEsperado   = -1 ;
+      #endif
 
       int inxLista  = -1 ,
           numLidos   = -1 ,
@@ -131,9 +136,6 @@ int estaInicializado = 0 ;
 
       StringDado[ 0 ] = 0 ;
 
-	   #ifdef _DEBUG
-         int  IntEsperado   = -1 ;
-      #endif
 
       /* Efetuar reset de teste de lista */
 
@@ -489,7 +491,7 @@ int estaInicializado = 0 ;
 
 
             return TST_CompararInt( CondRetEsp ,
-                             LIS_VerificarNo( vtListas[ inxLista ]  )  ,
+                             LIS_VerificarNo( LIS_ObterNo(vtListas[ inxLista ])  )  ,
                              "Retorno incorreto ao verificar no." ) ;
 
          } /* fim ativa: Testar verificador de no */
