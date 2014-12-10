@@ -32,7 +32,7 @@
 #include    "intrpCNT.h"
 #include    "intrpCED.h"
 #include    "CESPDIN.h"
-#include    "TST_ESPC.h"
+
 
 /* Constantes internas */
 

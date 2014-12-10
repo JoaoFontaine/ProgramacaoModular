@@ -97,10 +97,10 @@ Estatísticas do construto
       Partida.c
 
    Estatísticas do arquivo: Partida.c
-      Total linhas:             475
-      Linhas de código:         360
+      Total linhas:             551
+      Linhas de código:         426
       Linhas de comentário:      19
-      Linhas em branco:          93
+      Linhas em branco:         103
    Arquivos de inclusão de que necessita
       LISTA.h
       PARTIDA.h
@@ -163,17 +163,17 @@ Totais por tipo de arquivo
          Arquivos deste tipo:          9
 
   Tipo: c        Path: .
-         Total linhas do tipo:      3547
-         Linhas de código:          1996
+         Total linhas do tipo:      3623
+         Linhas de código:          2062
          Linhas de comentário:       596
-         Linhas em branco:           986
+         Linhas em branco:           996
          Arquivos deste tipo:          3
 
 Totais para todo o construto INTERFACE
 
-   Total linhas:              8062
-   Linhas de código:          2436
+   Total linhas:              8138
+   Linhas de código:          2502
    Linhas de comentário:      4003
-   Linhas em branco:          1654
+   Linhas em branco:          1664
    Arquivos processados:        12
 
