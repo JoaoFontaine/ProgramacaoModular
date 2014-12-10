@@ -19,10 +19,11 @@
 =declararparm   NaoExiste      int  3
 =declararparm   FaltouMemoria  int  6
 =declararparm   NoCorrPrim     int  5
-=declararparm   ErroEstrutura  int  9
 
 =declararparm   pNULL          int  0
 =declararparm   pNaoNULL       int  1
+
+=declararparm    CriterioExibir int   1
 
 == Iniciar contagem
 =inicializarcontadores  ""
@@ -117,5 +118,9 @@
 
 == Destruir a lista
 =destruirlista   lista2   OK
+
+== Controlar vazamento de memória
+=obternumeroespacosalocados  0
+=verificartodosespacos       CriterioExibir
 
 // fim

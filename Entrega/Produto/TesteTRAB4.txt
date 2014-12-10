@@ -1,0 +1,58 @@
+////////////////////////////////////////////////
+//
+// Teste do jogo de xadrez (TRAB4.exe)
+//
+///////////////////////////////////////////////
+
+Comandos:
+
+	//Escolha de nomes e cor de peca
+	- 1-> GUILHERME
+	- 2-> B
+	- 4-> JOAO
+
+	//Primeira jogada
+	- 5-> 2
+	- 6-> E
+	- 7-> 4
+	- 8-> E
+
+	//Segunda jogada
+	- 9-> 7
+	- 10-> F
+	- 11-> 5
+	- 12-> F
+
+	//Terceira jogada
+	- 13-> 2
+	- 14-> B
+	- 15-> 3
+	- 16-> B
+		
+	//Quarta jogada
+	- 17-> 7
+	- 18-> H
+	- 19-> 6
+	- 20-> H
+
+	//Quinta jogada
+	- 21-> 1
+	- 22-> C
+	- 23-> 3
+	- 24-> A
+
+	//Sexta jogada
+	- 25-> 7
+	- 26-> G
+	- 27-> 5
+	- 28-> G
+
+	//Setima jogada
+	- 29-> 1
+	- 30-> D
+	- 31-> 5
+	- 32-> H
+
+
+
+//FIM

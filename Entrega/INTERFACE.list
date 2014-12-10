@@ -1,0 +1,179 @@
+GERADOR DE SCRIPT DE DIRETIVAS PARA MAKE
+   LES / Informática / PUC-Rio    Versão 6.00 (c) 2005
+
+Composição do construto: trab4.comp
+
+   Nome do Construto:           INTERFACE
+   Diretório base:              C:\Users\guilherme\Documents\GitHub\ProgramacaoModular\Entrega
+
+   Arquivo composição:          trab4.comp
+   Arquivo plataforma:          gmake.parm
+
+   Arquivo diretivas MAKE:      INTERFACE.make
+   Arquivo diretivas LINK:      INTERFACE.build
+   Arquivo listagem:            INTERFACE.list
+
+Módulos do construto: trab4.comp
+
+   Tab.c
+   Lista.c
+   Partida.c
+
+Estatísticas do construto
+
+   Estatísticas do arquivo: CESPDIN.h
+      Total linhas:             668
+      Linhas de código:          52
+      Linhas de comentário:     519
+      Linhas em branco:          97
+   Arquivos em que é incluído
+      Lista.c
+      Tab.c
+
+   Estatísticas do arquivo: CONTA.h
+      Total linhas:             468
+      Linhas de código:          43
+      Linhas de comentário:     349
+      Linhas em branco:          76
+   Arquivos em que é incluído
+      Tab.c
+
+   Estatísticas do arquivo: Conta.h
+      Total linhas:             468
+      Linhas de código:          43
+      Linhas de comentário:     349
+      Linhas em branco:          76
+   Arquivos em que é incluído
+      Lista.c
+
+   Estatísticas do arquivo: GENERICO.h
+      Total linhas:             709
+      Linhas de código:          59
+      Linhas de comentário:     568
+      Linhas em branco:          82
+   Arquivos de inclusão de que necessita
+      TST_Espc.h
+   Arquivos em que é incluído
+      Lista.c
+
+   Estatísticas do arquivo: Generico.h
+      Total linhas:             709
+      Linhas de código:          59
+      Linhas de comentário:     568
+      Linhas em branco:          82
+   Arquivos de inclusão de que necessita
+      TST_Espc.h
+   Arquivos em que é incluído
+      Tab.c
+
+   Estatísticas do arquivo: LISTA.h
+      Total linhas:             500
+      Linhas de código:          62
+      Linhas de comentário:     346
+      Linhas em branco:          92
+   Arquivos em que é incluído
+      Lista.c
+      Partida.c
+      Tab.c
+
+   Estatísticas do arquivo: Lista.c
+      Total linhas:            1242
+      Linhas de código:         568
+      Linhas de comentário:     220
+      Linhas em branco:         498
+   Arquivos de inclusão de que necessita
+      CESPDIN.h
+      Conta.h
+      GENERICO.h
+      LISTA.h
+      TST_Espc.h
+
+   Estatísticas do arquivo: PARTIDA.h
+      Total linhas:             158
+      Linhas de código:          21
+      Linhas de comentário:     105
+      Linhas em branco:          32
+   Arquivos em que é incluído
+      Partida.c
+
+   Estatísticas do arquivo: Partida.c
+      Total linhas:             550
+      Linhas de código:         425
+      Linhas de comentário:      19
+      Linhas em branco:         103
+   Arquivos de inclusão de que necessita
+      LISTA.h
+      PARTIDA.h
+      TAB.h
+
+   Estatísticas do arquivo: TAB.h
+      Total linhas:             403
+      Linhas de código:          61
+      Linhas de comentário:     252
+      Linhas em branco:          90
+   Arquivos em que é incluído
+      Partida.c
+      Tab.c
+
+   Estatísticas do arquivo: TST_Espc.h
+      Total linhas:             228
+      Linhas de código:          23
+      Linhas de comentário:     185
+      Linhas em branco:          20
+   Arquivos em que é incluído
+      GENERICO.h
+      Generico.h
+      Lista.c
+      Tab.c
+
+   Estatísticas do arquivo: Tab.c
+      Total linhas:            1799
+      Linhas de código:        1068
+      Linhas de comentário:     343
+      Linhas em branco:         372
+   Arquivos de inclusão de que necessita
+      CESPDIN.h
+      CONTA.h
+      Generico.h
+      LISTA.h
+      TAB.h
+      TST_Espc.h
+
+Totais por tipo de arquivo
+
+  Tipo: obj      Path: .
+         Total linhas do tipo:         0
+         Linhas de código:             0
+         Linhas de comentário:         0
+         Linhas em branco:             0
+         Arquivos deste tipo:          0
+
+  Tipo: err      Path: .
+         Total linhas do tipo:         0
+         Linhas de código:             0
+         Linhas de comentário:         0
+         Linhas em branco:             0
+         Arquivos deste tipo:          0
+
+  Tipo: DEFAULT  Path: .
+         Total linhas do tipo:      4311
+         Linhas de código:           423
+         Linhas de comentário:      3241
+         Linhas em branco:           647
+         Arquivos deste tipo:          9
+
+  Tipo: c        Path: .
+         Total linhas do tipo:      3591
+         Linhas de código:          2061
+         Linhas de comentário:       582
+         Linhas em branco:           973
+         Arquivos deste tipo:          3
+
+Totais para todo o construto INTERFACE
+
+   Total linhas:              7902
+   Linhas de código:          2484
+   Linhas de comentário:      3823
+   Linhas em branco:          1620
+   Arquivos processados:        12
+

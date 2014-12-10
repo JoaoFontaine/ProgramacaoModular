@@ -1,20 +1,8 @@
-/***************************************************************************
-*  $MCI Módulo de implementação: TAB  tabuleiro
-*
-*  Arquivo gerado:              TAB.c
-*  Letras identificadoras:      TAB
-*
-*  Projeto: INF 1301 Jogo de Xadrez
-*  Autores: Guilherme Araujo e João Pedro Fontaine
-*
-***************************************************************************/
-
-
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include "TABULEIRO.h"
 #include "LISTA.h"
-#include "TAB.h"
 
 #define LINHAS 8
 #define COLUNAS 8
@@ -23,11 +11,35 @@
 #define DIRECOESPOSSIVEIS 8
 #define AMEACANTESPOSSIVEIS 12
 
-#ifdef _DEBUG
-#include   "Generico.h"
-#include   "CONTA.h"
-#include   "CESPDIN.h"
-#endif
+typedef struct TAB_tagPeca {
+
+	char nome;
+	/* Nome da peca */
+	char cor;
+	/* Cor da peca */
+
+} tpPeca ;
+
+typedef struct TAB_tagCasa {
+
+	tpPeca *Peca; 
+	/* Ponteiro para a peca contida na casa */
+
+	LIS_tppLista  pAmeacadas;
+	/* Ponteiro para a cabeca da lista de ameacadas */
+
+	LIS_tppLista  pAmeacantes;
+	/* Ponteiro para a cabeca da lista de ameacantes */
+
+	int linha;
+	/* Linha do tabuleiro a qual a casa pertence */
+
+	char coluna;
+	/* Coluna do tabuleiro a qual a casa pertence */
+
+}tpCasa ;
+
+
 
 typedef struct TAB_tagLinhas {
 
@@ -44,20 +56,6 @@ typedef struct TAB_tagTab {
 	/* Ponteiro para o vetor de ponteiros de linhas */
 
 }TAB_tpTab;
-
-/*****  Dados encapsulados no módulo  *****/
-
-char IdAmeacantes[] = {'a','m','t'};
-char IdAmeacadas[] = {'a','m','d'};
-char IdVetorLinhas[] = {'l','i','n'};
-
-#ifdef _DEBUG
-
-static char EspacoLixo[ 256 ] =
-	"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" ;
-/* Espaço de dados lixo usado ao testar */
-
-#endif
 
 
 /***** Protótipos das funções encapuladas no módulo *****/
@@ -93,23 +91,6 @@ int ObterLimitesDeMovimentoRei( int linha, char coluna, tpCasa*** casasLimite, T
 
 int ObterCasasEntre( int linhaOrig, char colunaOrig, int linhaDest, char colunaDest, tpCasa*** casasEntre, TAB_tppTab pTab);
 
-TAB_tpCondRet VerificaAmeacantesReais( char corAmeacada, int linha , char coluna, TAB_tppTab pTab );
-tpCasa * ObtemAmeacanteReal( char corAmeacada, int linha , char coluna, TAB_tppTab pTab );
-
-#ifdef _DEBUG
-int VerificarCabeca(int falhas, void * pTab );
-#endif
-
-#ifdef _DEBUG
-int VerificarCasas(int falhas, int linha, void * pTab );
-#endif
-
-#ifdef _DEBUG
-int VerificarPeca(int falhas ,int linha, char coluna, void * pTab );
-#endif
-
-
-
 /*****  Código das funções exportadas pelo módulo  *****/
 
 
@@ -130,7 +111,7 @@ TAB_tppTab TAB_CriarTab ( void ){
 
 	for ( i=0; i<LINHAS; i++) {
 
-		pTab->pLinhas->pLinha[i] = LIS_CriarLista( IdVetorLinhas );
+		pTab->pLinhas->pLinha[i] = LIS_CriarLista( NULL );
 
 		for( j=0; j<COLUNAS; j++){
 
@@ -140,25 +121,15 @@ TAB_tppTab TAB_CriarTab ( void ){
 				return NULL;
 			}
 			/*if*/
-#ifdef _DEBUG
-			CED_DefinirTipoEspaco( pCasa , TAB_TipoEspacoCasa ) ;
-#endif
-
 			pCasa->Peca = ( tpPeca * ) malloc( sizeof( tpPeca * )) ;
 			if ( pCasa->Peca == NULL ) {  
 				printf("\n Faltou memória para criar peca");
 				return NULL;
 			}
-
-#ifdef _DEBUG
-			pCasa->Peca->pCasa = pCasa;
-			CED_DefinirTipoEspaco( pCasa->Peca , TAB_TipoEspacoPeca ) ;
-#endif
-
 			pCasa->Peca->nome = 'V';
 			pCasa->Peca->cor = 'V';
-			pCasa->pAmeacadas = LIS_CriarLista( IdAmeacadas );
-			pCasa->pAmeacantes = LIS_CriarLista( IdAmeacantes );
+			pCasa->pAmeacadas = LIS_CriarLista( NULL );
+			pCasa->pAmeacantes = LIS_CriarLista( NULL );
 			pCasa->linha = i + 1;
 			pCasa->coluna = (char)( j  + 'A' );
 
@@ -172,10 +143,6 @@ TAB_tppTab TAB_CriarTab ( void ){
 		/*for*/
 	}
 	/*for*/
-
-#ifdef _DEBUG
-	CED_DefinirTipoEspaco( pTab , TAB_TipoEspacoTab ) ;
-#endif
 
 
 	return pTab;
@@ -191,8 +158,8 @@ TAB_tppPeca TAB_ObterPeca ( int linha , char coluna, TAB_tppTab pTab ){
 		return NULL;
 	}
 
-	pCasa = ObterCasa(linha, coluna, pTab);
-	if(pCasa == NULL || pCasa->Peca->nome == 'V'){
+	pCasa= ObterCasa(linha, coluna, pTab);
+	if(pCasa->Peca->nome == 'V'){
 		return NULL;
 	}
 	/*if*/
@@ -220,11 +187,8 @@ TAB_tpCondRet TAB_RetirarPeca ( int linha , char coluna, TAB_tppTab pTab ){
 	peca->cor= 'V';
 	peca->nome= 'V';
 
-#ifdef _DEBUG
-	peca->pCasa = NULL;
-#endif
-
 	AtualizarAmeacasAposRemocao( linha, coluna, pTab );
+
 	return TAB_CondRetOK;
 }
 
@@ -283,10 +247,6 @@ TAB_tpCondRet TAB_MoverPeca ( int linhaOrig , char colunaOrig, int linhaDest , c
 		TAB_RetirarPeca(linhaOrig, colunaOrig, pTab);
 	}
 
-#ifdef _DEBUG
-	peca->pCasa = ObterCasa(linhaDest, colunaDest, pTab);
-#endif
-
 	return condRet;
 }
 
@@ -299,15 +259,12 @@ TAB_tpCondRet TAB_InserirPeca ( int linha , char coluna, char cor, char tipo, TA
 	}
 	/*if*/
 
-
 	if( ConfereCasaValida(linha, coluna) != TAB_CondRetOK ){
 		return TAB_CondRetCasaInvalida;
 	}
 	/*if*/
 
-
 	casa= ObterCasa(linha, coluna, pTab);
-
 
 	if(casa->Peca->nome != 'V'){
 		return TAB_CondRetCasaCheia;
@@ -316,16 +273,12 @@ TAB_tpCondRet TAB_InserirPeca ( int linha , char coluna, char cor, char tipo, TA
 	casa->Peca->nome= tipo;
 	casa->Peca->cor= cor;
 
-#ifdef _DEBUG
-	casa->Peca->pCasa = casa;
-#endif
-
 	AtualizarAmeacasAposInsersao( linha, coluna, pTab );
 
 	return TAB_CondRetOK;
 }
 
-LIS_tppLista TAB_ObterListaAmeacantes( int linha , char coluna, TAB_tppTab pTab ){
+TAB_tppLista TAB_ObterListaAmeacantes( int linha , char coluna, TAB_tppTab pTab ){
 
 	tpCasa * pCasa;
 
@@ -335,14 +288,12 @@ LIS_tppLista TAB_ObterListaAmeacantes( int linha , char coluna, TAB_tppTab pTab 
 	}
 	/*if*/
 	pCasa= ObterCasa(linha, coluna, pTab);
-	if( pCasa != NULL ){
-		return pCasa->pAmeacantes;
-	}
 
-	return NULL;
+	return pCasa->pAmeacantes;
+
 }
 
-LIS_tppLista TAB_ObterListaAmeacados( int linha , char coluna, TAB_tppTab pTab ){
+TAB_tppLista TAB_ObterListaAmeacados( int linha , char coluna, TAB_tppTab pTab ){
 
 	tpCasa * pCasa;
 
@@ -352,11 +303,9 @@ LIS_tppLista TAB_ObterListaAmeacados( int linha , char coluna, TAB_tppTab pTab )
 	}
 	/*if*/
 	pCasa= ObterCasa(linha, coluna, pTab);
-	if( pCasa != NULL ){
-		return pCasa->pAmeacadas;
-	}
 
-	return NULL;
+	return pCasa->pAmeacadas;
+
 }
 
 TAB_tpCondRet TAB_DestruirTab ( TAB_tppTab pTab ){
@@ -376,131 +325,6 @@ TAB_tpCondRet TAB_DestruirTab ( TAB_tppTab pTab ){
 
 	return TAB_CondRetOK;
 }
-
-TAB_tpCondRet TAB_VerificaXeque ( int linha , char coluna, TAB_tppTab pTab ){
-
-	int i;
-	int casasNaoBloqueadas;
-	int casasBloqueaveis;
-	TAB_tpCondRet condRet;
-	tpCasa *pCasaRei = ObterCasa( linha, coluna, pTab );
-	tpCasa *pCasaAmeacante;
-	tpCasa *pCasaBloqueio;
-	tpCasa **casasDeFuga[DIRECOESPOSSIVEIS];
-	tpCasa **casasDeBloqueio[LINHAS];
-
-	if( VerificaAmeacantesReais( pCasaRei->Peca->cor, linha, coluna, pTab ) == TAB_CondRetMovInv ){
-
-		/* Verifica se a Peca ameacante pode ser capturada */
-		pCasaAmeacante = ObtemAmeacanteReal( pCasaRei->Peca->cor, linha, coluna, pTab );
-
-		if( VerificaAmeacantesReais( pCasaAmeacante->Peca->cor, pCasaAmeacante->linha, pCasaAmeacante->coluna, pTab ) == TAB_CondRetMovInv ){
-			printf("\nPeca ameacante pode ser capturada\n");
-			return TAB_CondRetXeque;
-		}
-
-
-		/* Verifica se o Rei pode ser movido */
-		for( i = 0; i < DIRECOESPOSSIVEIS; i++ ){
-			casasDeFuga[i] = (tpCasa**)malloc(sizeof(tpCasa*));
-		}
-
-		casasNaoBloqueadas = ObterLimitesDeMovimentoRei( linha, coluna, casasDeFuga, pTab );
-
-
-		for( i = 0; i < casasNaoBloqueadas; i++ ){
-			condRet = MoverRei( linha, coluna, (*casasDeFuga[i])->linha , (*casasDeFuga[i])->coluna, pTab );
-			if( condRet == TAB_CondRetOK || condRet == TAB_CondRetCaptPeca){
-				if( VerificaAmeacantesReais( pCasaRei->Peca->cor, (*casasDeFuga[i])->linha , (*casasDeFuga[i])->coluna, pTab ) == TAB_CondRetOK ){
-					for( i = 0; i < DIRECOESPOSSIVEIS; i++ ){
-						free(casasDeFuga[i]);
-					}
-					printf("\nRei pode ser movido\n");
-					return TAB_CondRetXeque;
-				}
-			}
-		}
-
-		for( i = 0; i < DIRECOESPOSSIVEIS; i++ ){
-			free(casasDeFuga[i]);
-		}
-
-		/* Verifica se a Peca ameacante pode ser bloqueada */
-		if( pCasaAmeacante->Peca->nome == 'C' ){ // Cavalos não podem ser bloqueados
-			printf("\nXeque Mate com cavalo\n");
-			return TAB_CondRetXequeMate;
-		}
-
-		for( i = 0; i < LINHAS; i++ ){
-			casasDeBloqueio[i] = (tpCasa**)malloc(sizeof(tpCasa*));
-		}
-
-		casasBloqueaveis = ObterCasasEntre( linha, coluna, pCasaAmeacante->linha, pCasaAmeacante->coluna, casasDeBloqueio, pTab );
-
-		for( i = 0; i < casasBloqueaveis; i++ ){
-			if( VerificaAmeacantesReais( pCasaAmeacante->Peca->cor, (*casasDeBloqueio[i])->linha , (*casasDeBloqueio[i])->coluna, pTab ) == TAB_CondRetMovInv ){
-
-				pCasaBloqueio = ObtemAmeacanteReal(pCasaAmeacante->Peca->cor, (*casasDeBloqueio[i])->linha , (*casasDeBloqueio[i])->coluna, pTab);
-				if ( pCasaBloqueio->Peca->nome != 'R' && pCasaBloqueio->Peca->nome != 'V'){
-					printf("\n\n*******  %c%c  ********\n\n",pCasaBloqueio->Peca->nome, pCasaBloqueio->Peca->cor);
-					for( i = 0; i < LINHAS; i++ ){
-						free(casasDeBloqueio[i]);
-					}
-					printf("\nCaminho pode ser bloqueado\n");
-					return TAB_CondRetXeque;
-				}
-			}
-		}
-
-		for( i = 0; i < LINHAS; i++ ){
-			free(casasDeBloqueio[i]);
-		}
-
-		printf("\nXeque Mate\n");
-		return TAB_CondRetXequeMate;
-
-	}
-
-	return TAB_CondRetOK;
-}
-
-
-#ifdef _DEBUG
-
-/***************************************************************************
-*
-*  Função: TAB  &Verificar um tabuleiro
-*  ****/
-
-
-int TAB_VerificarTab( TAB_tppTab pTab) {
-
-	TAB_tppTab pTabAux = NULL ;
-
-	TAB_tpCondRet CondRet;
-
-	int falhas = 0;
-
-	int i = 0;
-
-	falhas = VerificarCabeca( falhas, pTab);
-
-	CED_MarcarEspacoAtivo( pTab ) ;
-
-	pTabAux = ( TAB_tpTab * ) ( pTab ) ;
-
-	while(pTab->pLinhas->pLinha[i] != NULL){
-
-		falhas =  VerificarCasas ( falhas, i, pTab);
-
-	}/*while*/
-
-	return falhas;
-
-
-} /* Fim função: TAB  &Verificar um tabuleiro */
-
-#endif
 
 
 /* Funções Encapsuladas no módulo */
@@ -546,7 +370,7 @@ TAB_tpCondRet ConfereCasaValida(int linha , char coluna){
 *		e coluna do tabuleiro passado como parâmetro.
 *
 ****************************************************************************************************/
-tpCasa *ObterCasa(int linha , char coluna, TAB_tppTab pTab){
+tpCasa * ObterCasa(int linha , char coluna, TAB_tppTab pTab){
 
 	int i;
 	tpCasa * pCasa;
@@ -731,7 +555,7 @@ TAB_tpCondRet ConferePercursoVazio(int linhaOrig , char colunaOrig, int linhaDes
 				if ( TAB_ObterPeca( linhaOrig + (i*sinalLinha), colunaOrig, pTab ) != NULL )
 				{
 					if(pCasaBloqueio != NULL) { 
-						*pCasaBloqueio = ObterCasa( linhaOrig + (i*sinalLinha), colunaOrig, pTab ); 
+						*pCasaBloqueio = ObterCasa( linhaOrig,(char)(colunaOrig + (i*sinalColuna) ),pTab ); 
 					}
 					return TAB_CondRetPecaBloqueando;
 				}
@@ -744,7 +568,7 @@ TAB_tpCondRet ConferePercursoVazio(int linhaOrig , char colunaOrig, int linhaDes
 				if (TAB_ObterPeca( linhaOrig + (i*sinalLinha), (char)( colunaOrig + (i*sinalColuna) ), pTab ) != NULL )
 				{
 					if(pCasaBloqueio != NULL) { 
-						*pCasaBloqueio = ObterCasa( linhaOrig + (i*sinalLinha), (char)(colunaOrig + (i*sinalColuna) ),pTab ); 
+						*pCasaBloqueio = ObterCasa( linhaOrig,(char)(colunaOrig + (i*sinalColuna) ),pTab ); 
 					}
 					return TAB_CondRetPecaBloqueando;
 				}
@@ -754,7 +578,7 @@ TAB_tpCondRet ConferePercursoVazio(int linhaOrig , char colunaOrig, int linhaDes
 
 	if(TAB_ObterPeca(linhaDest,colunaDest,pTab) != NULL){
 		if(pCasaBloqueio != NULL) { 
-			*pCasaBloqueio = ObterCasa( linhaDest, colunaDest, pTab ); 
+			*pCasaBloqueio = ObterCasa( linhaOrig,(char)(colunaOrig + (i*sinalColuna) ),pTab ); 
 		}
 		return TAB_CondRetCasaCheia;
 	}
@@ -818,7 +642,6 @@ TAB_tpCondRet ConfereCaptura(int linhaOrig , char colunaOrig, int linhaDest , ch
 
 TAB_tpCondRet MoverPeao ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
 
-	TAB_tpCondRet condRet;
 	char corPeao= TAB_ObterPeca(linhaOrig,colunaOrig,pTab)->cor;
 	int distanciaLinhas= linhaDest-linhaOrig;
 	int nCasasNormal, nCasasEspecial;
@@ -839,19 +662,16 @@ TAB_tpCondRet MoverPeao ( int linhaOrig , char colunaOrig, int linhaDest , char 
 		//Movimento de uma casa
 		if(distanciaLinhas == nCasasNormal){
 			//Peão não pode capturar peça ao andar para frente
-			condRet = ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, NULL, pTab);
-			return condRet;
+			return ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, NULL, pTab);
 		}
 		//Movimento pode ser de duas casas se for a partir da linha inicial dos peões
 		if(linhaOrig == LINHAPEOESPRETOS && distanciaLinhas == nCasasEspecial && corPeao == 'P'){
 			//Peão não pode capturar peça ao andar para frente
-			condRet = ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, NULL, pTab);
-			return condRet;
+			return ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, NULL, pTab);
 		}
 		if(linhaOrig == LINHAPEOESBRANCOS && distanciaLinhas == nCasasEspecial && corPeao == 'B'){
 			//Peão não pode capturar peça ao andar para frente
-			condRet = ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, NULL, pTab);
-			return condRet;
+			return ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, NULL, pTab);
 		}
 	}
 	//Confere se a movimentação é para a diagonal
@@ -897,7 +717,7 @@ TAB_tpCondRet MoverTorre ( int linhaOrig , char colunaOrig, int linhaDest , char
 		//Confere se o caminho está livre, bloqueado ou se haverá captura de peça
 		condRet= ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pCasaBloqueio, pTab);
 		if( condRet == TAB_CondRetCasaCheia ){
-			condRet =  ConfereCaptura(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+			return ConfereCaptura(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
 		}
 		return condRet;
 	}
@@ -931,7 +751,7 @@ TAB_tpCondRet MoverBispo ( int linhaOrig , char colunaOrig, int linhaDest , char
 		//Confere se o caminho está livre, bloqueado ou se haverá captura de peça
 		condRet= ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pCasaBloqueio, pTab);
 		if( condRet == TAB_CondRetCasaCheia ){
-			condRet = ConfereCaptura(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+			return ConfereCaptura(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
 		}
 		return condRet;
 	}
@@ -959,13 +779,12 @@ TAB_tpCondRet MoverBispo ( int linhaOrig , char colunaOrig, int linhaDest , char
 
 TAB_tpCondRet MoverCavalo ( int linhaOrig , char colunaOrig, int linhaDest , char colunaDest, TAB_tppTab pTab ){
 
-	TAB_tpCondRet condRet = TAB_CondRetMovInv;
 	//Confere se a movimentação é em "L"
 	if(ConfereMovimentoCavaloValido(linhaOrig, colunaOrig, linhaDest, colunaDest) == TAB_CondRetOK){
 		//Confere se haverá captura de peça
-		condRet = ConfereCaptura(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+		return ConfereCaptura(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
 	}
-	return condRet;
+	return TAB_CondRetMovInv;
 }
 
 /* Fim função: MoverCavalo */
@@ -997,7 +816,7 @@ TAB_tpCondRet MoverDama ( int linhaOrig , char colunaOrig, int linhaDest , char 
 			//Confere se o caminho está livre, bloqueado ou se haverá captura de peça
 			condRet= ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, pCasaBloqueio, pTab);
 			if( condRet == TAB_CondRetCasaCheia ){
-				condRet = ConfereCaptura(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
+				return ConfereCaptura(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
 			}
 			return condRet;
 	}
@@ -1030,7 +849,6 @@ TAB_tpCondRet MoverRei ( int linhaOrig , char colunaOrig, int linhaDest , char c
 	int distanciaColunas= (int) colunaDest-colunaOrig;
 	int distanciaLinhas= linhaDest-linhaOrig;
 	TAB_tpCondRet condRet;
-	tpCasa *pCasa = ObterCasa( linhaOrig, colunaOrig, pTab );
 
 	if( abs(distanciaColunas) > 1 || abs(distanciaLinhas) > 1 ){
 		return TAB_CondRetMovInv;
@@ -1038,14 +856,8 @@ TAB_tpCondRet MoverRei ( int linhaOrig , char colunaOrig, int linhaDest , char c
 
 	condRet= ConferePercursoVazio(linhaOrig, colunaOrig, linhaDest, colunaDest, NULL, pTab);
 	if( condRet == TAB_CondRetCasaCheia ){
-		condRet = ConfereCaptura(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
-		return condRet;
+		return ConfereCaptura(linhaOrig, colunaOrig, linhaDest, colunaDest, pTab);
 	}
-
-	if( VerificaAmeacantesReais( pCasa->Peca->cor, linhaDest , colunaDest, pTab) == TAB_CondRetMovInv ){
-		return TAB_CondRetMovInv;
-	}
-
 	return condRet;
 
 }
@@ -1059,14 +871,14 @@ TAB_tpCondRet AtualizarAmeacasAposRemocao ( int linhaOrig , char colunaOrig, TAB
 	tpCasa **casasAmeacantes[AMEACANTESPOSSIVEIS + 1];
 	tpCasa *pCasaOrig;
 
-	pCasaOrig = ObterCasa( linhaOrig ,colunaOrig, pTab);
-
 	for( i = 0; i < DIRECOESPOSSIVEIS/2 * LINHAS; i++){
 		casasAmeacadas[i] = (tpCasa**)malloc(sizeof(tpCasa*));
 	}
 	for( i = 0; i < AMEACANTESPOSSIVEIS + 1; i++){
 		casasAmeacantes[i] = (tpCasa**)malloc(sizeof(tpCasa*));
 	}
+
+	pCasaOrig = ObterCasa( linhaOrig ,colunaOrig, pTab);
 
 	// Remove as ameaçadas da casa que agora está vazia, removendo também as referencias nas ameacadas
 	RemoverAmeacadas( linhaOrig , colunaOrig, pTab);
@@ -1111,8 +923,6 @@ TAB_tpCondRet AtualizarAmeacasAposInsersao ( int linhaDest , char colunaDest, TA
 	tpCasa **casasAmeacantes[AMEACANTESPOSSIVEIS + 1];
 	tpCasa *pCasaDest;
 
-	pCasaDest = ObterCasa( linhaDest ,colunaDest, pTab);
-
 	for( i = 0; i < DIRECOESPOSSIVEIS/2 * LINHAS; i++){
 		casasAmeacadas[i] = (tpCasa**)malloc(sizeof(tpCasa*));
 	}
@@ -1120,8 +930,9 @@ TAB_tpCondRet AtualizarAmeacasAposInsersao ( int linhaDest , char colunaDest, TA
 		casasAmeacantes[i] = (tpCasa**)malloc(sizeof(tpCasa*));
 	}
 
-	// Remove as ameaçadas que já existiam na casa destino, removendo também as referencias nas ameacadas
+	pCasaDest = ObterCasa( linhaDest ,colunaDest, pTab);
 
+	// Remove as ameaçadas que já existiam na casa destino, removendo também as referencias nas ameacadas
 	RemoverAmeacadas( linhaDest , colunaDest, pTab);
 
 	// Atualiza as ameaças de todas as casas que ameaçam a casa que agora está ocupada.
@@ -1180,7 +991,7 @@ int DescobrirAmeacadas(tpCasa ***casasAmeacadas, tpCasa *pCasaAmeacante, TAB_tpp
 		if( LIS_ProcurarValor((*casasLimite[i])->pAmeacantes, pCasaAmeacante) != LIS_CondRetOK )
 		{
 			nEntre = ObterCasasEntre(pCasaAmeacante->linha, pCasaAmeacante->coluna, (*casasLimite[i])->linha, 
-				(*casasLimite[i])->coluna, casasEntre, pTab);
+										(*casasLimite[i])->coluna, casasEntre, pTab);
 
 			for( j = 0; j < nEntre; j++, nCasas++){
 				*casasAmeacadas[nCasas] = *casasEntre[j];
@@ -1244,7 +1055,7 @@ TAB_tpCondRet InserirAmeacante ( tpCasa *pCasaAameacante, tpCasa ***pCasasAmeaca
 		if( LIS_ProcurarValor( pCasaAameacante->pAmeacadas, *pCasasAmeacadas[i] ) != LIS_CondRetOK ){
 			LIS_InserirNo(pCasaAameacante->pAmeacadas, *pCasasAmeacadas[i]);
 		}
-
+		
 		if( LIS_ProcurarValor( (*pCasasAmeacadas[i])->pAmeacantes, pCasaAameacante ) != LIS_CondRetOK ){
 			LIS_InserirNo((*pCasasAmeacadas[i])->pAmeacantes, pCasaAameacante);
 		}
@@ -1263,42 +1074,38 @@ int ObterLimitesDeMovimento( int linha, char coluna, tpCasa ***casasLimite, TAB_
 
 	nCasas = 0;
 	pPeca= TAB_ObterPeca( linha, coluna , pTab );
-
+	
 	switch (pPeca->nome)
 	{
-	case 'T':
-		pTesteMovimento = &MoverTorre;
-		break;
-	case 'B':
-		pTesteMovimento = &MoverBispo;
-		break;
-	case 'D':
-		pTesteMovimento = &MoverDama;
-		break;
-	case 'P':
-		nCasas = ObterLimitesDeMovimentoPeao( linha, coluna, casasLimite, pTab );
-		return nCasas;
-		break;
-	case 'C':
-		nCasas = ObterLimitesDeMovimentoCavalo( linha, coluna, casasLimite, pTab );
-		return nCasas;
-		break;
-	case 'R':
-		nCasas = ObterLimitesDeMovimentoRei( linha, coluna, casasLimite, pTab );
-		return nCasas;
-		break;
-	default:
-		return 0;
-		break;
+		case 'T':
+			pTesteMovimento = &MoverTorre;
+			break;
+		case 'B':
+			pTesteMovimento = &MoverBispo;
+			break;
+		case 'D':
+			pTesteMovimento = &MoverDama;
+			break;
+		case 'P':
+			return ObterLimitesDeMovimentoPeao( linha, coluna, casasLimite, pTab );
+			break;
+		case 'C':
+			return ObterLimitesDeMovimentoCavalo( linha, coluna, casasLimite, pTab );
+			break;
+		case 'R':
+			return ObterLimitesDeMovimentoRei( linha, coluna, casasLimite, pTab );
+			break;
+		default:
+			return 0;
+			break;
 	}
 
 	for(linhaDest = 1, colunaDest = 1; colunaDest < 9; colunaDest++)
 	{
-		
 		condRet = pTesteMovimento( linha, coluna,  linhaDest,  (char)(colunaDest-1+'A'), casasLimite[nCasas],  pTab);
 		if( ( condRet == TAB_CondRetPecaBloqueando || condRet == TAB_CondRetCasaCheia || condRet == TAB_CondRetCaptPeca ) 
 			&& ( nCasas == 0 || ( *casasLimite[nCasas] != *casasLimite[nCasas-1] ) ) ){
-				nCasas++;
+			nCasas++;
 		}
 		if( condRet == TAB_CondRetOK )
 		{
@@ -1314,7 +1121,7 @@ int ObterLimitesDeMovimento( int linha, char coluna, tpCasa ***casasLimite, TAB_
 		condRet = pTesteMovimento( linha, coluna,  linhaDest,  (char)(colunaDest-1+'A'), casasLimite[nCasas],  pTab);
 		if( ( condRet == TAB_CondRetPecaBloqueando || condRet == TAB_CondRetCasaCheia || condRet == TAB_CondRetCaptPeca ) 
 			&& ( nCasas == 0 || ( *casasLimite[nCasas] != *casasLimite[nCasas-1] ) ) ){
-				nCasas++;
+			nCasas++;
 		}
 		if( condRet == TAB_CondRetOK )
 		{
@@ -1330,7 +1137,7 @@ int ObterLimitesDeMovimento( int linha, char coluna, tpCasa ***casasLimite, TAB_
 		condRet = pTesteMovimento( linha, coluna,  linhaDest,  (char)(colunaDest-1+'A'), casasLimite[nCasas],  pTab);
 		if( ( condRet == TAB_CondRetPecaBloqueando || condRet == TAB_CondRetCasaCheia || condRet == TAB_CondRetCaptPeca ) 
 			&& ( nCasas == 0 || ( *casasLimite[nCasas] != *casasLimite[nCasas-1] ) ) ){
-				nCasas++;
+			nCasas++;
 		}
 		if( condRet == TAB_CondRetOK )
 		{
@@ -1346,7 +1153,7 @@ int ObterLimitesDeMovimento( int linha, char coluna, tpCasa ***casasLimite, TAB_
 		condRet = pTesteMovimento( linha, coluna,  linhaDest,  (char)(colunaDest-1+'A'), casasLimite[nCasas],  pTab);
 		if( ( condRet == TAB_CondRetPecaBloqueando || condRet == TAB_CondRetCasaCheia || condRet == TAB_CondRetCaptPeca ) 
 			&& ( nCasas == 0 || ( *casasLimite[nCasas] != *casasLimite[nCasas-1] ) ) ){
-				nCasas++;
+			nCasas++;
 		}
 		if( condRet == TAB_CondRetOK )
 		{
@@ -1438,11 +1245,6 @@ int ObterCasasEntre( int linhaOrig, char colunaOrig, int linhaDest, char colunaD
 		return 0;
 	}
 
-	if ( ConfereMovimentoCavaloValido( linhaOrig, colunaOrig, linhaDest, colunaDest ) == TAB_CondRetOK )
-	{
-		return 0;
-	}
-
 	if(distanciaLinhas == 0)
 	{
 		for (nCasas = 1; nCasas < abs(distanciaColunas); nCasas++){
@@ -1465,335 +1267,3 @@ int ObterCasasEntre( int linhaOrig, char colunaOrig, int linhaDest, char colunaD
 	nCasas--;
 	return nCasas;
 }
-
-TAB_tpCondRet VerificaAmeacantesReais(char corAmeacada, int linha, char coluna, TAB_tppTab pTab){
-
-	tpCasa *pCasaAmeacada = ObterCasa( linha, coluna, pTab );
-	tpCasa *pCasaAmeacante;
-
-	if( pCasaAmeacada->pAmeacantes == NULL){
-		TAB_CondRetOK;
-	}
-
-	LIS_IrInicioLista (pCasaAmeacada->pAmeacantes);
-
-	do{
-		pCasaAmeacante = ( tpCasa* ) LIS_ObterNo( pCasaAmeacada->pAmeacantes );
-
-		if( pCasaAmeacante == NULL ){
-			TAB_CondRetOK;
-		}
-		
-		if( ( pCasaAmeacante != NULL && pCasaAmeacante->Peca != NULL ) && ( pCasaAmeacante->Peca->cor != 'V' && pCasaAmeacante->Peca->cor != corAmeacada ) ){
-			return TAB_CondRetMovInv;
-		}
-
-	} while( LIS_IrProx(pCasaAmeacada->pAmeacantes) == LIS_CondRetOK );
-
-	return TAB_CondRetOK;
-}
-
-tpCasa * ObtemAmeacanteReal( char corAmeacada, int linha , char coluna, TAB_tppTab pTab ){
-
-	tpCasa *pCasaAmeacada = ObterCasa( linha, coluna, pTab );
-	tpCasa *pCasaAmeacante;
-
-	if( pCasaAmeacada->pAmeacantes == NULL){
-		return NULL;
-	}
-
-	LIS_IrInicioLista (pCasaAmeacada->pAmeacantes);
-
-	do{
-		pCasaAmeacante = ( tpCasa* ) LIS_ObterNo( pCasaAmeacada->pAmeacantes );
-		
-		if( pCasaAmeacante == NULL){
-			return NULL;
-		}
-
-		if( ( pCasaAmeacante != NULL  && pCasaAmeacante->Peca != NULL ) && ( pCasaAmeacante->Peca->cor != 'V' && pCasaAmeacante->Peca->cor != corAmeacada ) ){
-			return pCasaAmeacante;
-		}
-
-	} while( LIS_IrProx(pCasaAmeacada->pAmeacantes) == LIS_CondRetOK );
-
-	return NULL;
-}
-
-
-#ifdef _DEBUG
-
-/***********************************************************************
-*
-*  $FC Função:TAB  &Verificar a cabeca do tabuleiro
-*
-*  $ED Descrição da função
-*     Função da interface de teste.
-*     Verifica a integridade da cabeca do tab
-*
-*  $EP Parâmetros
-*     $P pTAB - ponteiro para um espaço que deveria ser uma cabeça
-*                      de tab.
-*
-*  $FV Valor retornado
-*     Condição de retorno de teste
-*
-***********************************************************************/
-
-
-int VerificarCabeca( int falhas, void * pTab) {
-
-	TAB_tppTab pTabAux = NULL ;
-
-	tpCasa * pCasaAux = NULL ;
-
-	/* Verifica o tipo do espaço */
-
-	if ( pTab == NULL )
-	{
-		TST_NotificarFalha( "Tentou verificar cabeça inexistente." ) ;
-		return falhas ++ ;
-	} /* if */
-
-	if ( ! CED_VerificarEspaco( pTab , NULL ))
-	{
-		TST_NotificarFalha( "Controle do espaço acusou erro." ) ;
-		return falhas ++ ;
-	} /* if */
-
-	if ( TST_CompararInt( TAB_TipoEspacoCabeca ,
-		CED_ObterTipoEspaco( pTab) ,
-		"Tipo do espaço de dados não é cabeça de tab." ) != TST_CondRetOK )
-	{
-		return falhas ++ ;
-	} /* if */
-
-	pTabAux = ( TAB_tpTab * )( pTab ) ;
-
-	if(pTabAux->pLinhas == NULL)
-	{
-
-		TST_NotificarFalha( "Erro verificar ponteiro para vetor de linhas." ) ;
-		return falhas ++ ;
-	} /* if */
-
-	return falhas;
-
-
-} /* Fim função: TAB  &Verificar cabeca de tab */
-
-#endif
-
-#ifdef _DEBUG
-
-/***********************************************************************
-*
-*  $FC Função:TAB  &Verificar as casas do tabuleiro
-*
-*  $ED Descrição da função
-*     Função da interface de teste.
-*     Verifica a integridade dda casas do tab
-*
-*  $EP Parâmetros
-*     $P pTAB - ponteiro para um espaço que deveria ser uma cabeça
-*                      de tab.
-*        linha (int contendo o numero da linha da casa de interesse) 
-*		coluna (char contendo o caractere da coluna da casa de interesse) 
-*		
-*  $FV Valor retornado
-*     Condição de retorno de teste
-*
-***********************************************************************/
-int VerificarCasas( int falhas, int linha, void * pTab ){
-
-	tpCasa * pCasaAux     = NULL ;
-	TAB_tppTab pTabAux = NULL ;
-	TAB_tpCondRet CondRet;
-
-	char coluna;
-
-	for( coluna = 'A'; coluna < 'H' ; coluna ++){
-
-		pCasaAux = ObterCasa(linha, coluna,(TAB_tppTab) pTab);
-
-		/* Verificar se é casa estrutural */
-
-		if ( pCasaAux == NULL )
-		{
-
-			TST_NotificarFalha( "Tentou verificar casa inexistente." ) ;
-			return falhas ++ ;
-
-		} /* if */
-
-		if ( ! CED_VerificarEspaco( pCasaAux , NULL ))
-		{
-
-			TST_NotificarFalha( "Controle do espaço acusou erro." ) ;
-			return falhas ++ ;
-		} /* if */
-
-		if ( TST_CompararInt( TAB_TipoEspacoCasa ,
-			CED_ObterTipoEspaco( pCasaAux) ,
-			"Tipo do espaço de dados não é casa de tab." ) != TST_CondRetOK )
-		{
-			return falhas ++ ;
-		} /* if */
-
-
-		/* Verifica peca da casa */
-
-		CondRet = (TAB_tpCondRet)VerificarPeca(falhas, linha, coluna, pTab);
-
-		if(CondRet != TAB_CondRetOK){
-
-			TST_NotificarFalha( "Erro verificar peca." ) ;
-			return falhas ++ ;
-		}/*if*/
-	}/*for*/
-
-	return falhas;
-
-
-} /* Fim função: TAB  &Verificar casa de tab */
-
-#endif
-
-
-#ifdef _DEBUG
-
-/***********************************************************************
-*
-*  $FC Função:TAB  &Verificar peca do tabuleiro
-*
-*  $ED Descrição da função
-*     Função da interface de teste.
-*     Verifica a integridade da peca do tab
-*
-*  $EP Parâmetros
-*     $P pTAB - ponteiro para um espaço que deveria ser uma cabeça
-*                      de tab.
-*        linha (int contendo o numero da linha da casa de interesse)
-*		coluna (char contendo o caractere da coluna da casa de interesse) 
-*
-*  $FV Valor retornado
-*     Condição de retorno de teste
-*
-***********************************************************************/
-int VerificarPeca(int falhas, int linha, char coluna, void * pTab ){
-
-	tpCasa * pCasaAux     = NULL ;
-	TAB_tppPeca pPecaAux = NULL ;
-
-	TAB_tpCondRet CondRet;
-
-
-	pCasaAux = ObterCasa(linha, coluna,(TAB_tppTab) pTab);
-	pPecaAux = TAB_ObterPeca(linha, coluna,(TAB_tppTab) pTab);
-
-	/* Verificar se peca estrutural */
-
-	if ( pPecaAux == NULL )
-	{
-
-		TST_NotificarFalha( "Tentou verificar peca inexistente." ) ;
-		return falhas ++ ;
-
-	} /* if */
-
-	if ( ! CED_VerificarEspaco( pPecaAux , NULL ))
-	{
-
-		TST_NotificarFalha( "Controle do espaço acusou erro." ) ;
-		return falhas ++ ;
-	} /* if */
-
-	if ( TST_CompararInt(TAB_TipoEspacoPeca ,
-		CED_ObterTipoEspaco( pPecaAux ) ,
-		"Tipo do espaço de dados não é peca." ) != TST_CondRetOK )
-	{
-
-		return falhas ++ ;
-	} /* if */
-
-
-	pCasaAux->Peca->pCasa;
-
-	/* Verificar casa */
-
-	if ( pCasaAux->Peca != NULL  )
-	{
-
-		if ( TST_CompararPonteiro( pCasaAux , pCasaAux->Peca->pCasa,
-			"Peca não pertence à casa." ) != TST_CondRetOK )
-		{
-
-			return falhas ++ ;
-		} /* if */
-	} else
-	{
-
-		TST_NotificarFalha( "Peca pertence a casa vazia." ) ;
-		return falhas ++ ;
-	} /* if */
-
-	/* Verificar cor */
-
-	switch(pPecaAux->cor)
-	{
-
-	case 'V':
-		break;
-
-	case 'P':
-		break;
-
-	case 'B':
-		break;
-
-	default:
-		TST_NotificarFalha( "Cor invalida." ) ;
-		return falhas ++ ;
-	}
-
-	/* Verificar nome */
-
-	switch(pPecaAux->nome)
-	{
-
-	case 'V':
-		break;
-
-	case 'P':
-		break;
-
-	case 'R':
-		break;
-
-	case 'D':
-		break;
-
-	case 'T':
-		break;
-
-	case 'C':
-		break;
-
-	case 'B':
-		break;
-
-	default:
-		TST_NotificarFalha( "Nome invalido." ) ;
-		return falhas ++ ;
-	}
-
-
-
-	return falhas;
-
-
-
-} /* Fim função: TAB  &Verificar peca de tab */
-
-
-#endif

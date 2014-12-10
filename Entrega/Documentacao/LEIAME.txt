@@ -1,11 +1,17 @@
-// Como utilizar os programas: "TesteTab.exe" e "TesteLista.exe"
+// Como utilizar os programas: "TesteTab.exe" , "TesteLista.exe" e "TRAB4.exe"
 //
 
 -> Na janela de comando use os seguintes comandos:
 
 	- cd < diretório onde esta o executavel "TesteLista.exe" >
 	- testelista /stestelista
-	- cd < diretório onde esta o executavel "TesteTab.exe" >
-	- testab /stestetab
+	- testelista /stestelistaespaco
+	- testelista /stestelistadeturpa
 
+	- cd < diretório onde esta o executavel "TesteTab.exe" >
+	- testetab /stestetab
+	- testetab /stesteabdeturpa
+
+	- cd < diretório onde esta o executavel "TRAB4.exe" >
+	- trab4
 //fim

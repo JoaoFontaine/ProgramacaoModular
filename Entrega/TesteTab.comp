@@ -4,8 +4,13 @@
 [Diretorios]
 
 Nome        =  TesteTab
-PathDefault =  .
-err         =  .
+PathDefault =  ..\Fontes
+err         =  ..\Produto
+obj         =  ..\Objetos
+c           =  ..\Fontes
+h           =  ..\Fontes
+def         =  ..\Tabelas
+
 
 [Modulos]
 TestTab
@@ -13,7 +18,7 @@ Tab
 Lista
 
 [BuildInicio]
-/OUT:TesteTab.exe
+/OUT:..\produto\TesteTab.exe
 /INCREMENTAL:NO
 /MACHINE:IX86
 
