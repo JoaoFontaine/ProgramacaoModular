@@ -411,7 +411,6 @@ PAR_tpCondRet PAR_IniciarPartida ( char modoDeInicializacao ){
 		turno++;
 		jogadorDaVez = turno % NUM_JOGADORES;
 
-		ImprimirAmeacas( jogadores[jogadorDaVez].linhaRei, jogadores[jogadorDaVez].colunaRei, pTab );
 		condRetPar = (PAR_tpCondRet) TAB_VerificaXeque( jogadores[jogadorDaVez].linhaRei, jogadores[jogadorDaVez].colunaRei, pTab );
 
 		if( condRetPar == PAR_CondRetXequeMate ){
@@ -419,7 +418,7 @@ PAR_tpCondRet PAR_IniciarPartida ( char modoDeInicializacao ){
 			printf("\n****** Atencao ******\n");
 			printf("Xeque Mate!\nParabens %s, voce ganhou!!\n\n\n", jogadores[(jogadorDaVez)].nome);
 			printf("Pressione qualquer tecla para encerrar.");
-			scanf("%c", &novoTurno);
+			scanf(" %c", &novoTurno);
 			break;
 		}
 
