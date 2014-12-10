@@ -489,18 +489,18 @@ int TAB_VerificarTab( TAB_tppTab pTab) {
 *  Função: TAB &Deturpar tabuleiro
 *  ****/
 
-void TAB_Deturpar( TAB_tpptab pTab ,
+void TAB_Deturpar( TAB_tppTab pTab ,
 				  TAB_tpModosDeturpacao ModoDeturpar )
 {
 
-	TAB_tppLista pTabAux = NULL ;
+	TAB_tppTab pTabAux = NULL ;
 
 	if ( pTab == NULL )
 	{
 		return ;
 	} /* if */
 
-	pTabAux = ( TAB_tpptab  )( pTab) ;
+	pTabAux = ( TAB_tppTab )( pTab) ;
 
 	switch ( ModoDeturpar ) {
 
@@ -1674,19 +1674,13 @@ int VerificarCasas( int falhas, int linha, void * pTab ){
 
 		/* Verifica peca da casa */
 
-		CondRet = VerificarPeca(linha, coluna, pTab);
+		falhas = VerificarPeca(falhas, linha, coluna, pTab);
 
-		if(CondRet != TAB_CondRetOK){
-
-			TST_NotificarFalha( "Erro verificar peca." ) ;
-			return falhas ++ ;
-		}/*if*/
-	}/*for*/
-
+	}
 	return falhas;
 
 
-} /* Fim função: TAB  &Verificar casa de tab */
+	} /* Fim função: TAB  &Verificar casa de tab */
 
 #endif
 
@@ -1714,7 +1708,7 @@ int VerificarCasas( int falhas, int linha, void * pTab ){
 int VerificarPeca(int falhas, int linha, char coluna, void * pTab ){
 
 	tpCasa * pCasaAux     = NULL ;
-	TAB_tppPeca pPecaAux = NULL ;
+	TAB_tppPeca pPecaAux = NULL;
 
 	TAB_tpCondRet CondRet;
 
