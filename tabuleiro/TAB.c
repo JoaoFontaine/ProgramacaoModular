@@ -442,6 +442,7 @@ TAB_tpCondRet TAB_VerificaXeque ( int linha , char coluna, TAB_tppTab pTab ){
 
 				pCasaBloqueio = ObtemAmeacanteReal(pCasaAmeacante->Peca->cor, (*casasDeBloqueio[i])->linha , (*casasDeBloqueio[i])->coluna, pTab);
 				if ( pCasaBloqueio->Peca->nome != 'R' && pCasaBloqueio->Peca->nome != 'V'){
+					printf("\n\n*******  %c%c  ********\n\n",pCasaBloqueio->Peca->nome, pCasaBloqueio->Peca->cor);
 					for( i = 0; i < LINHAS; i++ ){
 						free(casasDeBloqueio[i]);
 					}
@@ -498,79 +499,6 @@ int TAB_VerificarTab( TAB_tppTab pTab) {
 
 
 } /* Fim função: TAB  &Verificar um tabuleiro */
-
-#endif
-
-#ifdef _DEBUG
-
-/***************************************************************************
-*
-*  Função: TAB &Deturpar tabuleiro
-*  ****/
-
-void TAB_Deturpar( TAB_tpptab pTab ,
-				  TAB_tpModosDeturpacao ModoDeturpar )
-{
-
-	TAB_tppLista pTabAux = NULL ;
-
-	if ( pTab == NULL )
-	{
-		return ;
-	} /* if */
-
-	pTabAux = ( TAB_tpptab  )( pTab) ;
-
-	switch ( ModoDeturpar ) {
-
-		/* Modifica o tipo do tabuleiro */
-
-	case DeturpaTipoTab :
-		{
-
-			CED_DefinirTipoEspaco( pTabAux , CED_ID_TIPO_VALOR_NULO ) ;
-
-			break ;
-
-		} /* fim ativa: Modifica o tipo tab */
-
-		/* Anula ponteiro tab */
-
-	case DeturpaTabNulo :
-		{
-
-			pTabAux = NULL ;
-
-			break ;
-
-		} /* fim ativa: Anula ponteiro tab*/
-
-	case DeturpaTabLixo :
-		{
-
-			pTabAux = ( TAB_tppTab )( EspacoLixo ) ;
-
-			break ;
-
-		} /* fim ativa: Faz cabeca apontar para lixo */
-
-		/* Faz origem apontar para lixo */
-
-		/* Deturpar espaço cabeca */
-
-	case DeturparEspacoTab :
-		{
-
-			memcpy( (( char * )( pTabAux )) - 10 , "????" , 4 ) ;
-
-			break ;
-
-		} /* fim ativa: Deturpar espaço cabeca */
-
-
-	} /* fim seleciona: tabuleiro  &Deturpar tab */
-
-} /* Fim função: TAB &Deturpar tab */
 
 #endif
 
@@ -1715,7 +1643,7 @@ int VerificarCasas( int falhas, int linha, void * pTab ){
 
 		/* Verifica peca da casa */
 
-		CondRet = VerificarPeca(linha, coluna, pTab);
+		CondRet = (TAB_tpCondRet)VerificarPeca(falhas, linha, coluna, pTab);
 
 		if(CondRet != TAB_CondRetOK){
 
