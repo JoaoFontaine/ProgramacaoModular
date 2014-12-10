@@ -1,0 +1,22 @@
+
+
+[Diretorios]
+
+Nome        =  INTERFACE
+PathDefault =  .
+err         =  .
+
+[Modulos]
+Tab
+Lista
+Partida
+
+[BuildInicio]
+/OUT:..\produto\TRAB4.exe
+/INCREMENTAL:NO
+/MACHINE:IX86
+
+[BuildFim]
+ArcaboucoTeste.lib
+
+[Fim]

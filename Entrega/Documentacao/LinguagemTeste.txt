@@ -1,0 +1,41 @@
+////////////////////////////////////////////////
+//
+// Documentacao da linguagem script de teste
+//
+///////////////////////////////////////////////
+
+O arquivo de diretivas de teste corresponde à massa de testes. O arquivo é formado por uma
+seqüência de casos de teste. Cada caso de teste contém um ou mais comandos de teste. Cada
+comando pode:
+
+	• exercitar um dos itens de interface do módulo a testar;
+
+	• executar alguma função do próprio módulo de controle específico e que tem por
+	objetivo estabelecer ou modificar algum contexto necessário para realizar os testes;
+
+	• efetuar alguma operação genérica.
+
+Cada comando ocupa uma linha de texto do arquivo. O padrão usado determina que todos
+os comandos de teste comecem na primeira coluna da linha e comecem com o caractere igual
+("=").
+
+Os comandos genéricos são:
+
+	• linha em branco
+	Faz nada
+
+	• // <Comentário>
+	Os comentários são exibidos no texto de saída (laudo).
+
+	• == <comentário de início de caso de teste>
+	Inicia um case de teste. Cada case de teste deve testar um único aspecto e verificar se
+	este aspecto foi corretamente realizado. Para tal pode ser formado por diversos
+
+	• =<comando de teste> <parâmetro1> <parâmetro2> ...
+	São os <comandos de teste> desenvolvidos pelo programador do módulo de teste
+	específico. Cada parâmetro pode requerer zero ou mais parâmetros. Todos eles devem
+	ser colocados na mesma linha que o comando de teste.
+
+
+//FIM
+	

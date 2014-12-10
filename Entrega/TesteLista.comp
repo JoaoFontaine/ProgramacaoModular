@@ -4,15 +4,19 @@
 [Diretorios]
 
 Nome        =  TesteLista
-PathDefault =  .
-err         =  .
+PathDefault =  ..\Fontes
+err         =  ..\Produto
+obj         =  ..\Objetos
+c           =  ..\Fontes
+h           =  ..\Fontes
+def         =  ..\Tabelas
 
 [Modulos]
 TestLis
 Lista
 
 [BuildInicio]
-/OUT:TesteLista.exe
+/OUT:..\produto\TesteLista.exe
 /INCREMENTAL:NO
 /MACHINE:IX86
 

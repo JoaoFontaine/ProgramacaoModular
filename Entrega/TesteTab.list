@@ -1,0 +1,144 @@
+GERADOR DE SCRIPT DE DIRETIVAS PARA MAKE
+   LES / Informática / PUC-Rio    Versão 6.00 (c) 2005
+
+Composição do construto: testetab.comp
+
+   Nome do Construto:           TesteTab
+   Diretório base:              C:\Users\guilherme\Desktop\PUC-RIO\Programacao modular\Arcabouço\tab
+
+   Arquivo composição:          testetab.comp
+   Arquivo plataforma:          gmake.parm
+
+   Arquivo diretivas MAKE:      TesteTab.make
+   Arquivo diretivas LINK:      TesteTab.build
+   Arquivo listagem:            TesteTab.list
+
+Módulos do construto: testetab.comp
+
+   TestTab.c
+   Tab.c
+   Lista.c
+
+Estatísticas do construto
+
+   Estatísticas do arquivo: GENERICO.h
+      Total linhas:             709
+      Linhas de código:          59
+      Linhas de comentário:     568
+      Linhas em branco:          82
+   Arquivos de inclusão de que necessita
+      TST_Espc.h
+   Arquivos em que é incluído
+      TestTab.c
+
+   Estatísticas do arquivo: LERPARM.h
+      Total linhas:             291
+      Linhas de código:          36
+      Linhas de comentário:     188
+      Linhas em branco:          67
+   Arquivos em que é incluído
+      TestTab.c
+
+   Estatísticas do arquivo: LISTA.h
+      Total linhas:             303
+      Linhas de código:          20
+      Linhas de comentário:     244
+      Linhas em branco:          39
+   Arquivos em que é incluído
+      Lista.c
+      TAB.h
+      Tab.c
+
+   Estatísticas do arquivo: Lista.c
+      Total linhas:             420
+      Linhas de código:         159
+      Linhas de comentário:     122
+      Linhas em branco:         149
+   Arquivos de inclusão de que necessita
+      LISTA.h
+
+   Estatísticas do arquivo: TAB.h
+      Total linhas:             254
+      Linhas de código:          26
+      Linhas de comentário:     180
+      Linhas em branco:          48
+   Arquivos de inclusão de que necessita
+      LISTA.h
+   Arquivos em que é incluído
+      Tab.c
+
+   Estatísticas do arquivo: TST_ESPC.h
+      Total linhas:             228
+      Linhas de código:          23
+      Linhas de comentário:     185
+      Linhas em branco:          20
+   Arquivos em que é incluído
+      TestTab.c
+
+   Estatísticas do arquivo: TST_Espc.h
+      Total linhas:             228
+      Linhas de código:          23
+      Linhas de comentário:     185
+      Linhas em branco:          20
+   Arquivos em que é incluído
+      GENERICO.h
+      TestTab.c
+
+   Estatísticas do arquivo: Tab.c
+      Total linhas:             896
+      Linhas de código:         534
+      Linhas de comentário:     147
+      Linhas em branco:         163
+   Arquivos de inclusão de que necessita
+      LISTA.h
+      TAB.h
+
+   Estatísticas do arquivo: TestTab.c
+      Total linhas:             341
+      Linhas de código:         183
+      Linhas de comentário:      67
+      Linhas em branco:         103
+   Arquivos de inclusão de que necessita
+      GENERICO.h
+      LERPARM.h
+      TST_ESPC.h
+      TST_Espc.h
+
+Totais por tipo de arquivo
+
+  Tipo: obj      Path: .
+         Total linhas do tipo:         0
+         Linhas de código:             0
+         Linhas de comentário:         0
+         Linhas em branco:             0
+         Arquivos deste tipo:          0
+
+  Tipo: err      Path: .
+         Total linhas do tipo:         0
+         Linhas de código:             0
+         Linhas de comentário:         0
+         Linhas em branco:             0
+         Arquivos deste tipo:          0
+
+  Tipo: DEFAULT  Path: .
+         Total linhas do tipo:      2013
+         Linhas de código:           187
+         Linhas de comentário:      1550
+         Linhas em branco:           276
+         Arquivos deste tipo:          6
+
+  Tipo: c        Path: .
+         Total linhas do tipo:      1657
+         Linhas de código:           876
+         Linhas de comentário:       336
+         Linhas em branco:           415
+         Arquivos deste tipo:          3
+
+Totais para todo o construto TesteTab
+
+   Total linhas:              3670
+   Linhas de código:          1063
+   Linhas de comentário:      1886
+   Linhas em branco:           691
+   Arquivos processados:         9
+
