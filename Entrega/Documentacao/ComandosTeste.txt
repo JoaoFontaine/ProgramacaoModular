@@ -1,0 +1,78 @@
+////////////////////////////////////////////////
+//
+// Documentacao dos comandos de teste
+//
+///////////////////////////////////////////////
+
+Esse documento tem a finalidade de descrever os comandos de teste disponibilizados para
+testar os verficadores TesteTab e TesteLista .
+
+-TesteTab
+
+	=criartab	//Cria um tabuleiro
+	<inxtab>
+
+	=destruirtab	//Destroi um tabuleiro
+	<inxtab>  <CondRetEsp>
+
+	=obterpeca	//Retorna a estrutura peca
+	<inxtab>  <linha>  <coluna>  <CondRetEsp>
+
+	=inspeca	//Insere a peca
+	<inxtab>  <linha>  <coluna>  <cor>  <nome>  <CondRetEsp>
+
+	=retirarpeca	//Retira a peca
+	<inxtab>  <linha>  <coluna>  <CondRetEsp>
+
+	=moverpeca	//Move a peca
+	<inxtab>  <linhaOrigem>  <colunaOrigem>  <linhaDest>  <colunaDest>  <CondRetEsp>
+
+	=obterlistaameacantes	//Obtem a lista de ameacantes da casa
+	<inxtab>  <linha>  <coluna>  <CondRetEsp>
+
+	=obterlistaameacados	//Obtem a lista de ameacados a casa
+	<inxtab>  <linha>  <coluna>  <CondRetEsp>
+
+
+
+-TesteLista
+
+	=criarlista	//Cria uma lista
+	<inxlista>
+
+	=obteridlista  	//Obtem id da lista
+	<inxlista>  <NomeEsp>
+
+	=insno		//Insere no
+	<inxlista>  <valorNo>	<CondRetEsp>
+
+	=obterno  	//Obtem no
+	<inxlista>  <valorNo>	<CondRetEsp>
+
+	=alterarnocorr	//Altera o valor do no corrente
+	<inxlista>  <valorNo>	<CondRetEsp>
+
+	=excluirnocorr  //Exclui o no corrente
+	<inxlista>
+
+	=irant    	//O corrente passa a ser o anterior dele
+	<inxlista>  <CondRetEsp>
+
+	=irprox   	//O corrente passa a ser o proximo dele
+	<inxlista>  <CondRetEsp>
+
+	=irfinal	//O corrente passa a ser o ultimo
+	<inxlista>
+
+	=irinicio	//O corrente passa a ser o primiero
+	<inxlista>
+
+	=destruirlista   //Destroi a lista
+	<inxlista>  <CondRetEsp>
+
+	=verificarcabeca    //Verifica a cabeca da lista (/D_DEBUG)
+	<inxlista>  <CondRetEsp>
+
+
+
+//FIM
