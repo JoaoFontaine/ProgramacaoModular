@@ -26,7 +26,10 @@
 =declararparm   CasaInvalida            int  6
 =declararparm   PecaBloqueando          int  7
 
-
+=declararparm   DeturpaTipoTab		int  1
+=declararparm   DeturpaTabNulo		int  2
+=declararparm   DeturpaTabLixo		int  3
+=declararparm   DeturpaEspacoTab	int  4
 
 
 
@@ -113,6 +116,15 @@
 
 ==Verificar tabuleiro
 =verificartabuleiro tab0 0
+
+==Criar tabuleiro 1
+=criartab  tab1
+
+==Deturpar tabuleiro
+=deturpar tab1  DeturpaTabNulo 
+
+==Destruir tabuleiro 1  
+=destruirtab  tab1  NaoExiste
 
 ==Destruir tabuleiro 0  
 =destruirtab  tab0  OK

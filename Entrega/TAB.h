@@ -21,23 +21,46 @@
 *			ameaçadas pela peça que está nesta casa.
 *
 **************************************************************************************/
-#include "LISTA.h"
+
 /* Tipo exportado que referencia a estrutura tabuleiro */
+
+typedef struct TAB_tagCasa * TAB_tppCasa;
+
 typedef struct TAB_tagPeca {
-
-#ifdef _DEBUG
-
-	tpCasa * pCasa;
-	/*ponteiro para a casa*/
-
-#endif
 
 	char nome;
 	/* Nome da peca */
 	char cor;
 	/* Cor da peca */
 
+	#ifdef _DEBUG
+
+		TAB_tppCasa pCasa;
+		/*ponteiro para a casa*/
+
+	#endif
+
 } tpPeca ;
+
+
+typedef struct TAB_tagCasa {
+
+	tpPeca *  Peca; 
+	/* Ponteiro para a peca contida na casa */
+
+	LIS_tppLista  pAmeacadas;
+	/* Ponteiro para a cabeca da lista de ameacadas */
+
+	LIS_tppLista  pAmeacantes;
+	/* Ponteiro para a cabeca da lista de ameacantes */
+
+	int linha;
+	/* Linha do tabuleiro a qual a casa pertence */
+
+	char coluna;
+	/* Coluna do tabuleiro a qual a casa pertence */
+
+}tpCasa ;
 
 typedef struct TAB_tagTab * TAB_tppTab ;
 
@@ -50,7 +73,7 @@ typedef enum {
 	TAB_CondRetOK = 0,
 	/* Concluiu corretamente */
 
-	TAB_CondRetNaoExiste = 1 ,
+	TAB_CondRetNaoExiste = 1,
 	/* O tabuleiro nao existe */
 
 	TAB_CondRetCasaVazia = 2,
@@ -95,13 +118,40 @@ typedef enum {
 	TAB_TipoEspacoCabeca = 15,
 				/* Tipo de dado cabeca de tab */
 
-	TAB_TipoEspacoCasa = 16,
+	TAB_TipooDadoCasa = 16,
 				/* Tipo de dado casa de tab */
 
-	TAB_TipoEspacoPeca = 17
+	TAB_TipoDadoPeca = 17
 				/* Tipo de dado peca de tab */
 
 } TAB_tpCondRet ;
+
+/***********************************************************************
+*
+*  $TC Tipo de dados: TAB Modos de deturpar
+*
+*
+***********************************************************************/
+
+#ifdef _DEBUG
+
+   typedef enum {
+
+         DeturpaTipoTab       =  1 ,
+               /* Modifica o tipo do tabuleiro*/
+
+         DeturpaTabNulo      =  2 ,
+               /* Anula ponteiro tabuleiro */
+
+         DeturpaTabLixo          =  3 ,
+               /* Faz tab apontar para lixo */
+
+         DeturparEspacoTab    = 4 
+               /* Deturpa espaço do tab */
+
+   } TAB_tpModosDeturpacao ;
+
+#endif
 
 
 
@@ -241,8 +291,7 @@ TAB_tpCondRet TAB_InserirPeca ( int linha , char coluna, char cor, char tipo, TA
 *
 **************************************************************************************/
 
-LIS_tppLista TAB_ObterListaAmeacantes( int linha , char coluna, TAB_tppTab pTab );
-
+LIS_tppLista TAB_ObterListaAmeacantes( int linha, char coluna, TAB_tppTab pTab );
 
 
 /**************************************************************************************
@@ -305,7 +354,7 @@ TAB_tpCondRet TAB_DestruirTab ( TAB_tppTab pTab );
 *
 **************************************************************************************/
 
-TAB_tpCondRet TAB_VerificaXeque ( TAB_tppTab pTab );
+TAB_tpCondRet TAB_VerificaXeque ( int linha , char coluna, TAB_tppTab pTab );
 
 
 /***********************************************************************
@@ -321,6 +370,34 @@ TAB_tpCondRet TAB_VerificaXeque ( TAB_tppTab pTab );
 
 #ifdef _DEBUG
 
-   TAB_tpCondRet TAB_VerificarTab( TAB_tppTab pTab) ;
+   int TAB_VerificarTab( TAB_tppTab pTab) ;
+
+#endif
+
+   /***********************************************************************
+*
+*  $FC Função: TAB  &Deturpar tab
+*
+*  $ED Descrição da função
+*     Função da interface de teste.
+*     Corrompe elementos específicos da estrutura tabuleiro.
+*     Essa função destina-se a preparar os cenários de teste dos
+*     casos de teste utilizados ao testar os verificadores estruturais
+*     do tab.
+*     Esta função não tem proteção contra erros de uso, consequentemente
+*     poderá levar o programa a ser cancelado pelo sistema operacional.
+*
+*  $EP Parâmetros
+*     $P pTab  - tab a ser deturpado
+*     $P ModoDeturpar - identifica como deve ser feita a deturpação
+*                       TAB_tpModosDeturpacao identifica os modos de
+*                       deturpação conhecidos
+*
+***********************************************************************/
+
+#ifdef _DEBUG
+
+   void TAB_Deturpar( TAB_tppTab pTAB ,
+                      TAB_tpModosDeturpacao ModoDeturpar ) ;
 
 #endif
