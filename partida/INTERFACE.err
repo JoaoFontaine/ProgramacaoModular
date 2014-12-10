@@ -1,0 +1,10 @@
+Microsoft (R) Incremental Linker Version 10.00.30319.01
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+/OUT:..\produto\TRAB4.exe 
+/INCREMENTAL:NO 
+/MACHINE:IX86 
+Tab.obj Lista.obj Partida.obj 
+ArcaboucoTeste.lib 
+ArcaboucoTeste.lib(generico.obj) : error LNK2019: unresolved external symbol _TST_EfetuarComando referenced in function _InterpretarComandos
+..\produto\TRAB4.exe : fatal error LNK1120: 1 unresolved externals

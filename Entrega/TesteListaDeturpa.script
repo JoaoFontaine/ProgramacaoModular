@@ -1,0 +1,112 @@
+// Script:    TesteLista.script
+// Autores:   Guilherme Araujo e Joao Pedro Fontaine
+// Propósito: Testar superficialmente o módulo lista genérica duplamente encadeada
+//
+
+== Inicializar valores
+=declararparm   lista0  int 0
+=declararparm   lista1  int 1
+=declararparm   lista2  int 2
+
+=declararparm   str0    string  "abc"
+=declararparm   str1    string  "xpto"
+=declararparm   str2    string  "xxx"
+=declararparm   str3    string  "xptuu"
+
+=declararparm   OK             int  0
+=declararparm   ListaVazia     int  2
+=declararparm   FimLista       int  4
+=declararparm   NaoExiste      int  3
+=declararparm   FaltouMemoria  int  6
+=declararparm   NoCorrPrim     int  5
+=declararparm   ErroEstrutura  int  9
+
+=declararparm   pNULL          int  0
+=declararparm   pNaoNULL       int  1
+
+=declararparm   DeturpaTipoCabeca	int  1
+=declararparm   DeturpaCorrenteNulo	int  2
+=declararparm   DeturpaCabecaLixo	int  3
+=declararparm   DeturpaCorrenteLixo	int  4
+=declararparm   DeturpaTipoNo		int  5
+=declararparm   DeturpaPtCabecaNulo	int  6
+=declararparm   DeturpaPtOrigemNulo	int  7
+=declararparm   DeturpaPtFimNulo	int  8
+=declararparm   DeturpaPtProxNulo	int  9
+=declararparm   DeturpaPtAntNulo	int  10
+=declararparm   DeturpaPtCabecaLixo	int  11
+=declararparm   DeturpaPtOrigemLixo	int  12
+=declararparm   DeturpaPtFimLixo	int  13
+=declararparm   DeturpaPtProxLixo	int  14
+=declararparm   DeturpaPtAntLixo	int  15
+=declararparm   DeturpaValor		int  16
+=declararparm   DeturpaEspacoCabeca	int  17
+=declararparm   DeturpaEspacoNo		int  18
+=declararparm   DeturpaNumNo		int  19
+
+
+== Iniciar contadores de passagem
+=inicializarcontadores  "."
+
+== Criar a lista 0
+=criarlista lista0 str0 OK
+
+== Verificar ObterValor relativo a lista 
+=obteridlista  lista0   str0     
+
+== Inserir elemento em lista vazia
+=insno    lista0   str0   OK
+=obterno  lista0   str0   pNaoNULL
+
+== Deturpar tipo cabeca
+=deturpar lista0 1
+
+== Verificar espaco cabeca
+=verificarcabeca lista0 ErroEstrutura
+
+== Alterar elemento corrente
+=alterarnocorr lista0 str1 OK 
+
+== Derturpar tipo no
+=dertupar lista0 5
+
+== Verificar espaco cabeca
+=verificarno lista0 ErroEstrutura
+
+== Excluir elemento corrente
+=obterno  lista0   str1   pNaoNULL
+=excluirnocorr  lista0            
+
+== Excluir elemento de lista vazia
+=excluirnocorr lista0                    
+
+== Ver se a lista ficou vazia
+=obterno  lista0   str2   pNULL
+
+== Destruir a lista
+=destruirlista   lista0    OK
+
+== Criar uma lista com dois elementos
+=criarlista      lista1    str1    OK
+=insno     lista1   str0   OK
+=insno     lista1   str1   OK
+
+== Derturpar corrente nulo
+=dertupar  lista1  DeturpaCorrenteNulo
+
+== Verifica corrente
+=verificarno lista1 ErroEstrutura
+
+== Derturpar ponteiro final lixo
+=dertupar lista1  DeturpaPtFimLixo
+
+== Verifica ponteiro final
+=irfinal lista1
+=verificarno lista1 ErroEstrutura
+
+== Destruir a lista
+=destruirlista   lista1    OK
+
+
+
+// fim
