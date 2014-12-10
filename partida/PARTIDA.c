@@ -29,7 +29,7 @@ typedef struct PAR_tagJogador {
 
 	char  corPecas;
 	/* Cor das pecas do jogador */
-	
+
 	int linhaRei;
 	/* Linha do tabuleiro na qual está o rei do jogador */
 
@@ -47,6 +47,7 @@ void VerificaCor(char cor);
 void VerificaNomePeca(char nome);
 void ImprimirAmeacas( int linhaDest, char colunaDest, TAB_tppTab pTab );
 void ImprimirCasasAmeacadas( int linhaDest, char colunaDest, TAB_tppTab pTab );
+void ImprimirTodasAmeacas( TAB_tppTab pTab );
 
 /*****  Código das funções exportadas pelo módulo  *****/
 
@@ -98,6 +99,8 @@ TAB_tppTab PAR_PrepararTabuleiro ( char modoDeInicializacao ){
 	TAB_tpCondRet condRet;
 	TAB_tppTab pTab;
 	TAB_tppPeca pPeca;
+	TAB_tppPeca rei_0;
+	TAB_tppPeca rei_1;
 	pTab = TAB_CriarTab();
 
 	if(pTab==NULL){
@@ -107,7 +110,7 @@ TAB_tppTab PAR_PrepararTabuleiro ( char modoDeInicializacao ){
 	/*if*/
 
 	if ( modoDeInicializacao == 'M' || modoDeInicializacao == 'm' ){
-		
+
 		do{
 			printf("Torre -> T|Cavalo -> C|Bispo -> B|Rainha -> D|Rei -> R|Peao -> P\n");
 			printf("Para não inserir mais nenhuma -> N\n");
@@ -210,37 +213,45 @@ TAB_tppTab PAR_PrepararTabuleiro ( char modoDeInicializacao ){
 		}
 		/* for */
 	}
-	
-		
+
+
 	for(i=1;i<9;i++){
 		for(j=0;j<8;j++){
-			pPeca = TAB_ObterPeca ( i , ('A'+j) , pTab) ;
-			if(pPeca->nome == 'R'){
+			pPeca = TAB_ObterPeca ( i , (char) ('A'+j) , pTab) ;
+			if(pPeca != NULL && pPeca->nome == 'R'){
 				if(pPeca->cor == 'B'){
 					if(jogadores[0].corPecas == 'B'){
 						jogadores[0].linhaRei = i;
-						jogadores[0].colunaRei = j;
+						jogadores[0].colunaRei = (char) ('A'+j);
 					}
 					else{
 						jogadores[1].linhaRei = i;
-						jogadores[1].colunaRei = j;
+						jogadores[1].colunaRei = (char) ('A'+j);
 					}
 				}
 				else{
 					if(jogadores[0].corPecas == 'P'){
 						jogadores[0].linhaRei = i;
-						jogadores[0].colunaRei = j;
+						jogadores[0].colunaRei = (char) ('A'+j);
 					}
 					else{
 						jogadores[1].linhaRei = i;
-						jogadores[1].colunaRei = j;
+						jogadores[1].colunaRei = (char) ('A'+j);
 					}
 
 				}
 			}
 		}
 	}
-	
+	rei_0 = TAB_ObterPeca( jogadores[0].linhaRei, jogadores[0].colunaRei, pTab );
+	rei_1 = TAB_ObterPeca( jogadores[1].linhaRei, jogadores[1].colunaRei, pTab );
+	if( rei_0 == NULL || rei_0->nome != 'R' || rei_0->cor != jogadores[0].corPecas ){
+		printf("**\tErro ao tentar localizar o Rei o jogador %s\n", jogadores[0].nome);
+	}
+	if( rei_1 == NULL || rei_1->nome != 'R' || rei_1->cor != jogadores[1].corPecas ){
+		printf("**\tErro ao tentar localizar o Rei o jogador %s\n", jogadores[1].nome);
+	}
+
 	return pTab;
 }
 
@@ -286,7 +297,7 @@ PAR_tpCondRet  PAR_ImprimirTabuleiro ( TAB_tppTab pTab ){
 		}
 		printf("\n\t|\t|\t|\t|\t|\t|\t|\t|\t|\n");
 		printf("   -----|-------|-------|-------|-------|-------|-------|-------|-------|\n");
-		
+
 	}
 	/* for*/
 
@@ -307,6 +318,7 @@ PAR_tpCondRet PAR_IniciarPartida ( char modoDeInicializacao ){
 	TAB_tppPeca pPeca;
 	TAB_tppTab pTab;
 	char novoTurno = 'S';
+	char buffer[5];
 
 	while(jogadoresCadastrados < 2){
 		printf("\n Digite o nome do Jogador.\n -> ");
@@ -337,16 +349,8 @@ PAR_tpCondRet PAR_IniciarPartida ( char modoDeInicializacao ){
 	do{
 		char FimDeJogo[5];
 		PAR_ImprimirTabuleiro(pTab);
-		printf("\n\n     %s, esse e o seu turno. Para iniciar, aperte Enter.\n", jogadores[jogadorDaVez].nome);
-		printf("Para encerrar o jogo e aceitar a derrota digite -> FIM\n ->");
-		scanf(" %s",&FimDeJogo);
-		printf("\n");
-
-		if( strcmp(FimDeJogo, "FIM") == 0 ){
-			condRetPar = PAR_CondRetDesistencia;
-			novoTurno = 'N';
-			continue;
-		}
+		printf("\n\n   %s, esse e o seu turno.\n", jogadores[jogadorDaVez].nome);
+		printf("Para encerrar o jogo e aceitar a derrota a qualquer momento, durante seu turno, digite -> FIM\n");
 
 		if( condRetPar == PAR_CondRetXeque ){
 			printf("\n****** Atencao ******\n");
@@ -355,18 +359,42 @@ PAR_tpCondRet PAR_IniciarPartida ( char modoDeInicializacao ){
 		}
 
 		printf("Digite a linha (inteiro) da casa da peca a ser movimentada.\n ->");
-		scanf("%d",&linhaOrig);
+		scanf(" %s", buffer);
+		if( strcmp(buffer, "FIM") == 0 ){
+			condRetPar = PAR_CondRetDesistencia;
+			break;
+		}
+		linhaOrig = (int) buffer[0] - '0';
+
 		printf("\n Digite e coluna (caracter maiusculo) da casa da peca a ser movimentada.\n ->");
-		scanf("%c",&colunaOrig);
+		scanf(" %s", buffer);
+		if( strcmp(buffer, "FIM") == 0 ){
+			condRetPar = PAR_CondRetDesistencia;
+			break;
+		}
+		colunaOrig = buffer[0];
+
 		printf("\n Digite a linha (inteiro) da casa destino.\n ->");
-		scanf("%d",&linhaDest);
+		scanf(" %s", buffer);
+		if( strcmp(buffer, "FIM") == 0 ){
+			condRetPar = PAR_CondRetDesistencia;
+			break;
+		}
+		linhaDest = (int) buffer[0] - '0';
+
 		printf("\n Digite e coluna (caracter maiusculo) da casa destino.\n ->");
-		scanf("%c",&colunaDest);
+		scanf(" %s", buffer);
+		if( strcmp(buffer, "FIM") == 0 ){
+			condRetPar = PAR_CondRetDesistencia;
+			break;
+		}
+		colunaDest = buffer[0];
+
 		printf("\n");
 
 		pPeca = (TAB_tppPeca) TAB_ObterPeca(linhaOrig, colunaOrig, pTab);
 
-		if( pPeca->cor != jogadores[jogadorDaVez].corPecas ){
+		if( pPeca == NULL || pPeca->cor != jogadores[jogadorDaVez].corPecas ){
 			printf("Peca nao pertencente ao jogador, por favor retentar.\n");
 			continue;
 		}
@@ -379,12 +407,13 @@ PAR_tpCondRet PAR_IniciarPartida ( char modoDeInicializacao ){
 		}
 
 		ImprimirAmeacas( linhaDest, colunaDest, pTab );
-		
+
 		turno++;
 		jogadorDaVez = turno % NUM_JOGADORES;
 
+		ImprimirAmeacas( jogadores[jogadorDaVez].linhaRei, jogadores[jogadorDaVez].colunaRei, pTab );
 		condRetPar = (PAR_tpCondRet) TAB_VerificaXeque( jogadores[jogadorDaVez].linhaRei, jogadores[jogadorDaVez].colunaRei, pTab );
-		
+
 		if( condRetPar == PAR_CondRetXequeMate ){
 			jogadorDaVez = (turno+1) % NUM_JOGADORES;
 			printf("\n****** Atencao ******\n");
@@ -393,8 +422,10 @@ PAR_tpCondRet PAR_IniciarPartida ( char modoDeInicializacao ){
 			scanf("%c", &novoTurno);
 			break;
 		}
-		
+
 	}while( novoTurno != 'N' );
+
+	ImprimirTodasAmeacas(pTab);
 
 	return condRetPar;
 }
@@ -472,4 +503,49 @@ void ImprimirCasasAmeacadas( int linhaDest, char colunaDest, TAB_tppTab pTab ){
 
 	printf("\n");
 
+}
+
+void ImprimirTodasAmeacas( TAB_tppTab pTab ){
+
+	int linha, coluna;
+	TAB_tppCasa pCasa;
+	LIS_tppLista ameacadas;
+	LIS_tppLista ameacantes;
+	TAB_tppPeca pPeca;
+
+	for( linha = 1; linha < 9; linha++){
+		for( coluna = 0; coluna < 8; coluna++ ){
+
+			ameacadas = TAB_ObterListaAmeacados( linha, (char) ( coluna + 'A' ), pTab );
+			ameacantes = TAB_ObterListaAmeacantes( linha, (char) ( coluna + 'A' ), pTab );
+			pPeca = TAB_ObterPeca( linha, (char) ( coluna + 'A' ), pTab );
+
+			if( pPeca != NULL ){
+				if( ameacadas != NULL){
+					LIS_IrInicioLista (ameacadas);
+					printf("Lista de Pecas ameacadas:\n");
+					printf("Peca\tLinha\tColuna\n");
+					do{
+						pCasa = (TAB_tppCasa)LIS_ObterNo( ameacadas );
+						if(pCasa != NULL && pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor){
+							printf("%c\t%d\t%c\n", pCasa->Peca->nome, pCasa->linha, pCasa->coluna);
+						}
+					} while( LIS_IrProx(ameacadas) == LIS_CondRetOK );
+				}
+
+				if( ameacantes != NULL){
+					LIS_IrInicioLista (ameacantes);
+					printf("Lista de Pecas ameacantes:\n");
+					printf("Peca\tLinha\tColuna\n");
+					do{
+						pCasa = (TAB_tppCasa)LIS_ObterNo( ameacantes );
+						if(pCasa != NULL && pCasa->Peca->nome != 'V' && pCasa->Peca->cor != pPeca->cor ){
+							printf("%c\t%d\t%c\n", pCasa->Peca->nome, pCasa->linha, pCasa->coluna);
+						}
+					} while( LIS_IrProx(ameacantes) == LIS_CondRetOK );
+				}
+				printf("\n");
+			}
+		}
+	}
 }

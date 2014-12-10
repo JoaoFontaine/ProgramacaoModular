@@ -366,7 +366,7 @@ LIS_tpCondRet LIS_AlterarNoCorr( LIS_tppLista pLista , void * pValor ){
 void LIS_IrInicioLista( LIS_tppLista pLista )
 {
 	assert( pLista != NULL ) ;
-
+	
 	pLista->pNoCorr = pLista->pOrigemLista ;
 
 } /* Fim função: LIS  &Ir para o elemento inicial */

@@ -25,7 +25,7 @@ int main(void){
 
 		printf("\nDigite o nome do Jogador 1 (max 40 caracteres)\n");
 		scanf(" %[^\n]", nomeJogador1);
-		printf("\nEscolha sua cor de peca ('B'ou'P')");
+		printf("\nEscolha sua cor de peca ('B'ou'P')\n-> ");
 		scanf(" %c", &cor1);
 
 	}while( PAR_CadastrarJogador( nomeJogador1, cor1 ) != PAR_CondRetOK );

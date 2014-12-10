@@ -191,8 +191,8 @@ TAB_tppPeca TAB_ObterPeca ( int linha , char coluna, TAB_tppTab pTab ){
 		return NULL;
 	}
 
-	pCasa= ObterCasa(linha, coluna, pTab);
-	if(pCasa->Peca->nome == 'V'){
+	pCasa = ObterCasa(linha, coluna, pTab);
+	if(pCasa == NULL || pCasa->Peca->nome == 'V'){
 		return NULL;
 	}
 	/*if*/
@@ -335,9 +335,11 @@ LIS_tppLista TAB_ObterListaAmeacantes( int linha , char coluna, TAB_tppTab pTab 
 	}
 	/*if*/
 	pCasa= ObterCasa(linha, coluna, pTab);
+	if( pCasa != NULL ){
+		return pCasa->pAmeacantes;
+	}
 
-	return pCasa->pAmeacantes;
-
+	return NULL;
 }
 
 LIS_tppLista TAB_ObterListaAmeacados( int linha , char coluna, TAB_tppTab pTab ){
@@ -350,9 +352,11 @@ LIS_tppLista TAB_ObterListaAmeacados( int linha , char coluna, TAB_tppTab pTab )
 	}
 	/*if*/
 	pCasa= ObterCasa(linha, coluna, pTab);
+	if( pCasa != NULL ){
+		return pCasa->pAmeacadas;
+	}
 
-	return pCasa->pAmeacadas;
-
+	return NULL;
 }
 
 TAB_tpCondRet TAB_DestruirTab ( TAB_tppTab pTab ){
@@ -378,8 +382,10 @@ TAB_tpCondRet TAB_VerificaXeque ( int linha , char coluna, TAB_tppTab pTab ){
 	int i;
 	int casasNaoBloqueadas;
 	int casasBloqueaveis;
+	TAB_tpCondRet condRet;
 	tpCasa *pCasaRei = ObterCasa( linha, coluna, pTab );
 	tpCasa *pCasaAmeacante;
+	tpCasa *pCasaBloqueio;
 	tpCasa **casasDeFuga[DIRECOESPOSSIVEIS];
 	tpCasa **casasDeBloqueio[LINHAS];
 
@@ -389,6 +395,7 @@ TAB_tpCondRet TAB_VerificaXeque ( int linha , char coluna, TAB_tppTab pTab ){
 		pCasaAmeacante = ObtemAmeacanteReal( pCasaRei->Peca->cor, linha, coluna, pTab );
 
 		if( VerificaAmeacantesReais( pCasaAmeacante->Peca->cor, pCasaAmeacante->linha, pCasaAmeacante->coluna, pTab ) == TAB_CondRetMovInv ){
+			printf("\nPeca ameacante pode ser capturada\n");
 			return TAB_CondRetXeque;
 		}
 
@@ -400,12 +407,17 @@ TAB_tpCondRet TAB_VerificaXeque ( int linha , char coluna, TAB_tppTab pTab ){
 
 		casasNaoBloqueadas = ObterLimitesDeMovimentoRei( linha, coluna, casasDeFuga, pTab );
 
+
 		for( i = 0; i < casasNaoBloqueadas; i++ ){
-			if( VerificaAmeacantesReais( pCasaRei->Peca->cor, (*casasDeFuga[i])->linha , (*casasDeFuga[i])->coluna, pTab ) == TAB_CondRetOK ){
-				for( i = 0; i < DIRECOESPOSSIVEIS; i++ ){
-					free(casasDeFuga[i]);
+			condRet = MoverRei( linha, coluna, (*casasDeFuga[i])->linha , (*casasDeFuga[i])->coluna, pTab );
+			if( condRet == TAB_CondRetOK || condRet == TAB_CondRetCaptPeca){
+				if( VerificaAmeacantesReais( pCasaRei->Peca->cor, (*casasDeFuga[i])->linha , (*casasDeFuga[i])->coluna, pTab ) == TAB_CondRetOK ){
+					for( i = 0; i < DIRECOESPOSSIVEIS; i++ ){
+						free(casasDeFuga[i]);
+					}
+					printf("\nRei pode ser movido\n");
+					return TAB_CondRetXeque;
 				}
-				return TAB_CondRetXeque;
 			}
 		}
 
@@ -415,6 +427,7 @@ TAB_tpCondRet TAB_VerificaXeque ( int linha , char coluna, TAB_tppTab pTab ){
 
 		/* Verifica se a Peca ameacante pode ser bloqueada */
 		if( pCasaAmeacante->Peca->nome == 'C' ){ // Cavalos não podem ser bloqueados
+			printf("\nXeque Mate com cavalo\n");
 			return TAB_CondRetXequeMate;
 		}
 
@@ -426,10 +439,15 @@ TAB_tpCondRet TAB_VerificaXeque ( int linha , char coluna, TAB_tppTab pTab ){
 
 		for( i = 0; i < casasBloqueaveis; i++ ){
 			if( VerificaAmeacantesReais( pCasaAmeacante->Peca->cor, (*casasDeBloqueio[i])->linha , (*casasDeBloqueio[i])->coluna, pTab ) == TAB_CondRetMovInv ){
-				for( i = 0; i < LINHAS; i++ ){
-					free(casasDeBloqueio[i]);
+
+				pCasaBloqueio = ObtemAmeacanteReal(pCasaAmeacante->Peca->cor, (*casasDeBloqueio[i])->linha , (*casasDeBloqueio[i])->coluna, pTab);
+				if ( pCasaBloqueio->Peca->nome != 'R' && pCasaBloqueio->Peca->nome != 'V'){
+					for( i = 0; i < LINHAS; i++ ){
+						free(casasDeBloqueio[i]);
+					}
+					printf("\nCaminho pode ser bloqueado\n");
+					return TAB_CondRetXeque;
 				}
-				return TAB_CondRetXeque;
 			}
 		}
 
@@ -437,6 +455,7 @@ TAB_tpCondRet TAB_VerificaXeque ( int linha , char coluna, TAB_tppTab pTab ){
 			free(casasDeBloqueio[i]);
 		}
 
+		printf("\nXeque Mate\n");
 		return TAB_CondRetXequeMate;
 
 	}
@@ -1521,32 +1540,54 @@ int ObterCasasEntre( int linhaOrig, char colunaOrig, int linhaDest, char colunaD
 
 TAB_tpCondRet VerificaAmeacantesReais(char corAmeacada, int linha, char coluna, TAB_tppTab pTab){
 
-	tpCasa *pCasa = ObterCasa( linha, coluna, pTab );
+	tpCasa *pCasaAmeacada = ObterCasa( linha, coluna, pTab );
+	tpCasa *pCasaAmeacante;
 
-	LIS_IrInicioLista (pCasa->pAmeacantes);
+	if( pCasaAmeacada->pAmeacantes == NULL){
+		TAB_CondRetOK;
+	}
+
+	LIS_IrInicioLista (pCasaAmeacada->pAmeacantes);
 
 	do{
-		pCasa = ( tpCasa* ) LIS_ObterNo( pCasa->pAmeacantes );
-		if(pCasa != NULL && pCasa->Peca->cor != corAmeacada){
+		pCasaAmeacante = ( tpCasa* ) LIS_ObterNo( pCasaAmeacada->pAmeacantes );
+
+		if( pCasaAmeacante == NULL ){
+			TAB_CondRetOK;
+		}
+		
+		if( ( pCasaAmeacante != NULL && pCasaAmeacante->Peca != NULL ) && ( pCasaAmeacante->Peca->cor != 'V' && pCasaAmeacante->Peca->cor != corAmeacada ) ){
 			return TAB_CondRetMovInv;
 		}
-	} while( LIS_IrProx(pCasa->pAmeacantes) == LIS_CondRetOK );
+
+	} while( LIS_IrProx(pCasaAmeacada->pAmeacantes) == LIS_CondRetOK );
 
 	return TAB_CondRetOK;
 }
 
 tpCasa * ObtemAmeacanteReal( char corAmeacada, int linha , char coluna, TAB_tppTab pTab ){
 
-	tpCasa *pCasa = ObterCasa( linha, coluna, pTab );
+	tpCasa *pCasaAmeacada = ObterCasa( linha, coluna, pTab );
+	tpCasa *pCasaAmeacante;
 
-	LIS_IrInicioLista (pCasa->pAmeacantes);
+	if( pCasaAmeacada->pAmeacantes == NULL){
+		return NULL;
+	}
+
+	LIS_IrInicioLista (pCasaAmeacada->pAmeacantes);
 
 	do{
-		pCasa = ( tpCasa* ) LIS_ObterNo( pCasa->pAmeacantes );
-		if(pCasa != NULL && pCasa->Peca->cor != corAmeacada){
-			return pCasa;
+		pCasaAmeacante = ( tpCasa* ) LIS_ObterNo( pCasaAmeacada->pAmeacantes );
+		
+		if( pCasaAmeacante == NULL){
+			return NULL;
 		}
-	} while( LIS_IrProx(pCasa->pAmeacantes) == LIS_CondRetOK );
+
+		if( ( pCasaAmeacante != NULL  && pCasaAmeacante->Peca != NULL ) && ( pCasaAmeacante->Peca->cor != 'V' && pCasaAmeacante->Peca->cor != corAmeacada ) ){
+			return pCasaAmeacante;
+		}
+
+	} while( LIS_IrProx(pCasaAmeacada->pAmeacantes) == LIS_CondRetOK );
 
 	return NULL;
 }
